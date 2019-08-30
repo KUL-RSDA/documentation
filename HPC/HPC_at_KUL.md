@@ -46,7 +46,7 @@ Directory and File Structure <!---{#sec:structure}--->
 | `/data` (75 GB) | `/archive` (several TB) |
 | `/scratch` (>100 GB) |   |
 
-/user (w/ backup)
+`/user` (with backup)
 -----------------
 
 3 GB, `$VSC_HOME`
@@ -56,17 +56,17 @@ Directory and File Structure <!---{#sec:structure}--->
 `/user` is an individual minimal storage option, e.g.
 `/user/leuven/30X/vsc30XXX`:
 
--   Keep important small scripts or data here.
+- Your home folder are for your SSH keys and other system configuration files. So, avoid using it for any I/O and do not store any data there. If by mistake, your home quota exceeds, then, you cannot login, and some of your application might start crashing with meaningless/irrelevant error messages. Instead, move all your files to your data folder (below)
 
--   Do NOT store simulation output or large data here.
+- Do NOT store simulation output or large data here.
 
 ### System Files
 
-Authorization to work on the cluster is done via a key pair. The private
+Authorization to work on the cluster is done via a SSH key pair. The private
 key resides on the computer from which you want to access the HPC: make
 sure to keep this safe. The HPC can be accessed from multiple computers,
-which will be listed in a list of authorized keys. The public key is
-stored on the HPC:
+which will be listed in a list of authorized keys. The public key is automatically
+copied from the account page to your home folder (after 15 min from uploading):
 
     $ .ssh/authorized_keys
     $ .ssh/id_rsa.pub
@@ -95,6 +95,10 @@ environment using the following files
 
 -   Store research output here.
 
+-   Home and data folder are not designed for intensive I/O, hence, use scratch (below) for such purposes
+
+-   Home and data folders are backed up hourly, daily and weekly for the past 30 days
+
 ### Group
 
 `/data` is an individual storage option, but individuals can choose to
@@ -120,10 +124,14 @@ This is an individual storage option, e.g.
 -   Easily accessible short-term storage, suitable for processing and
     I/O.
 
+-   The quota can be increased for free by system admins (contact HPC service desk)
+
+-   Note: **Files not accessed for 28 days will be automatically deleted overnight, in order to manage the scratch volume**
+
 ### Group
 
 `/scratch` is an individual storage option only, but individuals can
-choose to share data.
+choose to [share data](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/access/how_to_create_manage_vsc_groups.html?highlight=group).
 
 /staging (no backup)
 --------------------
