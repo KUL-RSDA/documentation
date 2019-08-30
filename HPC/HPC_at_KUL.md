@@ -1,27 +1,26 @@
 ---
 author:
 - |
-    Gabriëlle De Lannoy, Michel Bechtold, Anne Felsberg,\
-    Alexander Gruber, Michiel Maertens: version 5\
+    Gabriëlle De Lannoy, Michel Bechtold, Anne Felsberg,
+    Alexander Gruber, Michiel Maertens: version 5
     (`gabrielle.delannoy@kuleuven.be`)
 ---
 
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
-  version 1   15 June 2017   Gabriëlle De Lannoy: initial documentation
-  version 2   04 July 2017   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
-  version 3   08 May 2018    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
-  version 4   07 Feb 2019    Michel Bechtold: using Genius
-  version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC webpages
+ - version 1   15 June 2017   Gabriëlle De Lannoy: initial documentation
+ - version 2   04 July 2017   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
+ - version 3   08 May 2018    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
+ - version 4   07 Feb 2019    Michel Bechtold: using Genius
+ - version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC webpages
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
 
-\
 
 Get Started on the HPC
 ======================
 
 KU Leuven Tier-2 cluster:
 
--   [infrastructure](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html)
+-   [Tier-2 infrastructure](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html)
 
 -   get a VSC-account and manage it (set up keys):
     <https://account.vscentrum.be/>
@@ -37,14 +36,15 @@ KU Leuven Tier-2 cluster:
 -   long/multi-core simulations - project credits (staff only):
     `lp_ees_swm_ls_001`
 
-Directory and File Structure {#sec:structure}
+Directory and File Structure <!---{#sec:structure}--->
 ============================
 
-  Individual             Group
-  ---------------------- -------------------------
-  `/user` (3 GB)         `/staging` (several TB)
-  `/data` (75 GB)        `/archive` (several TB)
-  `/scratch` (100 GB?)   
+
+|Individual   | Group  |
+|---|---|
+|`/user` (3 GB) | `/staging` (several TB) |
+| `/data` (75 GB) | `/archive` (several TB) |
+| `/scratch` (>100 GB) |   |
 
 /user (w/ backup)
 -----------------
