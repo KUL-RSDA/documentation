@@ -11,7 +11,9 @@ author:
   version 2   04 July 2017   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
   version 3   08 May 2018    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
   version 4   07 Feb 2019    Michel Bechtold: using Genius
-  version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC webpages
+  version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC
+  version 6.  05 Sep 2019.   Alexander Gruber: updated debugging module from Allinea to Arm
+  webpages
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
 
 \
@@ -290,8 +292,8 @@ Debugging {#sec:debugging}
 =========
 
 Various debugging tools can be used on the HPC, such as gdb, valgrind,
-xenial, etc. For our typical applications, allinea-ddt seems the most
-straightforward. This is how it works:
+xenial, etc. For our typical applications, ArmForge seems the most
+straightforward (in earlier versions, allinea was used). This is how it works:
 
 -   compile your code with a debugging flag on.\
     **LDASsa**
@@ -316,7 +318,7 @@ straightforward. This is how it works:
 
         $ csh
         $ source g5_modules
-        $ module load allinea-forge/6.0
+        $ module load ArmForge/18.1.2
         $ [option 1] ddt &
         $ [option 1] > Run and manually fill in entries, possibly launch in queue or not
         $ [option 2] ddt mpirun -np 6 [....]/Linux/bin/LDASsa_mpi.x -work_path ../output -run_path .  -exp_id GLOB_EASEv2_M09_N_2n20p\\
@@ -328,7 +330,7 @@ straightforward. This is how it works:
     or staying in bash, for LIS:
 
         $ source KUL_LDT_modules
-        $ module load allinea-ddt/4.2
+        $ module load ArmForge/18.1.2
         $ [option 1] ddt &
         $ [option 1]  > Run and manually fill in entries, possibly launch in queue or not
         $ [option 2] ddt mpirun -np 4 [...]/LIS_public_release_7.2r_KUL_debugging/LIS\\
@@ -382,11 +384,11 @@ straightforward. This is how it works:
 -   **option 2**, works if you know exactly how to set up the command
     (not recommended when launched in a debugging queue)
 
-![(Left) start up of Allinea-ddt; (right) fill in the executable and its
+![(Left) start up of ArmForge; (right) fill in the executable and its
 arguments + pay attention to the MPI specifications and queue details,
 if the latter are applicable. [\[fig\_intro\]]{#fig_intro
 label="fig_intro"}](C:/Users/u0102378/BoxSync/COMPU_HPC_Etc/2018_oursystem_groupmeeting_slides/DDT-example_LDASsa1 "fig:"){width="0.30\\linewidth"}
-![(Left) start up of Allinea-ddt; (right) fill in the executable and its
+![(Left) start up of ArmForge; (right) fill in the executable and its
 arguments + pay attention to the MPI specifications and queue details,
 if the latter are applicable. [\[fig\_intro\]]{#fig_intro
 label="fig_intro"}](C:/Users/u0102378/BoxSync/COMPU_HPC_Etc/2018_oursystem_groupmeeting_slides/DDT-example_LDASsa2 "fig:"){width="0.69\\linewidth"}
