@@ -1,17 +1,16 @@
----
-author:
-- |
-    Gabriëlle De Lannoy, Michiel Maertens: version 3\
-    (`gabrielle.delannoy@kuleuven.be`)
-title: |
-    Compile and run NASA's LIS, LDT, and LVT\
-    on the HPC at KU Leuven
----
+
+Compile and run NASA's LIS, LDT, and LVT on the HPC at KU Leuven
+==
+
+    Authors:
+        Gabriëlle De Lannoy, Michiel Maertens, Alexander Gruber
+        contact: gabrielle.delannoy@kuleuven.be 
 
   ----------- ----------------------------------------------------------------------------------------------------
-  version 1   Gabriëlle De Lannoy, initial documentation
-  version 2   Gabriëlle De Lannoy, updated libraries LIS7.2, downloaded LIS via github
-  version 3   Gabriëlle De Lannoy, Michiel Maertens, move to Genius, instructions on how to run LIS, LDT and LVT
+  version 1   Gabriëlle De Lannoy, initial documentation \
+  version 2   Gabriëlle De Lannoy, updated libraries LIS7.2, downloaded LIS via github \
+  version 3   Gabriëlle De Lannoy, Michiel Maertens, move to Genius, instructions on how to run LIS, LDT and LVT \
+  version 4   Alexander Gruber, updated libraries for Tier-1 compilation
   ----------- ----------------------------------------------------------------------------------------------------
 
 \
@@ -23,8 +22,7 @@ Background information
 ======================
 
 This document describes how to install and run NASA's LIS, LDT and LVT
-on the KU Leuven [Tier-2
-cluster](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) ([pdf-file](https://docs.wixstatic.com/ugd/5446c2_2a3546e56a5349ef8d027132459e8c64.pdf)).
+on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html) and [Tier-2](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) cluster.
 
 -   get a VSC-account and manage it: <https://account.vscentrum.be/>
 
@@ -39,8 +37,7 @@ cluster](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-host
     NCCS Discover cluster
 
 -   scripts adapted for the HPC at KU Leuven are under code indicated
-    with `_KUL`, or `_KUL_Genius` (environment variables and local
-    libraries on Tier-2)
+    with `_KUL`, or `_KUL_Genius`
 
 -   LIS7.2 requires you to prepare input using LDT; LIS-testcases need
     input that is prepared using LDT
@@ -84,7 +81,7 @@ LIS and LDT compilation {#sec:compilation}
 =======================
 
 To compile LIS or LDT source code, open a terminal. By default on the
-Tier-2 cluster, terminals use bash, and we will thus use bash-commands
+Tier-1 and Tier-2 cluster, terminals use bash, and we will thus use bash-commands
 to load modules and set environment variables. While they could be set
 in your .profile, we do not need these settings every day and therefore
 we prefer to save the steps in a separate script that should be sourced
@@ -112,12 +109,12 @@ or
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
     $ ./compile
 
-KUL\_LIS/LDT\_modules refers to different modules on Thinking and
-Genius.
+KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
+Genius (Tier-2).
 
 ./configure is only tested with default settings at the time of writing.
 Edit according to (a), when running on Thinking, edit according to (b)
-when running on Genius. You may want/need to add some optional software
+when running on Genius or Breniac. You may want/need to add some optional software
 here (e.g. CMEM, CRTM). (For now, LDT needs to be compiled **without**
 the GeoTIFF option - work in progress; all other default settings work
 fine.)
@@ -173,7 +170,9 @@ Don't forget to look in the right toolchain for your libraries: on
 Thinking, that is 2015a. Also, the compilation did NOT work with
 Python/3.\*.
 
-**List of modules on (a) Thinking:**
+The following modules need to be put into both KUL_LDT_modules and KUL_LIS_modules:
+
+**List of modules on Thinking:**
 
     source switch_to_2015a
     module purge
@@ -189,7 +188,7 @@ Python/3.\*.
     module load GDAL/2.0.0-intel-2015a
     #module load FortranGIS/2.4-intel-2015a ##does not work##
 
-**List of modules on (b) Genius:**
+**List of modules on Genius:**
 
     module purge
     module load grib_api/1.24.0-intel-2018a
@@ -202,9 +201,21 @@ Python/3.\*.
     module load HDF-EOS2/20.1.00-intel-2018a-HDF4-w-fortran
     module load Python/2.7.14-GCCcore-6.4.0-bare
     module load GDAL/2.2.3-intel-2018a-Python-2.7.14
+    
+**List of modules on Breniac (Tier-1):**
 
-**List of environment variables expected for compilation on (a)
-Thinking:**
+    module purge
+    module load grib_api/1.24.0-intel-2019b
+    module load ESMF/7.1.0r-intel-2019b
+    module load libxml2/2.9.9-GCCcore-8.3.0
+    module load Szip/2.1.1-GCCcore-8.3.0
+    module load zlib/1.2.11-GCCcore-8.3.0
+    module load HDF/4.2.8-intel-2019b-w-fortran-no-netCDF
+    module load HDF-EOS2/20.1.00-intel-2019b-HDF4-w-fortran
+    module load Python/2.7.16-GCCcore-8.3.0
+    module load GDAL/2.2.3-intel-2018a-Python-2.7.14
+
+**List of environment variables expected for compilation on Thinking:**
 
     export LIS_SRC=/vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
                    github_20181214_KUL/lis
@@ -231,8 +242,7 @@ Thinking:**
     ${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:
     ${LIS_GRIBAPI}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
 
-**List of environment variables expected for compilation on (b)
-Genius:**
+**List of environment variables expected for compilation on Genius and Breniac:**
 
     export LIS_SRC=/vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
                    github_20181214_KUL_Genius/lis
@@ -241,8 +251,8 @@ Genius:**
     export LIS_CC=mpiicc
     [... identical to the above]
 
-We somewhat suboptimally compiled LIS with ifort and icc on (a) Thinking
-nodes, but fixed this when moving to (b) Genius with mpiifort and mpiicc
+We somewhat suboptimally compiled LIS with ifort and icc on Thinking
+nodes, but fixed this when moving to Genius with mpiifort and mpiicc
 (not mpicc).
 
 LIS and LDT runs {#sec:run}
@@ -535,7 +545,7 @@ information on settings:
 
 -   repeat for LDT
 
-To move from Thinking to Genius,
+To move from Thinking to Genius or Breniac,
 
 1.  copy new KUL\_LDT\_modules, KUL\_LIS\_modules
 
@@ -559,9 +569,9 @@ E.g. the path\_to\_LIS is
 -   `$ vim ldt.config`, and edit for your application (start from a
     testcase)
 
--   `$ ln path_to_LDT/LDT my_WORKDIR/LDT`
+-   `$ ln -s path_to_LDT/LDT my_WORKDIR/LDT`
 
--   `$ ln path_to_LDT/KUL_LDT_modules my_WORKDIR/KUL_LDT_modules`
+-   `$ ln -s path_to_LDT/KUL_LDT_modules my_WORKDIR/KUL_LDT_modules`
 
 -   [`$ source KUL_LDT_modules`]{style="background-color: yellow"}
 
@@ -578,9 +588,9 @@ E.g. the path\_to\_LIS is
     created with LDT, model-specific input files, model output attribute
     file and a restart file.
 
--   `$ ln path_to_LIS/LIS my_WORKDIR/LIS`
+-   `$ ln -s path_to_LIS/LIS my_WORKDIR/LIS`
 
--   `$ ln path_to_LIS/KUL_LIS_modules my_WORKDIRL/KUL_LIS_modules`
+-   `$ ln -s path_to_LIS/KUL_LIS_modules my_WORKDIRL/KUL_LIS_modules`
 
 -   [`$ source KUL_LIS_modules`]{style="background-color: yellow"}
 
@@ -595,6 +605,7 @@ Logging into Thinking or Genius:
 
     $ ssh vscxxxxx@login.hpc.kuleuven.be (Thinking)
     $ ssh vscxxxxx@login1-tier2.hpc.kuleuven.be (Genius)
+    $ ssh vscxxxxx@login1-tier1.hpc.kuleuven.be (Breniac)
 
 Credit system
 
