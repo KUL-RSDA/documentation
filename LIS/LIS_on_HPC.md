@@ -29,9 +29,14 @@ on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation
 -   obtain LIS7.2 and LDT7.2 from NASA at
     <https://github.com/NASA-LIS/LISF>
 
--   source code is also available on the HPC to anyone in the group
-    `lees_swm_ls`:\
-    `/data/leuven/314/vsc31402/src_code/LIS/`
+-   source code is also available on the HPC to anyone in the group lees_swm_ls:
+    /data/leuven/314/vsc31402/src code/LIS/
+
+-   source code is also available on the KUL-RSDA github:
+    <https://github.com/KUL-RSDA/LISF>
+    (master branch is kept up-to-date with NASA version, a master-KUL branch 
+    is also kept up-to-date with the NASA version but additionally contains 
+    all recent developments of the group)
 
 -   original source code, Makefiles, \... were developed for the NASA's
     NCCS Discover cluster
