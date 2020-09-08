@@ -120,7 +120,8 @@ Genius (Tier-2).
 Edit according to (a), when running on Thinking, edit according to (b)
 when running on Genius or Breniac. You may want/need to add some optional software
 here (e.g. CMEM, CRTM). 
-**IMPORTANT notes** when running ./configure 
+
+**IMPORTANT notes** when running ./configure:
 * LDT needs to be compiled **without the GeoTIFF** option. 
 * For both LIS and LDT, the **GRIBAPI has to be selected** instead of the default ECCODES (this has become necessary only in the latest NASA-LIS/LISF github versions) 
 * For all other options, the defaults can be used.
