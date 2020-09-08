@@ -117,12 +117,13 @@ or
 KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
 Genius (Tier-2).
 
-./configure is only tested with default settings at the time of writing.
 Edit according to (a), when running on Thinking, edit according to (b)
 when running on Genius or Breniac. You may want/need to add some optional software
-here (e.g. CMEM, CRTM). (For now, LDT needs to be compiled **without**
-the GeoTIFF option - work in progress; all other default settings work
-fine.)
+here (e.g. CMEM, CRTM). 
+**IMPORTANT notes** when running ./configure 
+* LDT needs to be compiled **without the GeoTIFF** option. 
+* For both LIS and LDT, the **GRIBAPI has to be selected** instead of the default ECCODES (this has become necessary only in the latest NASA-LIS/LISF github versions) 
+* For all other options, the defaults can be used.
 
 In ./user.cfg you could toggle on/off some plugins. By default, most are
 turned on. If you change ./user.cfg, then you have to re-run ./configure
