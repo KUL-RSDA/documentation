@@ -13,6 +13,7 @@ author:
   version 4   07 Feb 2019    Michel Bechtold: using Genius
   version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC
   version 6.  05 Sep 2019.   Alexander Gruber: updated debugging module from Allinea to Arm
+  version 7.  22 Sep 2020.   Michel Bechtold: added specific information/summary for MSc students
   webpages
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
 
@@ -285,7 +286,7 @@ The node is configured as 'SHARED': different users can use the same
 node at the same time. The default partition is 'thinking'; we have to
 submit explicitly to partition 'EES'.
 
-**NOTE: the shared node migrated to Genius!! On Genuis the node is r23i13n23 ** 
+**NOTE: the shared node migrated to Genius!! On Genuis the node is now r23i13n23 ** 
 
 Specific information for MSc studens:
 -----------------
