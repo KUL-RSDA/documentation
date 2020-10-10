@@ -293,12 +293,12 @@ Specific information for MSc studens:
 1) [BASIC] if you foresee running anything longer than ~20 minutes or with more memory, you will have to go onto an interactive node to do your HPC work, i.e. you will not be able to run a big job on the login node.
 Ask the interactive node (-I) from your command line:\
 $ qsub -X -I -A default_project -l walltime=24:00:00 -l nodes=1:ppn=2:skylake\
-$ --> start Matlab, Python, whatever\
+$ --> start Matlab, Python, whatever
 2) [ADVANCED] if you think you need to launch a job (could be a Matlab/Python script, or a model run,...) for a longer and on more cpus, and you don't need to interact with the Matlab/Python interface, then you can launch the job into a queue and it will start running when there is space available.
 Ask a bash-script with PBS commands (my_script.sh) from your supervisor, and launch it from your command line:\
 $ qsub -q q1h my_script.sh\
 $ --> do something else\
-(to see available queues: $ qstat -q)\
+(to see available queues: $ qstat -q)
 3) [NEEDED] you need compute credits for 1-2 above, and all Msc students get free introduction credits.
 Ask them via https://admin.kuleuven.be/icts/onderzoek/hpc/request-introduction-credits
 mention that you do Msc thesis research in our research group, briefly say why you need compute time.
