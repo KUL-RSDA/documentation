@@ -784,3 +784,21 @@ tricks:
     r23i13n23 would ever break).
 
         $ qsub … -l advres=dedicated_nodes_16204.14548 -W group_list= lees_swm_ls_ext …
+
+Trouble shooting {#sec:troubleshooting}
+===============
+
+Problem of accessing the group node with -X
+------------------------------------------
+1. There should be an ".Xauthority" file in your $VSC_HOME. Using the "mv" command, rename this file to e.g. ".Xauthority_bkp".
+2. Close your connection and reconnect to the cluster (with X-forwarding enabled). This should create a fresh ".Xauthority" file in your $VSC_HOME.
+3. Now you may try again to submit an interactive job to that node with the '-X' flag
+4. To test if your X system is enabled you can type; xeyes
+
+Problem of accessing NX client with NoMachine
+------------------------------------------
+1. Your $VSC_HOME is full. Get on the login node via ssh (e.g. with putty), clean up your home (often there are e.g. huge dump files or you by mistake installed a big software on $VSC_HOME instead of on $VSC_DATA)
+2. Try again to establish a NX connection with NoMachine.
+
+
+
