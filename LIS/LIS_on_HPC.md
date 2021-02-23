@@ -10,7 +10,8 @@ Compile and run NASA's LIS, LDT, and LVT on the HPC at KU Leuven
   version 1   Gabriëlle De Lannoy, initial documentation \
   version 2   Gabriëlle De Lannoy, updated libraries LIS7.2, downloaded LIS via github \
   version 3   Gabriëlle De Lannoy, Michiel Maertens, move to Genius, instructions on how to run LIS, LDT and LVT \
-  version 4   Alexander Gruber, updated libraries for Tier-1 compilation
+  version 4   Alexander Gruber, updated libraries for Tier-1 compilation  
+  version 5   Sara Modanesi, updated documentation for the WCM and Noah-MP.v.3.6 irrigation
   ----------- ----------------------------------------------------------------------------------------------------
 
 \
@@ -262,6 +263,42 @@ We somewhat suboptimally compiled LIS with ifort and icc on Thinking
 nodes, but fixed this when moving to Genius with mpiifort and mpiicc
 (not mpicc).
 
+Water Cloud Model (WCM) - configure and compile in LIS
+---------
+The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
+* Step1. CRTM profile utility needs to be manually installed navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
+```
+    gmake && make realclean 
+```    
+This step allows to define the use of the Radiative Transfer Models (RTMs) in LIS and, consequently, to configure and compile a RTM.
+* Step 2. Add the compiled CRTM libraries location in the KUL_LIS_MODULES. Open the KUL_LIS_MODULES and set the environmental variable (an empty definition already exists in the file and needs to be filled with the correct location):
+```
+    export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
+```
+where *$(directory)* is your directory with the compiled CRTM profile
+* Step3. some plugins need to be toggle off (additionally to CABLE) in the *user.cfg* file in the *lis/make* directory: 
+```
+    CRTM off
+    CMEM off 
+    CRTM2 off
+    CRTM2EM off
+```
+As we have activated all the RTMs, during the compilation LIS will fail for missing libraries related to those plugins if we don’t switch off them.
+* Step 4. Source the modified KUL_LIS_MODULES and start the configuration:
+```
+    $ source KUL_LIS_modules
+    $ ./configure
+```
+A new flag was added for the WCM
+```
+    Use LIS-WCM? (1-yes, 0-no, default=0): 
+```
+The default value is zero, which means we do not want to use the WCM; otherwise, we will use the flag *“1”*
+* Step 5. The compilation does not need specific edits:
+```
+    $ ./compile
+```
+
 LIS and LDT runs {#sec:run}
 ================
 
@@ -391,6 +428,62 @@ follows:
     Processed LSM parameter filename: /scratch/leuven.320/vsc32041/Noah/LDT_files/
                                                              lis.input_clim_1992.nc
 
+Sprinkler Irrigation - preprocessing input data in LDT
+------------
+This section contains specifications to generate the lis_input.nc file containing irrigation information (for now only checked for Noah-MP.v.3.6):
+* An irrigation fraction map is needed to assign a percentage fraction of irrigation to each grid cell. The 500m spatial resolution Global Rainfed and Paddy Croplands [GRIPC] by Salmon et al. (2013) can be found on:
+```
+    /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/irrigation/global_gripc
+```
+Specifications to be used in the ldt.config file are:
+```
+    Irrigation fraction data source:"GRIPC"
+    Irrigation fraction map: ./YourDir/Irrigation/global_gripc/irrigtype_salmon2013.flt
+    Irrigation fraction spatial transform: average
+```
+*Irrigation fraction spatial transform* specification can be adjusted based on the user needs as it depends on the spatial resolution that we want to perform (for more information you can refer to the LDT user manual or to Kristi Arsenault - NASA).
+* Additionally, crop information is also needed. There are two possible options: 
+1) Setting the area to a single crop type, which bypasses the need for a map. This method is based on the CROPMAP classification libraries by Ozdogan et al. (2010). This   option will provide the index values in the same order and classes as what is found in Ozdogan et al. (2010) but will work with a vegetation class rooting depth table, which will include both the landcover dataset and crop classes. In this case a crop inventory for the Ozdogan CROPMAP classification (including 19 crop classes) is needed and it can be found on:
+```
+    /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/irrigation/crop_params/Crop.Library.Files
+```
+Specifications in the ldt.config file for option 1 are:
+```
+    #Crop-Irrigation parameters inputs
+    Incorporate crop information:.true.
+    Crop type data source: "CONSTANT"
+    Crop classification: "CROPMAP"
+    Crop library directory: ./YourDir/Irrigation/crop_params/Crop.Library.Files/
+    Assign crop value type: "single"
+    Assign single crop value: .true.
+    Default crop type: "maize" #you can select between different crops provided in the inventory
+    Crop map spatial transform: mode
+```
+*Crop map spatial transform* specification depends on the spatial resolution used. This example is related to a spatial resolution of 0.01° (for more information on that you can refer to the LDT user manual or to Kristi Arsenault-NASA).
+
+2) Providing a crop map for the study area, based on the work by Monfreda 2008. Crop maps are located in:
+```
+    /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/irrigation/crop_params/Monfreda_175Crops
+```
+Additionally, crop libraries, which connect the crop information with the maximum root depth of the plant, are available on:
+```
+     /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/irrigation/crop_params/Crop.Library.Files
+```
+Specifications needed in the ldt.config file to run this second option are:
+```
+    #Crop-Irrigation parameters inputs
+    Incorporate crop information:.true.
+    Crop type data source: "Monfreda08"
+    Crop classification: "FAOSTAT05"
+    Crop library directory: ./YourDir/irrigation/crop_params/Crop.Library.Files/
+    Assign crop value type: "none"
+    Assign single crop value:.false.
+    Default crop type: "none"
+    Crop type file:./YourDir/irrigation/crop_params/Monfreda_175Crops/Crops/
+    Crop map spatial transform: neighbor 
+```
+In this case the *Crop map spatial transform* specification was flagged to neighbor in order to downscale the Monfreda maps to a finer spatial resolution (0.01°). For other   options see the LDT user manual or contact Kristi Arsenault - NASA for additional information.
+
 ./lis.config
 ------------
 
@@ -471,6 +564,70 @@ to add '--f' (e.g:
 
 All entries need to be on one line (i.e. this documentation shows
 breaks, which should not be present in your configuration files).
+
+WCM running in LIS Noah-MP.v.3.6
+------------
+* Specifications are needed to run the WCM coupled with Noah-MP.v.3.6 within the lis.config file:
+```
+    #------------------------RADIATIVE TRANSFER MODELS-------------------------
+    Radiative transfer model: "WCM"
+    RTM invocation frequency: 6hr
+    RTM history output frequency: 6hr
+
+    WCMRTM AA_VV parameter table: ./YourDir/NoahMp36_parms/AAvv_PARM.TBL
+    WCMRTM BB_VV parameter table: ./YourDir/NoahMp36_parms/BBvv_PARM.TBL
+    WCMRTM CC_VV parameter table: ./YourDir/NoahMp36_parms/CCvv_PARM.TBL
+    WCMRTM DD_VV parameter table: ./YourDir/NoahMp36_parms/DDvv_PARM.TBL
+
+    WCMRTM AA_VH parameter table: ./YourDir/NoahMp36_parms/AAvh_PARM.TBL
+    WCMRTM BB_VH parameter table: ./YourDir/NoahMp36_parms/BBvh_PARM.TBL
+    WCMRTM CC_VH parameter table: ./YourDir/NoahMp36_parms/CCvh_PARM.TBL
+    WCMRTM DD_VH parameter table: ./YourDir/NoahMp36_parms/DDvh_PARM.TBL
+
+```
+The output frequency can be changed based on the user needs. Parameters.TBL tables, for each VV and VH backscatter polarization, are needed as input. The parameters should be calibrated values associated to each of the LIS grid cells (i.e., lon/lat with some specific spatial resolution in LIS).
+* In order to create backscatter outputs (VV and VH polarization) the MODEL_OUTPUT_LIST.TBL table have to be updated with the following lines:
+```
+    RTM Sig0VV:               1  dB      -    0 0 0 1 256 10      # RTM Sigma0 VV
+    RTM Sig0VH:               1  dB      -    0 0 0 1 256 10      # RTM Sigma0 VH
+```
+The first 0 will provide instantaneous outputs which will be created in an additional RTM directory within the OUTPUT directory defined in your lis.config file.
+
+**IMPORTANT note** when running the WCM in LIS: I suggest to use the modified KUL_LIS_MODULES used for the configuration and compilation of LIS with WCM
+
+Sprinkler irrigation running in LIS Noah-MP.v.3.6
+------------
+This section contains specifications to run Sprinkler irrigation in Noah-MP.v.3.6 after the lis_input.nc file generation process in LDT:
+* In the lis.config file, input data to be specified are: 
+1. The root zone soil moisture value below which irrigation is activated. In the Sprinkler irrigation script within Noah and Noah-MP this irrigation threshold is a user-defined percentage of the field capacity (FC). In the work by Ozdogan et al. (2010) this threshold was set as the 50% of the FC;
+2. Irrigation Greenness Vegetation Fraction (GVF) parameters 1 and 2 are the threshold percentages for the begin and ends of the growing season. They can be set as 0.4 and 0.0 respectively as in Ozdogan et al. (2010) or modified based on site-specific knowledge; 
+3. a maximum root depth file. This is related to the crop classification used. As an example, if we have associated the UMD-AVHRR land cover map (13 classes + water bodies) to the Ozdogan et al. (2010) CROPMAP classification we can create a maximum root depth file as following: a) Open a text file, which you can name umd_cropmap32.txt (since you will be accounting for 32 classes: 13 classes for AVHRR and 19 classes for the CROPMAP classification); b) Enter the below line into that txt file: 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0 1.0 1.0 0.0 0.0 0.0 1.0 0.9 1.0 0.7 1.0 1.0 1.5 1.0 0.4 0.7 1.0 0.7 0.7 1.0 1.0 0.8 1.2 1.0 1.1; c) Save the file and then specify it in your lis.config file
+4. a flag equal to 1 or 0 if we want to simulate irrigation from water abstraction or not. It is not clear if in the public version of LIS (that we are using) it is possible to select the flag 1. 
+   An example of how to add those specifications in the lis.config file is given below:
+```
+    #-------------------------IRRIGATION------------------------------------
+    Irrigation scheme: "Sprinkler"
+    Irrigation output interval: "1da"
+    Irrigation threshold: 0.50
+    Sprinkler irrigation max root depth file:       ./YourDir/Irrigation/umd_cropmap32.txt
+    Flood irrigation max root depth file:
+    Drip irrigation max root depth file:
+    Irrigation GVF parameter 1: 0.40
+    Irrigation GVF parameter 2: 0.00
+    Groundwater abstraction for irrigation: 0
+```
+A bit further below
+```
+    #The following options list the choice of parameter maps to be used
+    LIS domain and parameter data file:   ./lis_input.noahMP.irr_CROPMAP.nc
+    Irrigation fraction data source: "LDT"
+    Greenness data source:           "LDT"
+```
+* In order to create irrigation outputs the MODEL_OUTPUT_LIST.TBL table should contain specifications for the irrigation outputs as defined below:
+```
+    Irrigated water: 	 1 	kg/m2s	 -	 0 0 0 1 256 10 # Irrigated water amount
+```
+The first *“0”* in this list is set to instantaneous, *“1”* for average and *“3”* for accumulated output. I would recommend to use *“1”* or *“3”*.
 
 Error messages encountered {#sec:errmess}
 --------------------------
