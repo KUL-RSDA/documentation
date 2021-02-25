@@ -1,1 +1,1 @@
-This folder containes example configuration files for LIS and LDT that people have been used in their experiments.
+This folder containes example configuration files for LIS and LDT that people have used in their experiments.
