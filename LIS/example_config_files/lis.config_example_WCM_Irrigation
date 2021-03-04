@@ -1,0 +1,265 @@
+#Overall driver options:
+Running mode:				retrospective 
+Map projection of the LIS domain: 	latlon
+Number of nests:	   	         1 
+Number of surface model types:           1
+Surface model types:			LSM
+Surface model output interval:	        "6hr"
+Land surface model:			"NoahMP.3.6"
+Number of met forcing sources:	        1
+Blending method for forcings:	        overlay
+Met forcing sources:                    "MERRA2"
+#Met forcing chosen ensemble member:     1
+Topographic correction method (met forcing):	"none" 
+Enable spatial downscaling of precipitation:   	0    
+Spatial interpolation method (met forcing):	"bilinear"
+Spatial upscaling method (met forcing):		"average" 
+Temporal interpolation method (met forcing):	"linear" 
+
+#Runtime options
+Forcing variables list file:		./INPUT/forcing_variables.txt
+#Output forcing:                         0   #1-yes
+#Output parameters:                      0   #0- no
+Output methodology:                    "2d gridspace"
+Output data format:			netcdf
+Output naming style:			"3 level hierarchy"
+Output model restart files:		1
+Start mode:				restart
+Starting year:                          2014
+Starting month:                         12
+Starting day:                           31  
+Starting hour:                          23 
+Starting minute:                        45 
+Starting second:                        0
+Ending year:                            2020
+Ending month:                           06
+Ending day:                             30
+Ending hour:                            23
+Ending minute:                          59
+Ending second:                          0
+Undefined value:                       -9999
+Output directory:                      ./OUTrun_ProbaV_Irr/
+Diagnostic output file:                ./log_run_1mCrop/lislog_ol
+Number of ensembles per tile:           1
+
+#The following options are used for subgrid tiling based on vegetation
+Maximum number of surface type tiles per grid:     1
+Minimum cutoff percentage (surface type tiles):    0.05 
+Maximum number of soil texture tiles per grid:     1
+Minimum cutoff percentage (soil texture tiles):    0.05
+Maximum number of soil fraction tiles per grid:    1
+Minimum cutoff percentage (soil fraction tiles):   0.05
+Maximum number of elevation bands per grid:        1
+Minimum cutoff percentage (elevation bands):       0.05
+Maximum number of slope bands per grid:            1
+Minimum cutoff percentage (slope bands):           0.05
+Maximum number of aspect bands per grid:           1
+Minimum cutoff percentage (aspect bands):          0.05
+
+#Processor Layout	
+#Should match the total number of processors used
+Number of processors along x:    6  # e.g., 32 
+Number of processors along y:    6  # e.g., 16 
+Halo size along x: 0
+Halo size along y: 0
+
+#sub-models
+#-------------------------IRRIGATION------------------------------------
+#Irrigation scheme: "none"
+Irrigation scheme: "Sprinkler"
+Irrigation output interval: "1da"
+Irrigation threshold: 0.50
+Sprinkler irrigation max root depth file:	./INPUT/Irrigation/umd_cropmap32.txt
+Flood irrigation max root depth file:
+Drip irrigation max root depth file:
+Irrigation GVF parameter 1: 0.40
+Irrigation GVF parameter 2: 0.00
+Groundwater abstraction for irrigation: 0
+#------------------------ ROUTING -------------------------------------
+
+Routing model:                    "none"
+
+#------------------------RADIATIVE TRANSFER MODELS--------------------------
+
+#Radiative transfer model: "none"
+Radiative transfer model:   "WCM"
+RTM invocation frequency: 6hr
+RTM history output frequency: 6hr
+
+WCMRTM AA_VV parameter table: ./INPUT/NoahMp36_parms/AAvv_PARM.TBL
+WCMRTM BB_VV parameter table: ./INPUT/NoahMp36_parms/BBvv_PARM.TBL
+WCMRTM CC_VV parameter table: ./INPUT/NoahMp36_parms/CCvv_PARM.TBL
+WCMRTM DD_VV parameter table: ./INPUT/NoahMp36_parms/DDvv_PARM.TBL
+
+WCMRTM AA_VH parameter table: ./INPUT/NoahMp36_parms/AAvh_PARM.TBL
+WCMRTM BB_VH parameter table: ./INPUT/NoahMp36_parms/BBvh_PARM.TBL
+WCMRTM CC_VH parameter table: ./INPUT/NoahMp36_parms/CCvh_PARM.TBL
+WCMRTM DD_VH parameter table: ./INPUT/NoahMp36_parms/DDvh_PARM.TBL
+#------------------------APPLICATION MODELS---------------------------------
+
+Number of application models: 0
+
+#---------------------DATA ASSIMILATION ----------------------------------
+#Data Assimilation Options
+
+Number of data assimilation instances:               0 
+Data assimilation algorithm:                         "none"
+Data assimilation set:                               "none"
+Data assimilation use a trained forward model:       0
+Data assimilation output interval for diagnostics:   "1da"   
+Data assimilation number of observation types:       1
+Data assimilation output ensemble members:           0 
+Data assimilation output processed observations:     0 
+Data assimilation output innovations:                0 
+
+Bias estimation algorithm:                "none" 
+Bias estimation attributes file:          "none" 
+Bias estimation restart output frequency:  1da
+Bias estimation start mode:               none
+Bias estimation restart file:             none
+
+#Perturbation options
+Perturbations start mode:                 "coldstart" 
+Perturbations restart output interval:    "1mo" 
+Perturbations restart filename:           "none"
+Apply perturbation bias correction:       0
+
+Forcing perturbation algorithm:           "none" #"GMAO scheme"
+Forcing perturbation frequency:           "1hr" 
+Forcing attributes file:                  ./INPUT/forcing_attribs.txt 
+Forcing perturbation attributes file:     ./INPUT/forcing_pert_attribs.txt 
+
+State perturbation algorithm:             "none" #"GMAO scheme"
+State perturbation frequency:             "6hr" 
+State attributes file:                    ./noah_sm_attribs.txt
+State perturbation attributes file:       ./noah_sm_pertattribs.txt
+
+Observation perturbation algorithm:       "none" #"GMAO scheme"
+Observation perturbation frequency:       "6hr" 
+Observation attributes file:              
+Observation perturbation attributes file: 
+
+# ================================================================i
+# -----------------------DOMAIN SPECIFICATION--------------------------
+#Definition of Running Domain
+##Specify the domain extremes in latitude and longitude
+Run domain lower left lat:                44.005
+Run domain lower left lon:                10.505
+Run domain upper right lat:               45.495
+Run domain upper right lon:               12.095
+Run domain resolution (dx):                0.01
+Run domain resolution (dy):                0.01
+
+
+#The following options list the choice of parameter maps to be used
+LIS domain and parameter data file:   ./lis_input.noahMP.irr_1m_CROPMAP_ProbaV.nc
+
+Landmask data source:            "LDT"
+Landcover data source:           "LDT"
+Soil texture data source:        "LDT"
+Irrigation fraction data source: "LDT"
+Soil fraction data source:       "none"
+Soil color data source:          "none"
+Elevation data source:           "LDT"
+Slope data source:               "none"
+Aspect data source:              "none"
+Curvature data source:           "none"
+LAI data source:                 "none"
+SAI data source:                 "none"
+Albedo data source:              "LDT"
+Greenness data source:           "LDT"  
+Roughness data source:           "none"  
+Porosity data source:            "none"
+Ksat data source:                "none"
+B parameter data source:         "none"
+Quartz data source:              "none"
+Emissivity data source:          "none"
+Max snow albedo data source:     "none"
+
+
+#--------------------------------FORCINGS----------------------------------
+
+MERRA2 forcing directory:                 ./MERRA2_land_forcing
+MERRA2 use lowest model level forcing:    1
+MERRA2 use corrected total precipitation: 1
+
+#------------------------OPEN WATER MODELS---------------------------
+#
+#Template open water timestep:             "15mn"
+
+#-----------------------LAND SURFACE MODELS--------------------------
+
+Noah-MP.3.6 model timestep:                 15mn
+Noah-MP.3.6 restart output interval:         1mo 
+Noah-MP.3.6 restart file:	           ./LIS_RST_NOAHMP36_201412312345ProbaV_Irr.d01.nc
+#Noah-MP.3.6 restart file:                  
+Noah-MP.3.6 restart file format:             netcdf
+Noah-MP.3.6 landuse parameter table:      ./INPUT/NoahMp36_parms/VEGPARM_UMD.TBL
+Noah-MP.3.6 soil parameter table:            ./INPUT/NoahMp36_parms/SOILPARM.TBL
+Noah-MP.3.6 general parameter table:         ./INPUT/NoahMp36_parms/GENPARM.TBL 
+Noah-MP.3.6 MP parameter table:              ./INPUT/NoahMp36_parms/MPTABLE_UMD.TBL
+Noah-MP.3.6 number of soil layers:           4
+Noah-MP.3.6 soil layer thickness:               0.1  0.3  0.6  1.0
+Noah-MP.3.6 number of snow layers:           4
+Noah-MP.3.6 vegetation model option:         2 # 1=prescribed; 2=dynamic;3=calculate; 4=maximum
+Noah-MP.3.6 canopy stomatal resistance option: 1 # 1=Ball-Berry; 2=Jarvis
+Noah-MP.3.6 soil moisture factor for stomatal resistance option: 1 # 1=Noah; 2=CLM;3=SSiB
+Noah-MP.3.6 runoff and groundwater option:                       1 # 1=SIMGM; 2=SIMTOP; 3=Schaake96; 4=BATS
+Noah-MP.3.6 surface layer drag coefficient option:               1 # 1=M-O; 2=Chen97
+Noah-MP.3.6 supercooled liquid water option:                     1 # 1=NY06; 2=Koren99
+Noah-MP.3.6 frozen soil permeability option:                     1 # 1=NY06; 2=Koren99
+Noah-MP.3.6 radiation transfer option:                           1 # 1=gap=F(3D;cosz);2=gap=0; 3=gap=1-Fveg
+Noah-MP.3.6 snow surface albedo option:                          1 # 1=BATS; 2=CLASS
+Noah-MP.3.6 rainfall and snowfall option:                        1 # 1=Jordan91; 2=BATS;3=Noah
+Noah-MP.3.6 lower boundary of soil temperature option:           1 # 1=zero-flux; 2=Noah
+Noah-MP.3.6 snow and soil temperature time scheme:               1 # 1=semi-implicit; 2=fully implicit
+Noah-MP.3.6 soil color index:                                    4
+Noah-MP.3.6 CZIL option (iz0tlnd):                               0
+Noah-MP.3.6 initial value of snow albedo at the last timestep:   0.2
+Noah-MP.3.6 initial value of snow mass at the last timestep:     0.0
+Noah-MP.3.6 initial soil temperatures:                           288.0 288.0 288.0 288.0
+Noah-MP.3.6 initial total soil moistures:                        0.20 0.20 0.20 0.20
+Noah-MP.3.6 initial liquid soil moistures:                       0.20 0.20 0.20 0.20
+Noah-MP.3.6 initial canopy air temperature:                      288.0
+Noah-MP.3.6 initial canopy air vapor pressure:                   261.68518
+Noah-MP.3.6 initial wetted or snowed fraction of canopy:         0.0
+Noah-MP.3.6 initial intercepted liquid water:                    0.0
+Noah-MP.3.6 initial intercepted ice mass:                        0.0
+Noah-MP.3.6 initial vegetation temperature:                      288.0
+Noah-MP.3.6 initial ground temperature:                          288.0
+Noah-MP.3.6 initial snowfall on the ground:                      0.0
+Noah-MP.3.6 initial snow height:                                 0.0
+Noah-MP.3.6 initial snow water equivalent:                       0.0
+Noah-MP.3.6 initial depth to water table:                        2.5
+Noah-MP.3.6 initial water storage in aquifer:                    4900.0
+Noah-MP.3.6 initial water in aquifer and saturated soil:         4900.0
+Noah-MP.3.6 initial lake water storage:                          0.0
+Noah-MP.3.6 initial leaf mass:                                   9.0
+Noah-MP.3.6 initial mass of fine roots:                          500.0
+Noah-MP.3.6 initial stem mass:                                   3.33
+Noah-MP.3.6 initial mass of wood including woody roots:          500.0
+Noah-MP.3.6 initial stable carbon in deep soil:                  1000.0
+Noah-MP.3.6 initial short-lived carbon in shallow soil:          1000.0
+Noah-MP.3.6 initial LAI: 0.5
+Noah-MP.3.6 initial SAI: 0.1
+Noah-MP.3.6 initial momentum drag coefficient: 0.0
+Noah-MP.3.6 initial sensible heat exchange coefficient: 0.0
+Noah-MP.3.6 initial snow aging term: 0.0
+Noah-MP.3.6 initial soil water content between bottom of the soil and water table:0.0
+Noah-MP.3.6 initial recharge to or from the water table when deep:0.0
+Noah-MP.3.6 initial recharge to or from the water table when shallow:0.0
+Noah-MP.3.6 initial reference height of temperature and humidity:10.0
+Noah-MP.3.6 soil moisture CDF file:
+
+#---------------------------MODEL OUTPUT CONFIGURATION-----------------------
+#Specify the list of ALMA variables that need to be featured in the 
+#LSM model output
+
+Model output attributes file:  ./MODEL_OUTPUT_LIST.TBL
+
+Output start year:           
+Output start month:
+Output start day:
+Output start hour:
+Output start minutes:
+Output start seconds:
