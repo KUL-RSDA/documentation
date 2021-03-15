@@ -268,7 +268,7 @@ Water Cloud Model (WCM) - configure and compile in LIS
 The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
 * Step1. CRTM profile utility needs to be manually installed navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
 ```
-    gmake && make realclean 
+    gmake && make install 
 ```    
 This step allows to define the use of the Radiative Transfer Models (RTMs) in LIS and, consequently, to configure and compile a RTM.
 * Step 2. Add the compiled CRTM libraries location in the KUL_LIS_MODULES. Open the KUL_LIS_MODULES and set the environmental variable (an empty definition already exists in the file and needs to be filled with the correct location):
