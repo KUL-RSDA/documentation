@@ -235,6 +235,10 @@ bigmem nodes of 768 GB.
 
     The latter two lines are only applicable in case you need the 768
     GB. Jobs use the same accounts as ThinKing for the credits.
+    
+-   When you are authorized to use the group node r23i13n23 it is necessary to exclude it when submitting jobs adding
+ 
+        #PBS -W x=excludenodes=r23i13n23
 
 -   Python and Matlab scripts work just as on ThinKing. Matlab needs
 
