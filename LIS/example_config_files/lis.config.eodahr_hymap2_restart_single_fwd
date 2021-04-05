@@ -1,0 +1,322 @@
+#Overall driver options:
+Running mode: 		            "retrospective"
+Map projection of the LIS domain:   "latlon"
+Number of nests:                    1
+Number of surface model types:      1
+Surface model types:                "LSM"
+Surface model output interval:      1da         
+Land surface model:                 "NoahMP.3.6"
+Number of ensembles per tile:       1
+Number of met forcing sources:      1
+Met forcing sources:                "MERRA2" 
+Blending method for forcings:                 "overlay"     #"ensemble"    
+Topographic correction method (met forcing):  "lapse-rate" #"lapse-rate and slope-aspect"
+Enable spatial downscaling of precipitation:   0      
+Spatial interpolation method (met forcing):   "bilinear" 
+Temporal interpolation method (met forcing):  "linear"  
+Spatial upscaling method (met forcing):       "average"  
+
+#Runtime options:
+Forcing variables list file:              ./forcing_variables.txt
+Output forcing:                            1   
+Output parameters:                         0   
+Output methodology:                        "2d gridspace"
+Output model restart files:                1
+Output data format:                        "netcdf"
+Output naming style:                       "3 level hierarchy"
+Start mode:                               restart #coldstart restart 
+Starting year:                            2014
+Starting month:                           10
+Starting day:                             31
+Starting hour:                             23
+Starting minute:                           45
+Starting second:                           0
+Ending year:                              2020
+Ending month:                             10
+Ending day:                               31
+Ending hour:                               0
+Ending minute:                             0
+Ending second:                             0
+Undefined value:                          -9999
+Output directory:                         ./output2
+Diagnostic output file:                   ./output2/lislog
+
+#The following options are used for subgrid tiling based on vegetation
+Maximum number of surface type tiles per grid:     1
+Minimum cutoff percentage (surface type tiles):    0.10 
+Maximum number of soil texture tiles per grid:     1
+Minimum cutoff percentage (soil texture tiles):    0.10
+Maximum number of soil fraction tiles per grid:    1
+Minimum cutoff percentage (soil fraction tiles):   0.10
+Maximum number of elevation bands per grid:        1
+Minimum cutoff percentage (elevation bands):       0.10
+Maximum number of slope bands per grid:            1
+Minimum cutoff percentage (slope bands):           0.10
+Maximum number of aspect bands per grid:           1
+Minimum cutoff percentage (aspect bands):          0.10
+
+#Processor Layout	
+#Should match the total number of processors used
+#Decompose by processes:		.false.
+Number of processors along x:  6
+Number of processors along y:  6
+Halo size along x: 0
+Halo size along y: 0 
+
+
+#------------------------ ROUTING ----------------------------------
+Routing model:                  "HYMAP2 router"
+
+HYMAP2 routing model time step: 		15mn
+HYMAP2 routing model output interval:	1da
+HYMAP2 routing model restart interval:   1mo
+
+# method:                enter 1 - kinematic; 2 - diffusive
+# # linear reservoir flag: enter 1 - use; or 2 - do not use linear reservoirs
+# # evaporation option:    enter 1 - compute; or 2 - do not compute evapotation in floodplains
+
+HYMAP2 routing method:                        "kinematic" # "local inertia" #
+HYMAP2 routing model time step method:          "adaptive" # "constant" #
+HYMAP2 routing model adaptive time step alfa coefficient: 0.7
+HYMAP2 run in ensemble mode:                 0
+HYMAP2 routing model linear reservoir flag:  0
+HYMAP2 routing model evaporation option:      none # "penman"
+HYMAP2 routing model restart file:            output2/ROUTING/201410/LIS_RST_HYMAP2_router_201410312345.d01.nc
+HYMAP2 restart file format:                   netcdf
+HYMAP2 routing model start mode:            restart #  
+
+HYMAP2 floodplain dynamics: 1
+
+HYMAP2 reservoir operation option: 0
+HYMAP2 number of reservoirs: 1
+HYMAP2 reservoir operation input time series size: 900
+HYMAP2 reservoir operation input directory: ./volta/
+HYMAP2 reservoir operation header filename: ./volta/header_test.txt
+HYMAP2 reservoir operation input data type: "water level" # "streamflow" #
+
+HYMAP2 routing model dwi flag: 0
+
+HYMAP2 enable 2-way coupling: 0
+HYMAP2 2-way coupling flooded fraction threshold: .4
+
+HYMAP2 discharge direct insertion: 0
+HYMAP2 number of gauges: 2
+HYMAP2 discharge direct insertion time series size: 7000
+HYMAP2 discharge direct insertion input directory: ./obs/002/
+HYMAP2 discharge direct insertion header filename: ./obs/002/header.txt
+#HYMAP2 routing LIS output directory:            ./output2
+
+External runoff data source:	  "LIS runoff output"
+LIS runoff output directory: './output2/'    
+LIS runoff output interval:  '1da'
+#------------------------ IRRIGATION ---------------------------------
+
+Irrigation scheme:            "none"
+Irrigation output interval:   "1da"
+
+# UMD-landcover and "CROPMAP" crop types (Leff et al. 2004):
+Sprinkler irrigation max root depth file: ../LS_PARAMETERS/irrigation/conus_modis/maxrootdepth32.txt
+
+#------------------------RADIATIVE TRANSFER MODELS--------------------------
+
+Radiative transfer model:   "none"
+
+#------------------------APPLICATION MODELS---------------------------------
+
+Number of application models: 0
+
+
+#------------------------DOMAIN SPECIFICATION--------------------------
+#Definition of Running Domain
+
+#The following options list the choice of parameter maps to be used
+
+LIS domain and parameter data file:   ./lis_input_hymap_1km.d01.nc
+Landmask data source:                   LDT
+Landcover data source:                  LDT
+Soil texture data source:               LDT
+Soil fraction data source:              none
+Soil color data source:                 none
+Elevation data source:                  LDT
+Slope data source:                      none
+Aspect data source:                     none
+Curvature data source:                  none
+LAI data source:                        none
+SAI data source:                        none
+Albedo data source:                     LDT
+Max snow albedo data source:            none
+Greenness data source:                  LDT
+Roughness data source:                  none
+Porosity data source:                   none
+Ksat data source:                       none
+B parameter data source:                none
+Quartz data source:                     none
+Emissivity data source:                 none
+
+
+#--------------------------------FORCINGS----------------------------------
+
+# MERRA-2 base forcing:
+MERRA2 forcing directory:          ./MERRA2 
+MERRA2 use lowest model level forcing:     1
+MERRA2 use corrected total precipitation:  1 
+
+# CHIRPS data reformatted to look like RFE2:
+# RFE2gdas forcing directory:     ../MET_FORCING/CHIRPSv2/6-hrly/
+# CHIRPS temp. downscaled with MERRA-2 corrected precipitation (LDT):
+#TRMM 3B42V7 forcing directory: ../MET_FORCING/3B42-V7/
+#MERRA-Land forcing directory:        ../MET_FORCING/MERRA-Land/
+#MERRA-Land use lowest model level forcing:  1
+#GDAS forcing directory:       ../../../MET_FORCING/GDAS/
+# TRMM forcing
+#TRMM 3B42V7 forcing directory: ../../../MET_FORCING/3B42-V7
+#TRMM 3B42V7 timestep: 1hr
+
+#-----------------------LAND SURFACE MODELS--------------------------
+
+Noah-MP.3.6 model timestep:               15mn
+Noah-MP.3.6 restart output interval:      1mo
+#Noah-MP.3.6 restart file:                ./output/ALP_OL2/SURFACEMODEL/201405/LIS_RST_NOAHMP36_2014053123
+Noah-MP.3.6 restart file:                 output2/SURFACEMODEL/201410/LIS_RST_NOAHMP36_201410312345.d01.nc
+Noah-MP.3.6 restart file format:          netcdf
+Noah-MP.3.6 landuse parameter table:      ./input/noahmp_parms/VEGPARM_UMD.TBL
+Noah-MP.3.6 soil parameter table:         ./input/noahmp_parms/SOILPARM.TBL
+Noah-MP.3.6 general parameter table:      ./input/noahmp_parms/GENPARM.TBL
+Noah-MP.3.6 MP parameter table:           ./input/noahmp_parms/MPTABLE_UMD.TBL
+Noah-MP.3.6 number of soil layers:        4
+Noah-MP.3.6 soil layer thickness:         0.1  0.3  0.6  1.0
+Noah-MP.3.6 number of snow layers:        3
+Noah-MP.3.6 vegetation model option:                    2  # 1=prescribed; 2=dynamic; 3=calculate; 4=maximum
+Noah-MP.3.6 canopy stomatal resistance option:          1  # 1=Ball-Berry; 2=Jarvis
+Noah-MP.3.6 soil moisture factor for stomatal resistance option:  1  # 1=Noah; 2=CLM; 3=SSiB
+Noah-MP.3.6 runoff and groundwater option:              1  # 1=SIMGM; 2=SIMTOP; 3=Schaake96; 4=BATS
+Noah-MP.3.6 surface layer drag coefficient option:      1  # 1=M-O; 2=Chen97
+Noah-MP.3.6 supercooled liquid water option:            1  # 1=NY06; 2=Koren99
+Noah-MP.3.6 frozen soil permeability option:            1  # 1=NY06; 2=Koren99
+Noah-MP.3.6 radiation transfer option:                  1  # 1=gap=F(3D;cosz); 2=gap=0; 3=gap=1-Fveg
+Noah-MP.3.6 snow surface albedo option:                 2  # 1=BATS; 2=CLASS
+Noah-MP.3.6 rainfall and snowfall option:               3  # 1=Jordan91; 2=BATS; 3=Noah
+Noah-MP.3.6 lower boundary of soil temperature option:  2  # 1=zero-flux; 2=Noah
+Noah-MP.3.6 snow and soil temperature time scheme:      1  # 1=semi-implicit; 2=fully implicit
+Noah-MP.3.6 soil color index:             4
+Noah-MP.3.6 CZIL option (iz0tlnd):        0
+#Noah-MP.3.6 zlvl:                    6.0                      # zlvl: reference height of temperature and humidity
+#Noah-MP.3.6 zlvl_wind:               6.0                      # zlvl_wind: reference height of wind
+Noah-MP.3.6 initial value of snow albedo at the last timestep:  0.2
+Noah-MP.3.6 initial value of snow mass at the last timestep:    0.0
+Noah-MP.3.6 initial soil temperatures:                     288.0  288.0  288.0  288.0
+Noah-MP.3.6 initial total soil moistures:                    0.20   0.20   0.20   0.20
+Noah-MP.3.6 initial liquid soil moistures:                   0.20   0.20   0.20   0.20
+Noah-MP.3.6 initial canopy air temperature:                288.0
+Noah-MP.3.6 initial canopy air vapor pressure:             261.68518
+Noah-MP.3.6 initial wetted or snowed fraction of canopy:     0.0
+Noah-MP.3.6 initial intercepted liquid water:                0.0
+Noah-MP.3.6 initial intercepted ice mass:                    0.0
+Noah-MP.3.6 initial vegetation temperature:                288.0
+Noah-MP.3.6 initial ground temperature:                    288.0
+Noah-MP.3.6 initial snowfall on the ground:                  0.0
+Noah-MP.3.6 initial snow height:                             0.0
+Noah-MP.3.6 initial snow water equivalent:                   0.0
+Noah-MP.3.6 initial depth to water table:                    2.5
+Noah-MP.3.6 initial water storage in aquifer:             4900.0
+Noah-MP.3.6 initial water in aquifer and saturated soil:  4900.0
+Noah-MP.3.6 initial lake water storage:                      0.0
+Noah-MP.3.6 initial leaf mass:                               9.0
+Noah-MP.3.6 initial mass of fine roots:                    500.0
+Noah-MP.3.6 initial stem mass:                               3.33
+Noah-MP.3.6 initial mass of wood including woody roots:    500.0
+Noah-MP.3.6 initial stable carbon in deep soil:           1000.0
+Noah-MP.3.6 initial short-lived carbon in shallow soil:   1000.0
+Noah-MP.3.6 initial LAI:                                     0.5
+Noah-MP.3.6 initial SAI:                                     0.1
+Noah-MP.3.6 initial momentum drag coefficient:               0.0
+Noah-MP.3.6 initial sensible heat exchange coefficient:      0.0
+Noah-MP.3.6 initial snow aging term:                         0.0
+Noah-MP.3.6 initial soil water content between bottom of the soil and water table:  0.0
+Noah-MP.3.6 initial recharge to or from the water table when deep:                  0.0
+Noah-MP.3.6 initial recharge to or from the water table when shallow:               0.0
+Noah-MP.3.6 initial reference height of temperature and humidity:                   6.0
+
+#---------------------------MODEL OUTPUT CONFIGURATION-----------------------
+#Specify the list of ALMA variables that need to be featured in the 
+
+#LSM model output
+Model output attributes file: ./MODEL_OUTPUT_LIST.TBL
+Output start year:    
+Output start month:     
+Output start day:       
+Output start hour:      
+Output start minutes:   
+Output start seconds:   
+
+#Output GRIB Table Version: 128
+#Output GRIB Center Id:     57
+#Output GRIB Subcenter Id:  2
+#Output GRIB Process Id:    88
+#Output GRIB Grid Id:       255
+
+#---------------------DATA ASSIMILATION ----------------------------------
+
+#Data Assimilation Options
+Number of data assimilation instances:               0
+Data assimilation algorithm:                         "none"
+Data assimilation set:                               "none"
+Data assimilation exclude analysis increments:       0
+Data assimilation output interval for diagnostics:   "1da"
+Data assimilation number of observation types:       0
+Data assimilation output ensemble members:           0
+Data assimilation output ensemble spread:            0
+Data assimilation output processed observations:     0
+Data assimilation output innovations:                0
+Data assimilation scaling strategy:                none
+Data assimilation observation domain file:           ./lis_input_hymap_1km.d01.nc
+Number of state variables:                           1
+
+Data assimilation use a trained forward model:       0
+Data assimilation trained forward model output file: none
+
+Apply perturbation bias correction:       0 
+Bias estimation algorithm:                "none"
+Bias estimation attributes file:          "none"
+Bias estimation restart output frequency:
+Bias estimation start mode:
+Bias estimation restart file:
+
+#Perturbation options
+Perturbations start mode:                 "coldstart"
+Perturbations restart output interval:    "1mo"
+Perturbations restart filename:           "none"  #./OUTPUT/DAPERT/201707/LIS_DAPERT_201707312345.d01.bin   #"none"
+
+Forcing perturbation algorithm:           "none"  #"GMAO scheme" 
+Forcing perturbation frequency:           "1hr"
+Forcing attributes file:                  ./input/lis_noahMP/Hans_forcing_attribs.txt      
+Forcing perturbation attributes file:     ./input/lis_noahMP/Hans_forcing_pert_attribs.txt 
+
+State perturbation algorithm:             "none"  #"GMAO scheme"  
+State perturbation frequency:             "6hr"
+State attributes file:                    ./input/lis_noahMP/noah_snow_attribs.txt
+State perturbation attributes file:       ./input/lis_noahMP/noah_snow_pertattribs.txt 
+
+Observation perturbation algorithm:       "none"  #"GMAO scheme"  
+Observation perturbation frequency:       "1da"
+Observation attributes file:              "none"
+Observation perturbation attributes file: "none"
+
+#SNODEP data directory:                  ./SNODEP/0p25
+#SNODEP mesh resolution:                   25
+#SNODEP use IMS data for snow detection:   1
+#SNODEP IMS data directory:               /discover/nobackup/projects/lis/RS_DATA/MODIS_sca/MOD10C1
+#SNODEP use MODIS (MOD10C1) data for snow detection:  1
+#SNODEP MOD10C1 data directory:           /discover/nobackup/projects/lis/RS_DATA/IMS_sca
+
+#--------------------------------------------------------------------
+#MODIS SCF data directory: .inputs/OBS_OL
+#MODIS SCF use gap filled product: 1
+#MODIS SCF cloud threshold: 90
+#MODIS SCF cloud persistence threshold: 3
+
+#------------ PMW snow data -------------------------------
+#Synthetic SND data directory:   ./inputs/OBS_OL
+#Synthetic SND data directory:    ./inputs/OBS_syn_SD/Synobs_snowdepth_err0p90m
+#--------------end PMW snow data -----------------------
+
