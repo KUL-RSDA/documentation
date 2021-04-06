@@ -200,8 +200,8 @@ Noah-MP.3.6 lower boundary of soil temperature option:  2  # 1=zero-flux; 2=Noah
 Noah-MP.3.6 snow and soil temperature time scheme:      1  # 1=semi-implicit; 2=fully implicit
 Noah-MP.3.6 soil color index:             4
 Noah-MP.3.6 CZIL option (iz0tlnd):        0
-#Noah-MP.3.6 zlvl:                    6.0                      # zlvl: reference height of temperature and humidity
-#Noah-MP.3.6 zlvl_wind:               6.0                      # zlvl_wind: reference height of wind
+Noah-MP.3.6 zlvl:                    10.0                      # zlvl: reference height of temperature and humidity
+Noah-MP.3.6 zlvl_wind:               10.0                      # zlvl_wind: reference height of wind
 Noah-MP.3.6 initial value of snow albedo at the last timestep:  0.2
 Noah-MP.3.6 initial value of snow mass at the last timestep:    0.0
 Noah-MP.3.6 initial soil temperatures:                     288.0  288.0  288.0  288.0
@@ -235,7 +235,7 @@ Noah-MP.3.6 initial snow aging term:                         0.0
 Noah-MP.3.6 initial soil water content between bottom of the soil and water table:  0.0
 Noah-MP.3.6 initial recharge to or from the water table when deep:                  0.0
 Noah-MP.3.6 initial recharge to or from the water table when shallow:               0.0
-Noah-MP.3.6 initial reference height of temperature and humidity:                   6.0
+Noah-MP.3.6 initial reference height of temperature and humidity:                   10.0
 
 #---------------------------MODEL OUTPUT CONFIGURATION-----------------------
 #Specify the list of ALMA variables that need to be featured in the 
