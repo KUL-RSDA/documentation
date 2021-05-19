@@ -244,6 +244,10 @@ bigmem nodes of 768 GB.
 
         $ module load matlab/R2018a
 
+-   Info May 2021: For stability of interactive Matlab usage, launch matlab on NX with
+
+        $ matlab -softwareopengl -desktop 
+
 -   LDASsa still needs a setup of all libraries.
 
 Submitting and Managing Jobs
