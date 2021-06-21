@@ -1,0 +1,24 @@
+#!/bin/csh -f
+
+set basedir_version = 6.1.0
+
+set node = `uname -n`
+module purge
+if (($node =~ r[0-1]* ) || ($node =~ login* )) then
+    echo "Loading modules for Tier-1..."
+    set basedir_path = /scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries
+    module unuse /apps/leuven/broadwell/2016a/modules/all
+    module unuse /apps/leuven/broadwell/2018a/modules/all
+else
+    echo "Loading modules for Tier-2..."
+    set basedir_path = /staging/leuven/stg_00024/GEOSldas_libraries
+    module unuse /apps/leuven/skylake/2018a/modules/all
+    module unuse /apps/leuven/cascadelake/2018a/modules/all
+    module unuse /apps/leuven/cascadelake/2019b/modules/all
+    module use /apps/leuven/skylake/2019b/modules/all
+endif
+
+module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore-8.3.0
+
+setenv BASEDIR $basedir_path/ESMA-Baselibs-$basedir_version/src
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:$BASEDIR/Linux/lib
