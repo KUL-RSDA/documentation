@@ -6,6 +6,15 @@
 
 #######################################################################
 #                     Batch Parameters for Run Job
+#
+# For standard runs excluding the groupnode:
+# -l nodes=MY_NODES:ppn=MY_NTASKS_PER_NODE
+# -W x=excludenodes=r23i13n23
+#
+# For Experimental runs on the groupnode:
+# -l nodes=r23i13n23:ppn=9
+# -W group_list=lees_swm_ls_ext
+#
 #######################################################################
 
 #PBS -l walltime=MY_WALLTIME

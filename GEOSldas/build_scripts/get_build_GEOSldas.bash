@@ -9,9 +9,10 @@
 #PBS -o ./log.txt
 #PBS -e ./out.txt
 
-ldas_root=/data/leuven/320/vsc32046/src_code/Tier1_test
-ldas_dirname=GEOSldas_17.9.3
+ldas_root=/data/leuven/320/vsc32046/src_code
 ldas_version=17.9.3
+# IMPORTANT: GEOSldas is pulled from the RSDA-KUL github repository,
+# where a branch named ${ldas_version}_KUL is assumed to exist!
 
 baselibs_version=6.1.0
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
@@ -22,10 +23,12 @@ node=`uname -n`
 module purge
 if [[ $node == "r"[0-1]* ]] || [[ $node == "login"* ]]; then
     baselibs_root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries
+    ldas_dirname=GEOSldas_${ldas_version}_Tier1
     module unuse /apps/leuven/broadwell/2016a/modules/all
     module unuse /apps/leuven/broadwell/2018a/modules/all
 else
     baselibs_root=/staging/leuven/stg_00024/GEOSldas_libraries
+    ldas_dirname=GEOSldas_${ldas_version}_Tier2
     module unuse /apps/leuven/skylake/2018a/modules/all
     module unuse /apps/leuven/cascadelake/2018a/modules/all
     module unuse /apps/leuven/cascadelake/2019b/modules/all
@@ -48,10 +51,13 @@ fi
 cd $ldas_root
 if [ ! -d "$ldas_dirname" ]; then
     module load git
-    git clone -b v$ldas_version --single-branch git@github.com:GEOS-ESM/GEOSldas.git $ldas_dirname
+    git clone -b v${ldas_version}_KUL --single-branch git@github.com:KUL-RSDA/GEOSldas.git $ldas_dirname
     cd $ldas_dirname
+    git remote rename origin upstream
+    git remote add origin git@github.com:GEOS-ESM/GEOSldas.git
     mepo init
     mepo clone
+    cp $baselibs_root/g5_modules ./@env/
 else
     echo "$ldas_dirname already exists. Skipping to build/install..."
     cd $ldas_dirname
