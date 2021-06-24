@@ -49,6 +49,7 @@ The exact changes made to the [lenkf.j.template](https://github.com/KUL-RSDA/GEO
 
 NOTE: The [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) script is not part of the GEOSldas GitHub repository and hence copied by [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) from */staging/leuven/stg_00024/GEOSldas_libraries/* (Tier-2) or */scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries/* (Tier-1).
 
+As mentioned, the [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) script downloads a modified version of GEOSldas from our [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL), which already includes all these changes. The above is thus merely an FYI.
 
 # Using GEOSldas
 
@@ -65,7 +66,7 @@ Use the script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentati
 
 ## Specifying the output collection
 
-Before submitting the job to run the model (see the next step), the desired output collection needs to be selected in **\<output_path\>/run/HISTORY.rc**. This file is **re-created every time** by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) unless the path to a pre-existing HISTORY.rc file is specified expicitly in the \<exeinp_file\>. However, in this case, you still need to **make sure that the experiment ID in this HISTORY.rc matches that of the experiment for which you are using it**.
+Before submitting the job to run the model (see the next step), the desired output collection needs to be selected in **\<output_path\>/run/HISTORY.rc**. This file is **re-created every time** by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) unless the path to a pre-existing HISTORY.rc file is specified explicitly in the \<exeinp_file\>. However, in this case, you still need to **make sure that the experiment ID in this HISTORY.rc matches that of the experiment for which you are using it**.
 
 ## Executing the model
 
@@ -74,7 +75,7 @@ Before submitting the job to run the model (see the next step), the desired outp
 
 Instead of qsub, "csh lenkf.j" can be used to run GEOSldas in an interactive session.
 
-**NOTE**: By default, the lenkf.j file is intentionally prohibited from running on our group node (so as to not get launched there accidentally in case the required number of processors is available). If you want to run it on the group node for expirimental purposes anyway, make sure to remove "#PBS -W x=excludenodes=r23i13n23" in line 24.
+**NOTE**: By default, the lenkf.j file is intentionally prohibited from running on our group node (so as to not get launched there accidentally in case the required number of processors is available). If you want to run it on the group node for expirimental purposes anyway, make sure to remove "#PBS -W x=excludenodes=r23i13n23" in line 24 (and make sure not to use too many cores).
 
 ## Configuration file templates
 
@@ -82,9 +83,9 @@ Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, w
 
 ## Debugging
 
-GEOSldas allows to have two parallel installations of the same source code, one in "normal mode" and one in "debug mode". The script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) accepts a positional debug argument (executed as "./get_build_GEOSldas debug"), in which case a debug build is created in the directory *./\<your_GEOSldas_root\>/install_debug/bin/*
+GEOSldas allows to have two parallel installations of the same source code, one in "normal mode" and one in "debug mode". The script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) accepts a positional debug argument (executed as "./get_build_GEOSldas debug"), in which case a debug build is created in the directory *./\<your_GEOSldas_root\>/install_debug/*
 
-Debugging GEOSldas is done in two parts:
+Debugging GEOSldas is done in two steps:
 
 * The lenkf.j must be executed using the debug flag (csh lenkf.j -debug) in order to carry out the necessary pre-procesing.
 * GEOSldas.x must be executed using a debugging tool, on the HPC this is ArmForge.
