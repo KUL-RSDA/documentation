@@ -805,7 +805,13 @@ Problem of accessing the group node with -X
 
 Problem of accessing NX client with NoMachine
 ------------------------------------------
-1. Your $VSC_HOME is full. Get on the login node via ssh (e.g. with putty), clean up your home (often there are e.g. huge dump files or you by mistake installed a big software on $VSC_HOME instead of on $VSC_DATA)
+1. Your $VSC_HOME is full. Get on the login node via ssh (e.g. with putty), clean up your home (often there are e.g. huge dump files or you by mistake installed a big software on $VSC_HOME instead of on $VSC_DATA). It's also possible that your $VSC_HOME is not full but contains too many files and (sub)directories (>100k). 
+# To count directories
+find . -type d -print | wc -l 
+# To count files
+find . -type f -print | wc -l
+# To see where you have the many files and clean up
+find . -type f -print
 2. Try again to establish a NX connection with NoMachine.
 
 
