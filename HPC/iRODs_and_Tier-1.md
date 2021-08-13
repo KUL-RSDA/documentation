@@ -139,7 +139,7 @@ and can be recovered ... unless you deleted it with the -f option.
 
 ## Mounted directories on Tier-1
     $ /data/leuven 
-    $ /home/leuven 
+    $ /user/leuven 
 
 ## Code
 *  Some of the Tier-2 compiled code on /data/leuven might work on Tier-1, e.g. a miniconda python environment. 
