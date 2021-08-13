@@ -31,8 +31,7 @@ iRODS: A VSC Data component in pilot phase:
 
 * iRODS groups: You need to be part of the iRODs groups lt1_es2020 and research-rsda which are not listed on https://account.vscentrum.be/django// (it seems there is no webpage where you could check this). Try to access the iRODs folder in research-rsda as described in this documentation. If you don't have access ask data@vscentrum.be to add you to these iRODs groups.
 
-Tier-1 support / iRODS support: data@vscentrum.be (Ingrid Barcena Roig, Mustafa Dikmen, Jef Scheepersget:
-    <https://account.vscentrum.be/>
+Tier-1 support / iRODS support: data@vscentrum.be (Ingrid Barcena Roig, Mustafa Dikmen, Jef Scheepersget
 
 
 Tier-1 collaborative project lt1_col_2021_1
