@@ -16,9 +16,9 @@ Get Started: Tier-1 and iRODS
 
 KU Leuven Tier-1 cluster (Breniac):
 
--   Documentation: [Brenia infrastructure](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html)
+-   Documentation: [Breniac infrastructure](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html)
 
--   Documentation: [Quickstart guide Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/breniac_quickstart.htmlfile)
+-   Documentation: [Quickstart guide Breniac](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/breniac_quickstart.html)
 
 * iRODS groups: You have to be part of (check for your account https://account.vscentrum.be/django//):
   * lt1_breniacusers: for basic tier-1 (breniac system) access
