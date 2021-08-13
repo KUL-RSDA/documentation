@@ -53,7 +53,7 @@ The VSC data component iRODS serves us
   
 Connecting to iRODS
 -----------------
-One way to work on iRODs are the 'i' commands that mostly have an equivalent bash command (see documentation)
+One way to work on iRODs are the 'i' commands that mostly have an equivalent bash command, see [iRODS documentation](https://github.com/hpcleuven/iRODS-User-Training/)
 
 To start an iRODS session:
 
@@ -67,7 +67,7 @@ Show content of research-rsda directory:
 
     $ ils /kuleuven_tier1_pilot/home/research-rsda/
     
-To transfer data to and from iRODS, see documentation.
+To transfer data to and from iRODS, see [iRODS documentation](https://github.com/hpcleuven/iRODS-User-Training/).
    
 Directory and File Structure {#sec:structure}
 -----------------
