@@ -20,7 +20,7 @@ KU Leuven Tier-1 cluster (Breniac):
 
 -   Documentation: [Quickstart guide Breniac](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/breniac_quickstart.html)
 
-* iRODS groups: You have to be part of (check for your account https://account.vscentrum.be/django//):
+* VSC groups: You have to be part of (check for your account https://account.vscentrum.be/django//):
   * lt1_breniacusers: for basic tier-1 (breniac system) access
   * lt1_col_2021_1: Tier-1 collaborate project (see below)
   * lt1_es2020: Tier-1 collaborate project
