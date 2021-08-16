@@ -123,9 +123,14 @@ Note: No deletion of files after one month like on Tier-2. There is no staging o
     $ ls
     
 ### Relevant folders for rsda:
-  * External: similar to the tier-2 l_data and input on /staging/leuven/stg_00024/
-  * project_input: project-specific inputs that is not of interest to other research groups like e.g. code and libraries for simulations, every project input that is potentially of interest for other groups should be in External.
-  * project_output: Simulation/Processing outputs
+    $ External
+    similar to the tier-2 l_data and input on /staging/leuven/stg_00024/
+    
+    $ project_input
+    project-specific inputs that is not of interest to other research groups like e.g. code and libraries for simulations, every project input that is potentially of interest for other groups should be in External.
+    
+    $ project_output
+    Simulation/Processing outputs
 (ignore KUL, there are two groups at KUL, in other directories groups are separated for group-specific data which is better)
 
 Other notes
