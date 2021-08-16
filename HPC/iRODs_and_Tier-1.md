@@ -131,7 +131,8 @@ Note: No deletion of files after one month like on Tier-2. There is no staging o
     
     $ project_output
     Simulation/Processing outputs
-(ignore KUL, there are two groups at KUL, in other directories groups are separated for group-specific data which is better)
+    
+!!! Ignore the directory "KUL". The collaborative project has two research groups from KUL. It's better to keep the data of research groups in different folders like organized in other directories.
 
 Other notes
 ======================
