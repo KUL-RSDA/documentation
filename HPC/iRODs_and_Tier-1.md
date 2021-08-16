@@ -103,7 +103,7 @@ Credits
 
 *  Maximum walltime on Tier-1 is 3 days. 
 
-*  E.g.:
+*  Example to get onto an interactive node for 24 hours:
   
     $ qsub -I -X -A lt1_col_2021_1 -l walltime=24:00:00
 
