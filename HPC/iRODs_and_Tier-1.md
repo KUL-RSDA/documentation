@@ -37,7 +37,7 @@ Tier-1 support / iRODS support: data@vscentrum.be (Ingrid Barcena Roig, Mustafa 
 Tier-1 collaborative project lt1_col_2021_1
 ======================
 
-lt1_col_2021_1 is a Tier-1 collaborate project. We share resources (storage, credits) with collaborating partners. The partnering research groups are:
+lt1_col_2021_1 is a Tier-1 collaborate project (https://www.vscentrum.be/compute). We share resources (storage, credits) with collaborating partners. The partnering research groups are:
 
 Prof. Dr. Wim Thiery, wim.thiery@vub.be, Prof. Dr. Nicole van Lipzig, nicole.vanlipzig@kuleuven.be, Prof. Dr. Gabrielle De Lannoy, gabrielle.delannoy@kuleuven.be, Prof. Dr. Diego G. Miralles, diego.miralles@ugent.be, Prof. Dr. Piet Termonia, piet.termonia@ugent.be
 
