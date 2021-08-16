@@ -148,5 +148,5 @@ and can be recovered ... unless you deleted it with the -f option.
 
 ## Code
 *  Some of the Tier-2 compiled code on /data/leuven might work on Tier-1, e.g. a miniconda python environment. 
-*  Comment of Ingrid: "Unless you do CPU intensive calculations with the software of the environment it should be ok. If you do intensive CPU usage it is then best to ensure that the you are using MKL and the it should be ok. Only if you are using MPI it will be worth to reimport the environment on Tier-1."
-
+*  For intensive CPU usage it is best to ensure that the you are using Intel Math Kernel Library (MKL, https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/software/intel_toolchain.html) 
+*  For usage of MPI, it's best to rebuild the environment on Tier-1."
