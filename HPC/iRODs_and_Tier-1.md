@@ -22,8 +22,8 @@ KU Leuven Tier-1 cluster (Breniac):
 
 * VSC groups: You have to be part of (check for your account https://account.vscentrum.be/django//):
   * lt1_breniacusers: for basic tier-1 (breniac system) access
-  * lt1_col_2021_1: Tier-1 collaborate project (see below)
-  * lt1_es2020: Tier-1 collaborate project
+  * lt1_col_2021_1: Tier-1 collaborate project (These computational credits should be used, see below)
+  * lt1_es2020: Previous Tier-1 collaborate project (!!! Don't use these credits anymore. Group still necessary for directory access permissions.)
 
 iRODS: A VSC Data component in pilot phase:
 
@@ -31,7 +31,7 @@ iRODS: A VSC Data component in pilot phase:
 
 * iRODS groups: You need to be part of the iRODs groups lt1_es2020 and research-rsda which are not listed on https://account.vscentrum.be/django// (it seems there is no webpage where you could check this). Try to access the iRODs folder in research-rsda as described in this documentation. If you don't have access ask data@vscentrum.be to add you to these iRODs groups.
 
-Tier-1 support / iRODS support: data@vscentrum.be (Ingrid Barcena Roig, Mustafa Dikmen, Jef Scheepersget
+Tier-1 support / iRODS support: data@vscentrum.be (Ingrid Barcena Roig, Mustafa Dikmen, Jef Scheepersget)
 
 
 Tier-1 collaborative project lt1_col_2021_1
