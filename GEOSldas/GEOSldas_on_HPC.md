@@ -119,3 +119,12 @@ Launch the debugger:
 * module use /apps/leuven/skylake/2018a/modules/all
 * module load ArmForge
 * ddt mpirun -np 36 -machinefile $PBS_NODEFILE ../build/bin/GEOSldas.x
+
+## Working with specific branches
+
+### PEATCLSM (documentation needs to be extended):
+
+https://github.com/GEOS-ESM/GEOSldas/tree/feature/SM_peatCLM
+https://github.com/GEOS-ESM/GEOSgcm_GridComp/tree/feature/SM_peatCLM3/GEOSagcm_GridComp/GEOSphysics_GridComp/GEOSsurface_GridComp/GEOSland_GridComp
+
+
