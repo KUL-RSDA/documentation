@@ -296,6 +296,25 @@ submit explicitly to partition 'EES'.
 
 **NOTE: the shared node migrated to Genius!! On Genuis the node is now r23i13n23 ** 
 
+Credits 
+----------------------------
+On HPC-wide shared nodes, we only pay for the cores we use.
+Let's assume we have a job that is not well parallelized, i.e. runs inefficiently on many cores.
+It always requires ~ 10 hours regardless of being run on 2 or 36 cores. Then 
+qsub -I -X -lnodes=1:ppn=2 -A lp_ees_swm_ls_002 -l walltime=12:00:00
+is 1/18 of the costs of
+qsub -I -X -lnodes=1:ppn=36 -A lp_ees_swm_ls_002 -l walltime=12:00:00
+
+Though noted that in the following cases:
+1) you request pmem above the default (5gb)
+2) you request more than half the cores on the node
+you get exclusive access to the node in which case you also pay for the full node.
+
+Note also: The amount you pay also depends on how long the job actually ran for, i.e. the walltime is not the actual time you pay. The walltime is just a max time that you define and which is the basis for the waiting queue (1h 24h 72h 168h) that your job is allocated to. The jobs that are expected to run longer typically have also longer waiting times in the queue. For more information, see:
+https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/credits.html
+
+The shared group node (node of the RSDA group) is constantly reserved for us and paid with an annual fee. So whenever possible use the capacity of this shared group node.
+
 Specific information for MSc studens:
 -----------------
 1) [BASIC] if you foresee running anything longer than ~20 minutes or with more memory, you will have to go onto an interactive node to do your HPC work, i.e. you will not be able to run a big job on the login node.
