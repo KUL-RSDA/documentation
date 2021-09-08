@@ -1,4 +1,9 @@
 
+< 31/06/2021 : Alexander Gruber> : First version of the documentation, for GEOSldas v17.9.3 and Baselibs v6.1.0
+
+< 08/09/2021 : Alexander Gruber> : Updated documentation for GEOSldas v17.9.4 and Baselibs v6.2.4
+
+
 
 # First steps
 
@@ -12,7 +17,7 @@ To build and run GEOSldas, the so-called Baselibs are required, which are also a
 The scripts [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_baselibs.bash) and [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) automatically download and build the Baselibs and GEOSldas, respectively. They run on both Tier-1 and Tier-2, automatically detecting on which cluster they are executed.
 
 ### Baselibs
-The Baselibs version 6.1.0 (a note on versions follows below) is pre-built on both Tier-1 and Tier-2. It is generally not necessary (and not advised) to built them again yourself. You merely need to source the [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) file in order to use them (a note on that later). However, if you want to run a GEOSldas version other than 17.9.3 that requires a Baselibs version other than 6.1.0, you can download and build it using [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_baselibs.bash). The installation directory and desired version can be specified within the script. Important to remember, in this case, is that the Baselibs path in the [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) file (see below) also needs to be adjusted accordingly.
+The Baselibs version 6.2.4 (a note on versions follows below) is pre-built on both Tier-1 and Tier-2. It is generally not necessary (and not advised) to built them again yourself. You merely need to source the [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) file in order to use them (a note on that later). However, if you want to run a GEOSldas version other than 17.9.4 that requires a Baselibs version other than 6.2.4, you can download and build it using [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_baselibs.bash). The installation directory and desired version can be specified within the script. Important to remember, in this case, is that the Baselibs path in the [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) file (see below) also needs to be adjusted accordingly.
 
 **NOTE:** The Baselibs repository on GitHub allows to be cloned with external submodules. However, there were some issues with remote path changes in the external submodule repositories (i.e., downloads failed). Therefore, the [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_baselibs.bash) script downloads the complete tarballs.
 
@@ -20,17 +25,17 @@ The Baselibs version 6.1.0 (a note on versions follows below) is pre-built on bo
 ### GEOSldas
 Upon first execution, [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) both downloads and builds GEOSldas with the version and into the directory specified within the script. You should hence change the path to the location where you want to install it (a note on code versions follows below). If the specified directory already exists (i.e., upon each subsequent execution), the script deletes and re-builds any pre-existing installation. Doing so is necessary every time you make alterations to the source code.
 
-**IMPORTANT:** GEOSldas does not work out of the box on the HPC. A few source code alterations are necessary, which are available on [our GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL) on a separate branch that is tied to a specific GEOSldas version (see below). The script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) downloads the source code **from our GitHub including these changes**, that is, you don't have to re-implement them yourself when downloading GEOSldas for the first time. In other words: Downloading GEOSldas from the [NASA GitHub](https://github.com/GEOS-ESM/GEOSldas) does not work out of the box on the HPC, but downloading it from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL), either manually or using [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash), does.
+**IMPORTANT:** GEOSldas does not work out of the box on the HPC. A few source code alterations are necessary, which are available on [our GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.4_KUL) on a separate branch that is tied to a specific GEOSldas version (see below). The script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) downloads the source code **from our GitHub including these changes**, that is, you don't have to re-implement them yourself when downloading GEOSldas for the first time. In other words: Downloading GEOSldas from the [NASA GitHub](https://github.com/GEOS-ESM/GEOSldas) does not work out of the box on the HPC, but downloading it from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.4_KUL), either manually or using [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash), does.
 
 **IMPORTANT #2:** GEOSldas (and hence the [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) script) requires [mepo](https://github.com/GEOS-ESM/mepo), which is a wrapper around git to download various external sub-repositories. It is sufficient to just dowload or clone [mepo](https://github.com/GEOS-ESM/mepo) onto your machine, but the mepo directory needs to be added to the PATH environmental variable (best done in the .bashrc for future use).
 
-**IMPORTANT #3:** [mepo](https://github.com/GEOS-ESM/mepo) pulls modules from the git remote repository named "origin", which needs to be the [GEOS-ESM](https://github.com/GEOS-ESM/GEOSldas.git). Hence, even though [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) pulls the source code from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL), the remotes are slightly altered. Keep this in mind should you want to work on your own GitHub fork!
+**IMPORTANT #3:** [mepo](https://github.com/GEOS-ESM/mepo) pulls modules from the git remote repository named "origin", which needs to be the [GEOS-ESM](https://github.com/GEOS-ESM/GEOSldas.git). Hence, even though [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) pulls the source code from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.4_KUL), the remotes are slightly altered. Keep this in mind should you want to work on your own GitHub fork!
 
 ## A note on code versions
 
-The GEOSldas [release notes](https://github.com/GEOS-ESM/GEOSldas/releases) typically mention which Baselibs version was used for building it. Their versions must also match when building them on the HPC. The above-mentioned scripts use GEOSldas version 17.9.3 and Baselibs version 6.1.0.
+The GEOSldas [release notes](https://github.com/GEOS-ESM/GEOSldas/releases) typically mention which Baselibs version was used for building it. Their versions must also match when building them on the HPC. The above-mentioned scripts use GEOSldas version 17.9.4 and Baselibs version 6.2.4.
 
-**IMPORTANT**: [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) downloads a particular code version from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL), assuming that there exists a branch called \<version\>\_KUL. If you want to download a different GEOSldas version, you need to make sure that a branch exists with the \_KUL suffix, which has all the necessary source code alterations implemented to make it work on the HPC.
+**IMPORTANT**: [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) downloads a particular code version from the [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.4_KUL), assuming that there exists a branch called \<version\>\_KUL. If you want to download a different GEOSldas version, you need to make sure that a branch exists with the \_KUL suffix, which has all the necessary source code alterations implemented to make it work on the HPC.
 
 
 ## Source code alterations explained
@@ -45,15 +50,17 @@ To following changes have been made to get GEOSldas running on the HPC:
 
 * A light-weight version of the [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) has been created that merely loads the right modules and sets the right environmental variables.
 
-* The [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/lenkf.j.template) file has been altered to use the PBS ressource manager instead of SLURM, the NCO module version has been changed, and some non-mandatory pre-processing has been commented out.
+* The [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) file has been altered to use the PBS ressource manager instead of SLURM, the NCO module version has been changed, and some non-mandatory pre-processing has been commented out.
 
-* The [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) script has been altered to use the modified [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/lenkf.j.template) correctly.
+* The [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) script has been altered to use the modified [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) correctly.
 
-The exact changes made to the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/lenkf.j.template) and to [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) can be found [here](https://github.com/KUL-RSDA/GEOSldas/commit/79c6f116ead677b5ee317238023dc4955c30ed8f).
+The exact changes made to the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) and to [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) can be found [here](https://github.com/KUL-RSDA/GEOSldas/commit/79c6f116ead677b5ee317238023dc4955c30ed8f).
 
 NOTE: The [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) script is not part of the GEOSldas GitHub repository and hence copied by [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) from */staging/leuven/stg_00024/GEOSldas_libraries/* (Tier-2) or */scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries/* (Tier-1).
 
-As mentioned, the [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) script downloads a modified version of GEOSldas from our [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.3_KUL), which already includes all these changes. The above is thus merely an FYI.
+As mentioned, the [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) script downloads a modified version of GEOSldas from our [KUL-RSDA GitHub](https://github.com/KUL-RSDA/GEOSldas/tree/v17.9.4_KUL), which already includes all these changes. The above is thus merely an FYI.
+
+NOTE: GEOSldas v17.9.4 did not install with the above-mentioned source code changes due to a bug in the external ESMA_cmake repository that is downloaded by mepo. The fix has been pushed as v3.5.5 (see [here](https://github.com/GEOS-ESM/ESMA_cmake/pull/203)). Accordingly, this version needed to be updated in the components.yaml file of the v17.9.4_KUL branch. This fix is only necessary for this version and will become obsolete with the next official GEOSldas release!
 
 # Using GEOSldas
 
@@ -70,7 +77,7 @@ Use the script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentati
 
 ## Specifying the output collection
 
-Before submitting the job to run the model (see the next step), the desired output collection needs to be selected in **\<output_path\>/run/HISTORY.rc**. This file is **re-created every time** by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) unless the path to a pre-existing HISTORY.rc file is specified explicitly in the \<exeinp_file\>. However, in this case, you still need to **make sure that the experiment ID in this HISTORY.rc matches that of the experiment for which you are using it**.
+Before submitting the job to run the model (see the next step), the desired output collection needs to be selected in **\<output_path\>/run/HISTORY.rc**. This file is **re-created every time** by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) unless the path to a pre-existing HISTORY.rc file is specified explicitly in the \<exeinp_file\>. However, in this case, you still need to **make sure that the experiment ID in this HISTORY.rc matches that of the experiment for which you are using it**.
 
 ## Executing the model
 
@@ -83,7 +90,7 @@ Instead of qsub, "csh lenkf.j" can be used to run GEOSldas in an interactive ses
 
 ## Configuration file templates
 
-Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, which are used by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.3_KUL/src/Applications/LDAS_App/ldas_setup) to do the relevant pre-processing and to create the run scripts, can be found at */staging/leuven/stg_00024/OUTPUT/alexg/data_sets/GEOSldas/config/*. For the generation of ensembles and for data assimilation, special namelist files ("LDASsa_SPECIAL_inputs_\*.nml") are required, templates of which can also be found in that directory.
+Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, which are used by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) to do the relevant pre-processing and to create the run scripts, can be found at */staging/leuven/stg_00024/OUTPUT/alexg/data_sets/GEOSldas/config/*. For the generation of ensembles and for data assimilation, special namelist files ("LDASsa_SPECIAL_inputs_\*.nml") are required, templates of which can also be found in that directory.
 
 ## Debugging
 
