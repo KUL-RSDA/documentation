@@ -10,11 +10,11 @@
 #PBS -e ./out.txt
 
 ldas_root=/data/leuven/320/vsc32046/src_code
-ldas_version=17.9.3
+ldas_version=17.9.4
 # IMPORTANT: GEOSldas is pulled from the RSDA-KUL github repository,
 # where a branch named ${ldas_version}_KUL is assumed to exist!
 
-baselibs_version=6.1.0
+baselibs_version=6.2.4
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
 
@@ -22,7 +22,7 @@ baselibs_version=6.1.0
 node=`uname -n`
 module purge
 if [[ $node == "r"[0-1]* ]] || [[ $node == "login"* ]]; then
-    baselibs_root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries
+    baselibs_root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/ldas/GEOSldas_libraries
     ldas_dirname=GEOSldas_${ldas_version}_Tier1
     module unuse /apps/leuven/broadwell/2016a/modules/all
     module unuse /apps/leuven/broadwell/2018a/modules/all

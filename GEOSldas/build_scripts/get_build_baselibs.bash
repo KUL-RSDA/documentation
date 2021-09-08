@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -l nodes=r23i13n23:ppn=3
+#PBS -l nodes=r23i13n23:ppn=1
 #PBS -W group_list=lees_swm_ls_ext
 #PBS -l pmem=5gb
 #PBS -A lp_ees_swm_ls_001
@@ -9,7 +9,7 @@
 #PBS -o ./log.txt
 #PBS -e ./out.txt
 
-version=6.1.0
+version=6.2.4
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
 
@@ -18,7 +18,7 @@ node=`uname -n`
 module purge
 if [[ $node == "r"[0-1]* ]] || [[ $node == "login"* ]]; then
     echo "Loading modules for Tier-1..."
-    root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries
+    root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/ldas/GEOSldas_libraries
     module unuse /apps/leuven/broadwell/2016a/modules/all
     module unuse /apps/leuven/broadwell/2018a/modules/all
 else

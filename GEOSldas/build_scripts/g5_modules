@@ -1,6 +1,6 @@
 #!/bin/csh -f
 
-set basedir_version = 6.1.0
+set basedir_version = 6.2.4
 
 set node = `uname -n`
 module purge
