@@ -49,6 +49,8 @@ Directory and File Structure {#sec:structure}
   `/data` (75 GB)        `/archive` (several TB)
   `/scratch` (100 GB?)   
 
+(w/ backup): Snapshot backups are stored under /data/leuven/.snapshot/*
+
 /user (w/ backup)
 -----------------
 
