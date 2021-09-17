@@ -68,6 +68,8 @@ Show content of research-rsda directory:
     $ ils /kuleuven_tier1_pilot/home/research-rsda/
     
 To transfer data to and from iRODS, see [iRODS documentation](https://github.com/hpcleuven/iRODS-User-Training/).
+Like rsync, there is an irsync that allows the use of asterisk
+irsync TIERFOLDER/*PATTERN* i:iRODsFOLDER
    
 Directory and File Structure {#sec:structure}
 -----------------
