@@ -92,6 +92,33 @@ Instead of qsub, "csh lenkf.j" can be used to run GEOSldas in an interactive ses
 
 Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, which are used by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) to do the relevant pre-processing and to create the run scripts, can be found at */staging/leuven/stg_00024/OUTPUT/alexg/data_sets/GEOSldas/config/*. For the generation of ensembles and for data assimilation, special namelist files ("LDASsa_SPECIAL_inputs_\*.nml") are required, templates of which can also be found in that directory.
 
+### A note on GEOSldas configuration issues on the HPC
+
+The *exeinp* file contains the parameters *JOB_SGMT* and *NUM_SGMT*. *JOB_SGMT* determines how long a time period shall be processed (e.g., ten days, three months, a year, ...) and restart files will be written at the end of this period. *NUM_SGMT* determines how many of these segments will be procesed consecutively by the submitted job. If the specified *END_DATE* is not reached, the lenkf.j resubmits itself automatically and continues processing the next *NUM_SGMT* segments until *END_DATE* is reached.
+
+These two parameters are optional. If omitted, GEOSldas will process the job as a single segment covering the the period END_DATE - START_DATE. This functionality was introduced in GEOSldas to avoid jobs running into wall time issues. However, two problems associated with it have been found on the KU Leuven HPC system:
+
+1) For an unknown reason, the lenkf.j file does resubmit itself correctly, but the resubmitted job does not get processed. Since we do not have strict wall time limitations, however, this does not really concern us and most jobs can be processed in one submission. If not, the lenkf.j file can be resubmitted manually to continue processing (see the section "Continuing a job").
+
+2) Processing larger segments of multiple years (e.g., when omitting the *JOB_SGMT* and *NUM_SGMT* parameters) caused the jobs to crash for an unknown reason (pressumably because too many, i.e., tens of thousands, temporary files are written into the scratch directory which the system cannot handle, although this is not confirmed by the HPC team and has not been a problem on the NASA machines). Therefore, it is recommended to always run processes in yearly segments (smaller segments are possible but create more overhead, so only do that if you need restart files to be written out more frequenlty). Just make sure that *NUM_SGMT* is set to a high enough number to cover your entire job period (it is not an issue if it is too large as GEOSldas will always stop once all data up until *END_DATE* have been processed).
+
+## Continuing a job
+
+Continuing a GEOSldas job is very easy because the end date of a finished job is stored in a "*./run/cap_restart*" file, and (re)submitting the lenkf.j file will always execute GEOSldas from the date specified in this file. You may want to continue a job for two reasons:
+
+1) The processing cannot done within the allowed wall time limit.
+
+A submitted lenkf.j file processes data for (*JOB_SGMT* * *NUM_SGMT*) time units starting from *BEG_DATE*. If *BEG_DATE* + (*JOB_SGMT* * *NUM_SGMT*) does not reach (or exceed) the *END_DATE*, the job will stop after the set number of segments.
+
+In this case, the lenkf.j file can simply be re-submitted without any alterations in the configuration files, and will get GEOSldas to continue processing for another *NUM_SGMT* segments (but only until *END_DATE* is reached).
+
+2) You want to extend the time period of your GEOSldas run because new forcing or satellite data has become available.
+
+When running *ldas_setup*, the file "*./run/CAP.rc*" is created, and the lenkf.j file actually grabs the *END_DATE* from this file. If this entry is manually alterered, the lenkf.j file will simply consider this newly set *END_DATE* instead the one that was specified originally in the *exeinp* file.
+
+That is, if you want to extend your run, simply extend the *END_DATE* in the *./run/CAP.rc* file and resubmit the lenkf.j file. There is no need to re-run ldas_setup!
+
+
 ## Debugging
 
 GEOSldas allows to have two parallel installations of the same source code, one in "normal mode" and one in "debug mode". The script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) accepts a positional debug argument (executed as "./get_build_GEOSldas debug"), in which case a debug build is created in the directory *./\<your_GEOSldas_root\>/install_debug/*
@@ -134,5 +161,3 @@ Launch the debugger:
 https://github.com/GEOS-ESM/GEOSldas/tree/feature/SM_peatCLM
 
 https://github.com/GEOS-ESM/GEOSgcm_GridComp/tree/feature/SM_peatCLM3/GEOSagcm_GridComp/GEOSphysics_GridComp/GEOSsurface_GridComp/GEOSland_GridComp
-
-
