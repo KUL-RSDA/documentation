@@ -27,7 +27,7 @@ on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation
 
 - 	All text following '$' are commands to be executed in the terminal.
 
--	All text in between <> indicates paths that need to be adapted to your own path.
+-	All text in between '<>' indicates paths that need to be adapted to your own path.
 
 ## The different components and utilities of NU-WRF
 
