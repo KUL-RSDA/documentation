@@ -3,7 +3,7 @@ Compile and run NASA's NU-WRF on the HPC at KU Leuven
 ==
 
     Authors:
-        Jonas Mortelmans, Michel Bechtold
+        Jonas Mortelmans
         contact: jonas.mortelmans@kuleuven.be 
 
   ----------- ----------------------------------------------------------------------------------------------------
@@ -62,6 +62,7 @@ It then converts the data into the WPS intermediate format, readable by the METG
 This utility can be used to preprocess atmospheric fields from both MERRA and MERRA-2 and convert the data into the WPS intermediate format, readable by the METGRID program.
 
 # compiling
+
 
 
 # Running NU-WRF
