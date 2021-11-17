@@ -1,13 +1,4 @@
 #!/bin/bash
-#PBS -l nodes=r23i13n23:ppn=1
-#PBS -W group_list=lees_swm_ls_ext
-#PBS -l pmem=5gb
-#PBS -A lp_ees_swm_ls_001
-#PBS -l walltime=23:59:59
-#PBS -m abe
-#PBS -M alexander.gruber@kuleuven.be
-#PBS -o ./log.txt
-#PBS -e ./out.txt
 
 version=6.2.4
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
@@ -16,11 +7,16 @@ version=6.2.4
 # Load modules and set paths for Tier-1 or Tier-2
 node=`uname -n`
 module purge
-if [[ $node == "r"[0-1]* ]] || [[ $node == "login"* ]]; then
-    echo "Loading modules for Tier-1..."
+if [[ $node == "r0"* ]] || [[ $node == "login"* ]]; then
+    echo "Loading modules for Tier-1 (broadwell)..."
     root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/ldas/GEOSldas_libraries
     module unuse /apps/leuven/broadwell/2016a/modules/all
     module unuse /apps/leuven/broadwell/2018a/modules/all
+elif [[ $node == "r1"* ]]; then
+    echo "Loading modules for Tier-1 (skylake)..."
+    root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/ldas/GEOSldas_libraries
+    module unuse /apps/leuven/skylake/2016a/modules/all
+    module unuse /apps/leuven/skylake/2018a/modules/all
 else
     echo "Loading modules for Tier-2..."
     root=/staging/leuven/stg_00024/GEOSldas_libraries
