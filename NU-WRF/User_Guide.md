@@ -427,7 +427,7 @@ When working at high latitudes or far inland, the SST from Remote Sensing System
 	4. ungrib/ungrib.exe
 2. Download the data (as . nc files) you need from [PODAAC](https://podaac-tools.jpl.nasa.gov/drive/login?dest=L2RyaXZlL2ZpbGVzL09jZWFuVGVtcGVyYXR1cmUvZ2hyc3N0L2RhdGEvTDQ).
 	You will need an account for this and follow their download instructions when using wget.
-3. Run [the nc_to_grb.py script](https://github.com/MortelmansJonas/NU-WRF_Peatlands/blob/master/Code/Postproc/nc_to_grb.py). Make sure the paths are adapted to the location of your downloaded files.
+3. Run [the nc_to_grb.py script](https://github.com/MortelmansJonas/NU-WRF_Peatlands/blob/master/Code/RUN_NU-WRF/nc_to_grb.py). Make sure the paths are adapted to the location of your downloaded files.
 4. From the command line, run (first load the module eccodes):
 	$ grib_set -s typeOfGeneratingProcess=0,generatingProcessIdentifier=128,typeOfFirstFixedSurface=1,cfVarName=t SSTRSS:*.grb2 "out_[dataDate].grb2"
 5. Run link_grib.csh from your $RUNDIR. The output should be GRIBFILE.AAA, GRIBFILE.BBB,… for as many files as you originally had. ‘out_*.grb2’ is the output of the previous step
