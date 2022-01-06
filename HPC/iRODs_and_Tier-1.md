@@ -82,7 +82,7 @@ Tier-1 connection, credits, storage
 nx connection to Tier-1
 -----------------
 
--   Use can use the same pair of ssh keys that you use for the tier-2 connection.
+-   You can use the same pair of ssh keys that you use for the tier-2 connection.
 
 -   Establish a new connection with tier-1 nx like you did for tier-2 nx
 <https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/access/nx_start_guide.html>
