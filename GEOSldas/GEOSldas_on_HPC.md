@@ -3,7 +3,7 @@
 
 < 08/09/2021 : Alexander Gruber> : Updated documentation for GEOSldas v17.9.4 and Baselibs v6.2.4
 
-
+< 14/02/2022 : Alexander Gruber> : Updated documentation for Catchment-CN
 
 # First steps
 
@@ -54,7 +54,9 @@ To following changes have been made to get GEOSldas running on the HPC:
 
 * The [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) script has been altered to use the modified [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) correctly.
 
-The exact changes made to the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) and to [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) can be found [here](https://github.com/KUL-RSDA/GEOSldas/commit/79c6f116ead677b5ee317238023dc4955c30ed8f).
+* **Only for running Catchment-CN**: Hardcoded paths to CO2 and FPAR parameter files (*CO2_MonthlyMean_DiurnalCycle.nc4* and *FPAR_CDF_Params-M09.nc4*) that are set in the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) file need to be changed from NASA machine locations to the correct locations on the HPC.
+
+The exact changes made to the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) and to [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) can be found in the commit history [here](https://github.com/KUL-RSDA/GEOSldas/commits/v17.9.4_KUL).
 
 NOTE: The [g5_modules](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/g5_modules) script is not part of the GEOSldas GitHub repository and hence copied by [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_GEOSldas.bash) from */staging/leuven/stg_00024/GEOSldas_libraries/* (Tier-2) or */scratch/leuven/projects/lt1_2020_es_pilot/project_input/rsda/GEOSldas_libraries/* (Tier-1).
 
@@ -90,7 +92,32 @@ Instead of qsub, "csh lenkf.j" can be used to run GEOSldas in an interactive ses
 
 ## Configuration file templates
 
-Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, which are used by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) to do the relevant pre-processing and to create the run scripts, can be found at */staging/leuven/stg_00024/OUTPUT/alexg/data_sets/GEOSldas/config/*. For the generation of ensembles and for data assimilation, special namelist files ("LDASsa_SPECIAL_inputs_\*.nml") are required, templates of which can also be found in that directory.
+Templates for the *\<exeinp_file\>* and *\<batinp_file\>* configuration files, which are used by [ldas_setup](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/ldas_setup) to do the relevant pre-processing and to create the run scripts, can be found at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/config/*.
+
+Separate templates are available for running the regular CLSM and for running Catchment-CN.
+
+For the generation of ensembles and for data assimilation, special namelist files ("LDASsa_SPECIAL_inputs_\*.nml") are required, templates of which can be found in the same directory.
+
+## Boundary conditions
+
+Model parameter sets, also referred to as boundary conditions (BCS) need to be provided when running GEOSldas. Paths to these BCS are specified in the configuration files, and several versions are available. An explanation of BCS versions can be found [here](https://github.com/GEOS-ESM/GEOSldas/blob/main/doc/README.MetForcing_and_BCS.md).
+
+Two sets of BCS sets can be found on the HPC at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/CLSM/*:
+
+* **Icarus-NLv4**: These are the BCS recommended when running the **regular CLSM**.
+
+* **Heracles_NL_bcs_new**: These are recommended when running **Catchment-CN**. Although they are quite old, thery are still the only science-validated BCS for Catchment-CN, and creating restarts for Catchment-CN with a newer BCS set would require extremely long spin-up times (contact Rolf Reichle for questions on that).
+
+Each of these BCS sets contains two separate subfolders: one for the M09 grid and one for the M36 grid. **The choice of the BCS resolution determines at which resolution GEOSldas will run!**
+
+**IMPORTANT when running Catchment-CN**: Catchment-CN requires two additional BCS files (*CO2_MonthlyMean_DiurnalCycle.nc4* and *FPAR_CDF_Params-M09.nc4*). These files can be found at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/CLSM_params/*. The paths to these files are **currently hardcoded** in the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) and need to be adjusted accordingly before compiling GEOSldas (see above).
+
+### A note on spinning up GEOSldas
+
+Completely cold-starting GEOSldas is not recommended, and also impossible because some cold-start scripts do not run on the HPC. To spin up the model, it is recommended to always start from already existing restart files, which substantially requires the required spinup-time (usually 20-30 years are sufficient when starting from existing restarts).
+
+Both deterministic and ensemble spinup runs of the CLSM using the Icarus-NLv4 BCS can be found at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/*. Restart files for the Catchment-CN using the Heracles_NL_bcs_new BCS can also be found there.
+
 
 ### A note on GEOSldas configuration issues on the HPC
 
