@@ -298,6 +298,10 @@ submit explicitly to partition 'EES'.
 
 **NOTE: the shared node migrated to Genius!! On Genuis the node is now r23i13n23 ** 
 
+To check how many cores are occupied:
+showres -n -g | grep r23i13n23
+--> 36 minus the sum of the cores after 'running' gives you the currently available cores 
+
 Credits 
 ----------------------------
 On HPC-wide shared nodes, we only pay for the cores we use.
