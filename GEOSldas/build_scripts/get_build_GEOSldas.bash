@@ -1,11 +1,11 @@
 #!/bin/bash
 
 ldas_root=/data/leuven/320/vsc32046/src_code
-ldas_version=17.9.4
+ldas_version=17.11.0
 # IMPORTANT: GEOSldas is pulled from the RSDA-KUL github repository,
 # where a branch named ${ldas_version}_KUL is assumed to exist!
 
-baselibs_version=6.2.4
+baselibs_version=v6.2.8
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
 

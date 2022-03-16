@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=6.2.4
+version=6.2.8
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
 
@@ -29,15 +29,15 @@ module load foss flex Bison CMake Autotools texinfo
 
 # Download Baselibs from GitHub
 cd $root
-wget https://github.com/GEOS-ESM/ESMA-Baselibs/releases/download/v${version}/ESMA-Baselibs-${version}.COMPLETE.tar.xz
-tar -xf ESMA-Baselibs-${version}.COMPLETE.tar.xz
-rm -f ESMA-Baselibs-${version}.COMPLETE.tar.xz
-cd ESMA-Baselibs-${version}/src
+wget https://github.com/GEOS-ESM/ESMA-Baselibs/releases/download/v${version}/ESMA-Baselibs-v${version}.COMPLETE.tar.xz
+tar -xf ESMA-Baselibs-v${version}.COMPLETE.tar.xz
+rm -f ESMA-Baselibs-v${version}.COMPLETE.tar.xz
+cd ESMA-Baselibs-v${version}/src
 mkdir Linux
 
 # Build Baselibs
 export FC=gfortran
-make install ESMF_COMM=openmpi prefix=$root/ESMA-Baselibs-${version}/src/Linux
+make install ESMF_COMM=openmpi prefix=$root/ESMA-Baselibs-v${version}/src/Linux
 
 # This is just to check if the installation succeeded for all the modules.
 export ESMF_COMM=openmpi
