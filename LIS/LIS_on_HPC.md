@@ -303,42 +303,44 @@ Compiling LIS with the foss toolchain
 ---------
 
 **List of modules on Genius (foss toolchain):**
-module purge
-module load foss/2018a
-module load HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf
-module load HDF-EOS2/20.1.00-foss-2018a-HDF4-w-fortran
-module load ESMF/7.1.0r-foss-2018a
-module load GDAL/2.4.1-foss-2018a-Python-3.6.4
-module load netCDF-Fortran/4.4.4-foss-2018a
-module load ecCodes/2.13.1-foss-2018a-with-Jasper-1.900.1
+
+    module purge
+    module load foss/2018a
+    module load HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf
+    module load HDF-EOS2/20.1.00-foss-2018a-HDF4-w-fortran
+    module load ESMF/7.1.0r-foss-2018a
+    module load GDAL/2.4.1-foss-2018a-Python-3.6.4
+    module load netCDF-Fortran/4.4.4-foss-2018a
+    module load ecCodes/2.13.1-foss-2018a-with-Jasper-1.900.1
 
 **List of environment variables expected for compilation on Genius (foss toolchain):**
-export LIS_SRC=/data/leuven/317/vsc31786/src_code/LIS/ac70_20220311_foss/lis
-export LIS_ARCH=linux_gfortran
-export LIS_SPMD=parallel
-export LIS_FC=mpif90
-export LIS_CC=mpicc
-export LIS_JASPER=$EBROOTJASPER
-export LIS_ECCODES=$EBROOTECCODES
-export LIS_NETCDF=/apps/leuven/skylake/2018a/software/netCDF-Fortran/4.4.4-foss-2018a
-export LIS_HDF4=$EBROOTHDF
-export LIS_HDFEOS=$EBROOTHDFMINEOS2
-export LIS_HDF5=$EBROOTHDF5
-export LIS_MODESMF=$EBROOTESMF/mod
-export LIS_LIBESMF=$EBROOTESMF/lib
-export LIS_GDAL=$EBROOTGDAL
-export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
-export LD_LIBRARY_PATH=${LIS_CRTM_PROF}/lib:${LIS_HDFEOS}/lib:${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:${LIS_ECCODES}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
 
---> create KUL_LIS_modules_foss with the list above
-then run (use all default options, the foss compilation works with ecCodes)
---> ./configure
-in configure.lis change:
-INC_JPEG2000      = /apps/leuven/skylake/2018a/software/JasPer/1.900.1-GCCcore-6.4.0/include/jasper/
-INC_HDF4        = /apps/leuven/skylake/2018a/software/HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf/include/hdf
-add -lsz to the LDFLAGS 
-then you can compile with
---> ./compile
+    export LIS_SRC=/data/leuven/317/vsc31786/src_code/LIS/ac70_20220311_foss/lis
+    export LIS_ARCH=linux_gfortran
+    export LIS_SPMD=parallel
+    export LIS_FC=mpif90
+    export LIS_CC=mpicc
+    export LIS_JASPER=$EBROOTJASPER
+    export LIS_ECCODES=$EBROOTECCODES
+    export LIS_NETCDF=/apps/leuven/skylake/2018a/software/netCDF-Fortran/4.4.4-foss-2018a
+    export LIS_HDF4=$EBROOTHDF
+    export LIS_HDFEOS=$EBROOTHDFMINEOS2
+    export LIS_HDF5=$EBROOTHDF5
+    export LIS_MODESMF=$EBROOTESMF/mod
+    export LIS_LIBESMF=$EBROOTESMF/lib
+    export LIS_GDAL=$EBROOTGDAL
+    export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
+    export LD_LIBRARY_PATH=${LIS_CRTM_PROF}/lib:${LIS_HDFEOS}/lib:${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:${LIS_ECCODES}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
+
+    --> create KUL_LIS_modules_foss with the list above
+    then run (use all default options, the foss compilation works with ecCodes)
+    --> ./configure
+    in configure.lis change:
+    INC_JPEG2000      = /apps/leuven/skylake/2018a/software/JasPer/1.900.1-GCCcore-6.4.0/include/jasper/
+    INC_HDF4        = /apps/leuven/skylake/2018a/software/HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf/include/hdf
+    add -lsz to the LDFLAGS 
+    then you can compile with
+    --> ./compile
 
 
 LIS and LDT runs {#sec:run}
