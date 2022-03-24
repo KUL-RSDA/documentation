@@ -332,6 +332,8 @@ Compiling LIS with the foss toolchain
     export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
     export LD_LIBRARY_PATH=${LIS_CRTM_PROF}/lib:${LIS_HDFEOS}/lib:${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:${LIS_ECCODES}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
 
+**Adaptations and compilation:**
+
     --> create KUL_LIS_modules_foss with the list above
     then run (use all default options, the foss compilation works with ecCodes)
     --> ./configure
