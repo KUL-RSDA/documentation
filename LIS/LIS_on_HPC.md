@@ -649,7 +649,8 @@ This section contains specifications to run Sprinkler irrigation in Noah-MP.v.3.
 2. Irrigation Greenness Vegetation Fraction (GVF) parameters 1 and 2 are the threshold percentages for the begin and ends of the growing season. They can be set as 0.4 and 0.0 respectively as in Ozdogan et al. (2010) or modified based on site-specific knowledge; 
 3. a maximum root depth file. This is related to the crop classification used. As an example, if we have associated the UMD-AVHRR land cover map (13 classes + water bodies) to the Ozdogan et al. (2010) CROPMAP classification we can create a maximum root depth file as following: a) Open a text file, which you can name umd_cropmap32.txt (since you will be accounting for 32 classes: 13 classes for AVHRR and 19 classes for the CROPMAP classification); b) Enter the below line into that txt file: 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0 1.0 1.0 0.0 0.0 0.0 1.0 0.9 1.0 0.7 1.0 1.0 1.5 1.0 0.4 0.7 1.0 0.7 0.7 1.0 1.0 0.8 1.2 1.0 1.1; c) Save the file and then specify it in your lis.config file
 4. a flag equal to 1 or 0 if we want to simulate irrigation from water abstraction or not. It is not clear if in the public version of LIS (that we are using) it is possible to select the flag 1. 
-   An example of how to add those specifications in the lis.config file is given below:
+5. a parameter to define the "growing season", equal to 1 if we want to use climatological greenness vegetation fraction (GVF) to inform the model about the growing season or 0 if we want to rely or dynamic LAI (i.e, when LAI> 1 it starts the growing season - last implementation). In the second case the parameters at point 2. are ignored by the model (they are only used if the growing season is set to 1). 
+* An example of how to add those specifications in the lis.config file is given below:
 ```
     #-------------------------IRRIGATION------------------------------------
     Irrigation scheme: "Sprinkler"
@@ -658,6 +659,7 @@ This section contains specifications to run Sprinkler irrigation in Noah-MP.v.3.
     Sprinkler irrigation max root depth file:       ./YourDir/Irrigation/umd_cropmap32.txt
     Flood irrigation max root depth file:
     Drip irrigation max root depth file:
+    Growing season: 0 #dynamic LAI =0; clim GVF=1
     Irrigation GVF parameter 1: 0.40
     Irrigation GVF parameter 2: 0.00
     Groundwater abstraction for irrigation: 0
