@@ -213,15 +213,16 @@ The following modules need to be put into both KUL_LDT_modules and KUL_LIS_modul
 **List of modules on Breniac (Tier-1):**
 
     module purge
-    module load grib_api/1.24.0-intel-2019b
-    module load ESMF/7.1.0r-intel-2019b
-    module load libxml2/2.9.9-GCCcore-8.3.0
-    module load Szip/2.1.1-GCCcore-8.3.0
-    module load zlib/1.2.11-GCCcore-8.3.0
-    module load HDF/4.2.8-intel-2019b-w-fortran-no-netCDF
-    module load HDF-EOS2/20.1.00-intel-2019b-HDF4-w-fortran
-    module load Python/2.7.16-GCCcore-8.3.0
-    module load GDAL/2.2.3-intel-2018a-Python-2.7.14
+    module load GRIB_API/1.28.0-intel-2018a
+    module load ESMF/7.1.0r-intel-2018a
+    module load libxml2/2.9.7-GCCcore-6.4.0
+    module load Szip/2.1.1-GCCcore-6.4.0
+    module load zlib/1.2.11-GCCcore-6.4.0
+    module load HDF/4.2.14-intel-2018a-w-fortran-no-netcdf
+    module load HDF-EOS2/20.1.00-intel-2018a-HDF4-w-fortran
+    module load Python/3.6.4-intel-2018a
+    module load GDAL/2.4.1-intel-2018a-Python-3.6.4
+
 
 **List of environment variables expected for compilation on Thinking:**
 
