@@ -136,6 +136,9 @@ After compilation, the relevant executables are LIS and LDT, which can
 be run as discussed in section [3](#sec:run){reference-type="ref"
 reference="sec:run"}.
 
+Note: To speed up the compilation, it is possible to parallelize the process.
+E.g. for 9 cores: $ ./compile -j 9
+
 Cleaning before new compilation
 -------------------------------
 
