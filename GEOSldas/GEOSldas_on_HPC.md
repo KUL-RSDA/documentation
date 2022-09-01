@@ -39,6 +39,8 @@ Once you know which Baselibs version you need, go in there check whether a direc
 
 `ESMF_COMM=openmpi`  
 `make verify`
+or
+`make install ESMF_COMM=openmpi`
 
 This verifies if all modules have been built correctly, and the output should look as follows:
 
