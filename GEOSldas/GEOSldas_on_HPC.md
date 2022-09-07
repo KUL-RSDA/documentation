@@ -92,6 +92,13 @@ The [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/mas
 
 If the `make verify` command does not produce the output shown above, there is usually an issue with these modules. This usually happens when you install a new Baselibs version that requires newer module versions.
 
+For [baselibs versions](https://github.com/GEOS-ESM/ESMA-Baselibs/releases) later than v6.2.8 there might be missing subdirectories in the [FLAP package](https://github.com/mathomp4/FLAP). This can be fixed by adding a line in the [get_build_baselibs.bash](https://github.com/KUL-RSDA/documentation/blob/master/GEOSldas/build_scripts/get_build_baselibs.bash) script:
+
+cd $root/ESMA-Baselibs-v${version}
+**cp -r $root/ESMA-Baselibs-v6.2.8/src/FLAP/src/third_party $root/ESMA-Baselibs-v${version}/FLAP/src**
+mkdir Linux
+
+
 Since we don't have rights to fiddle with the HPC modules, there is not really a point in trying to fix this issue yourself. Therefore, best ask Alexander Vapiev (*alexander.vapirev@kuleuven.be*) from the HPC team to help you with getting that baselibs version installed.
 
 Best drop him an email with the Baselibs version that you want to install, more specifically to the tarball link, and also mention which modules specifically you tried to install it with and provide the  `make verify` output so that he knows what might give the issue.
