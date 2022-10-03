@@ -146,6 +146,10 @@ for 15 days files are in a trash directory:
 /kuleuven_tier1_pilot/trash/home/vsc31786/research-rsda/
 and can be recovered ... unless you deleted it with the -f option.
 
+## iRODs: Check storage usage
+to check storage use of a directory including subdirectories:
+$ iquest "select sum(DATA_SIZE) where COLL_NAME like '/kuleuven_tier1_pilot/home/research-rsda%'"
+
 ## Mounted directories on Tier-1
     $ /data/leuven 
     $ /user/leuven 
