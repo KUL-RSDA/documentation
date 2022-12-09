@@ -113,13 +113,15 @@ or
       --> (b) add "LDFLAGS += -lmkl -lsz" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
+      --> (c) add "LDFLAGS += -lmkl -lsz" at the end
     $ ./compile
 
 KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
 Genius (Tier-2).
 
 Edit according to (a), when running on Thinking, edit according to (b)
-when running on Genius or Breniac. You may want/need to add some optional software
+when running on Genius or Breniac, and edit according to (c) when running 
+on Hortense. You may want/need to add some optional software
 here (e.g. CMEM, CRTM). 
 
 **IMPORTANT notes** when running ./configure:
@@ -226,6 +228,22 @@ The following modules need to be put into both KUL_LDT_modules and KUL_LIS_modul
     module load Python/3.6.4-intel-2018a
     module load GDAL/2.4.1-intel-2018a-Python-3.6.4
 
+**List of modules on Hortense (Tier-1):**
+
+    module purge
+    export LIBDIR=/dodrio/scratch/projects/2022_200/project_input/rsda/src_code/nu-wrf_ekman_v11.0/baselibs/intel-intelmpi
+    module use $LIBDIR
+    module load intel/2021a
+    module load GCC/10.3.0
+    module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
+    module load zlib/1.2.11-GCCcore-10.3.0
+    module load libtirpc/1.3.2-GCCcore-10.3.0
+    module load JasPer/1.900.1-GCCcore-10.3.0
+    module load Szip/2.1.1-GCCcore-10.3.0
+    module load cURL/7.76.0-GCCcore-10.3.0
+
+Note that not all modules are available on dodrio yet. Therefore, we temporarily 
+make use of the modules in the baselibs of the NU-WRF compilation.
 
 **List of environment variables expected for compilation on Thinking:**
 
@@ -266,6 +284,29 @@ The following modules need to be put into both KUL_LDT_modules and KUL_LIS_modul
 We somewhat suboptimally compiled LIS with ifort and icc on Thinking
 nodes, but fixed this when moving to Genius with mpiifort and mpiicc
 (not mpicc).
+
+**List of environment variables expected for compilation on Hortense:**
+
+    export LIS_SRC=/your_src_directory/lis
+    export LIS_ARCH=linux_ifc
+    export LIS_SPMD=parallel
+    export LIS_FC=mpiifort
+    export LIS_CC=mpiicc
+    export LIS_JASPER=$EBROOTJASPER
+    export LIS_GRIBAPI=$LIBDIR/grib_api/
+    export LIS_NETCDF=$LIBDIR/netcdf4/
+    export LIS_HDF4=$LIIBDIR/hdf4/
+    export LIS_HDFEOS=$LIBDIR/hdfeos/
+    export LIS_HDF5=$LIBDIR/hdf5/
+    export LIS_MODESMF=$LIBDIR/esmf/mod/modO/Linux.intel.64.intelmpi.default/
+    export LIS_LIBESMF=$LIBDIR/lib/libO/Linux.intel.64.intelmpi.default/
+    export LIS_MINPACK=
+    export LIS_CRTM=
+    export LIS_CRTM_PROF=
+    export LIS_CMEM=
+    export LD_LIBRARY_PATH=${LIS_MINPACK}/lib/intel64:${LIS_HDFEOS}/lib:${LIS_HDF4}/lib:
+    ${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:
+    ${LIS_GRIBAPI}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
 
 Water Cloud Model (WCM) - configure and compile in LIS
 ---------
