@@ -113,7 +113,7 @@ or
       --> (b) add "LDFLAGS += -lmkl -lsz" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
-      --> (c) add "LDFLAGS += -lmkl -lsz" at the end
+      --> (c) add "LDFLAGS += -lmkl -lsz -ltirpc -qopenmp" at the end
     $ ./compile
 
 KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
@@ -299,7 +299,7 @@ nodes, but fixed this when moving to Genius with mpiifort and mpiicc
     export LIS_HDFEOS=$LIBDIR/hdfeos/
     export LIS_HDF5=$LIBDIR/hdf5/
     export LIS_MODESMF=$LIBDIR/esmf/mod/modO/Linux.intel.64.intelmpi.default/
-    export LIS_LIBESMF=$LIBDIR/lib/libO/Linux.intel.64.intelmpi.default/
+    export LIS_LIBESMF=$LIBDIR/esmf/lib/libO/Linux.intel.64.intelmpi.default/
     export LIS_MINPACK=
     export LIS_CRTM=
     export LIS_CRTM_PROF=
