@@ -305,11 +305,11 @@ nodes, but fixed this when moving to Genius with mpiifort and mpiicc
     export LIS_CRTM_PROF=
     export LIS_CMEM=
     
-    export LD_LIBRARY_PATH=$LIBDIR_TAG/jasper/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=$LIBDIR_TAG/netcdf4/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=$LIBDIR_TAG/hdf5/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$LIBDIR/jasper/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$LIBDIR/netcdf4/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$LIBDIR/hdf5/lib:$LD_LIBRARY_PATH
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64
-    export PATH=$LIBDIR_TAG/netcdf4/bin:$PATH
+    export PATH=$LIBDIR/netcdf4/bin:$PATH
 
 Water Cloud Model (WCM) - configure and compile in LIS
 ---------
