@@ -101,6 +101,7 @@ prior to (i) configuring the compilation and (ii) compiling the code:
       --> (b) add "LDFLAGS += -lmkl -lsz" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
+      --> (c) add "LDFLAGS += -lmkl -lsz -ltirpc -qopenmp" at the end
     $ ./compile
 
 or
@@ -113,7 +114,6 @@ or
       --> (b) add "LDFLAGS += -lmkl -lsz" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
-      --> (c) add "LDFLAGS += -lmkl -lsz -ltirpc -qopenmp" at the end
     $ ./compile
 
 KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
@@ -121,8 +121,8 @@ Genius (Tier-2).
 
 Edit according to (a), when running on Thinking, edit according to (b)
 when running on Genius or Breniac, and edit according to (c) when running 
-on Hortense. You may want/need to add some optional software
-here (e.g. CMEM, CRTM). 
+on Hortense (no update for LDT yet). You may want/need to add some 
+optional software here (e.g. CMEM, CRTM). 
 
 **IMPORTANT notes** when running ./configure:
 * LDT needs to be compiled **without the GeoTIFF** option. 
