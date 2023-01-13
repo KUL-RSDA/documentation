@@ -295,7 +295,7 @@ nodes, but fixed this when moving to Genius with mpiifort and mpiicc
     export LIS_JASPER=$EBROOTJASPER
     export LIS_GRIBAPI=$LIBDIR/grib_api/
     export LIS_NETCDF=$LIBDIR/netcdf4/
-    export LIS_HDF4=$LIIBDIR/hdf4/
+    export LIS_HDF4=$LIBDIR/hdf4/
     export LIS_HDFEOS=$LIBDIR/hdfeos/
     export LIS_HDF5=$LIBDIR/hdf5/
     export LIS_MODESMF=$LIBDIR/esmf/mod/modO/Linux.intel.64.intelmpi.default/
