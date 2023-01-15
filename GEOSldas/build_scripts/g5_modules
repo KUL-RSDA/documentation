@@ -1,10 +1,11 @@
 #!/bin/csh -f
 
-set basedir_version = v6.2.13
+#set basedir_version = v6.2.8 # working for tier-1 and tier-2 
+set basedir_version = v6.2.13 # currently working for tier-1 only
 
 set node = `uname -n`
 module purge
-if ( $node =~ tier2* ) then
+if (( $node =~ tier2* ) || ( $node =~ r* )) then
     echo "Loading modules for Tier-2..."
     set basedir_path = /staging/leuven/stg_00024/GEOSldas_libraries
     module unuse /apps/leuven/skylake/2018a/modules/all
@@ -14,7 +15,7 @@ if ( $node =~ tier2* ) then
     module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore8.3.0
 else if ( $node =~ *dodrio* ) then 
     echo "Loading modules for Hortense Tier-1..."
-    set basedir_path = /dodrio/scratch/projects/2022_200/project_input/ldas/GEOSldas_libraries
+    set basedir_path = /dodrio/scratch/projects/2022_200/project_input/rsda/ldas/GEOSldas_libraries
     module --force purge
     module load cluster/dodrio/cpu_rome
     module load foss flex/2.6.4-GCCcore-11.3.0 
@@ -30,5 +31,10 @@ else
     exit 1
 endif
 
-setenv BASEDIR $basedir_path/ESMA-Baselibs-$basedir_version
-setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:$BASEDIR/Linux/lib
+if (( $basedir_version =~ v6.2.8 )) then
+    setenv BASEDIR $basedir_path/ESMA-Baselibs-$basedir_version/src/Linux
+    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:$BASEDIR/lib
+else 
+    setenv BASEDIR $basedir_path/ESMA-Baselibs-$basedir_version/Linux
+    setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:$BASEDIR/lib
+endif
