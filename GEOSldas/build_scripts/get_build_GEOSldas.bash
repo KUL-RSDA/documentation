@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#ldas_root=/staging/leuven/stg_00024/OUTPUT/michelb/src_code
-#ldas_version=17.11.0 # requires baselibs 8.2.8, working on tier-1 and tier-2
+ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently, 17.11.0 working also for tier-2
 ldas_root=/dodrio/scratch/projects/2022_200/project_output/rsda/vsc31786/src_code
-ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently
+ldas_dirname=GEOSldas_${ldas_version} # GEOSldas_${ldas_version}_TN
+GEOSldas_repo=KUL-RSDA/GEOSldas.git  # mbechtold/GEOSldas.git
+GEOSldas_branch=v${ldas_version}_KUL  # v${ldas_version}_TN_KUL
 
 if [[ $CONDA_DEFAULT_ENV == "" ]]; then
     echo "no python conda environment loaded ...."
@@ -26,19 +27,15 @@ fi
 node=`uname -n`
 if [[ $node == *"tier2"* ]] || [[ $node == "r"* ]]; then
     baselibs_root=/staging/leuven/stg_00024/GEOSldas_libraries
-    ldas_dirname=GEOSldas_${ldas_version}_Tier2
 elif [[ $node == *"dodrio"* ]]; then
     baselibs_root=/dodrio/scratch/projects/2022_200/project_input/rsda/ldas/GEOSldas_libraries
-    ldas_dirname=GEOSldas_${ldas_version}
     module load git
 fi
 
 # Check if LDAS directory already exists, otherwise pull from GitHub
 cd $ldas_root
 if [ ! -d "$ldas_dirname" ]; then
-    git clone -b v${ldas_version}_KUL --single-branch git@github.com:KUL-RSDA/GEOSldas.git $ldas_dirname
-    # or a user branch:
-    # git clone -b v${ldas_version}_TN_KUL --single-branch git@github.com:mbechtold/GEOSldas.git $ldas_dirname
+    git clone -b $GEOSldas_branch --single-branch git@github.com:$GEOSldas_repo $ldas_dirname
     cd $ldas_dirname
     mepo init
     mepo clone
