@@ -1,32 +1,42 @@
 #!/bin/bash
 
-ldas_root=/data/leuven/320/vsc32046/src_code
-ldas_version=17.11.0
+ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently, 17.11.0 working also for tier-2
+ldas_root=/dodrio/scratch/projects/2022_200/project_output/rsda/vsc31786/src_code
+ldas_dirname=GEOSldas_${ldas_version} # GEOSldas_${ldas_version}_TN
+GEOSldas_repo=KUL-RSDA/GEOSldas.git  # mbechtold/GEOSldas.git
+GEOSldas_branch=v${ldas_version}_KUL  # v${ldas_version}_TN_KUL
+
+if [[ $CONDA_DEFAULT_ENV == "" ]]; then
+    echo "no python conda environment loaded ...."
+    echo "loading py3 of Michel ..."
+    source activate /data/leuven/317/vsc31786/miniconda/envs/py3
+fi
+
 # IMPORTANT: GEOSldas is pulled from the RSDA-KUL github repository,
 # where a branch named ${ldas_version}_KUL is assumed to exist!
 
-baselibs_version=v6.2.8
+if [[ $ldas_version == "17.11.0" ]]; then
+    baselibs_version=v6.2.8
+elif [[ $ldas_version == "17.11.1" ]]; then
+    baselibs_version=v6.2.13
+fi
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
 
 # Set paths for Tier-1 or Tier-2
 node=`uname -n`
-if [[ $node == "r"[0-1]* ]] || [[ $node == "login"* ]]; then
-    baselibs_root=/scratch/leuven/projects/lt1_2020_es_pilot/project_input/ldas/GEOSldas_libraries
-    ldas_dirname=GEOSldas_${ldas_version}_Tier1_skylake
-    module load git
-else
+if [[ $node == *"tier2"* ]] || [[ $node == "r"* ]]; then
     baselibs_root=/staging/leuven/stg_00024/GEOSldas_libraries
-    ldas_dirname=GEOSldas_${ldas_version}_Tier2
+elif [[ $node == *"dodrio"* ]]; then
+    baselibs_root=/dodrio/scratch/projects/2022_200/project_input/rsda/ldas/GEOSldas_libraries
+    module load git
 fi
 
 # Check if LDAS directory already exists, otherwise pull from GitHub
 cd $ldas_root
 if [ ! -d "$ldas_dirname" ]; then
-    git clone -b v${ldas_version}_KUL --single-branch git@github.com:KUL-RSDA/GEOSldas.git $ldas_dirname
+    git clone -b $GEOSldas_branch --single-branch git@github.com:$GEOSldas_repo $ldas_dirname
     cd $ldas_dirname
-    git remote rename origin upstream
-    git remote add origin git@github.com:GEOS-ESM/GEOSldas.git
     mepo init
     mepo clone
     cp $baselibs_root/g5_modules ./@env/
@@ -63,22 +73,37 @@ fi
 
 # Load modules for Tier-1 or Tier-2
 module purge
-if [[ $node == "r0"* ]] || [[ $node == "login"* ]]; then
-    module unuse /apps/leuven/broadwell/2016a/modules/all
-    module unuse /apps/leuven/broadwell/2018a/modules/all
-elif [[ $node == "r1"* ]]; then
-    module unuse /apps/leuven/skylake/2016a/modules/all
-    module unuse /apps/leuven/skylake/2018a/modules/all
-else
+if [[ $node == *"tier2"* ]] || [[ $node == "r"* ]] ; then
+    # Load modules for Tier-2
     module unuse /apps/leuven/skylake/2018a/modules/all
     module unuse /apps/leuven/cascadelake/2018a/modules/all
     module unuse /apps/leuven/cascadelake/2019b/modules/all
     module use /apps/leuven/skylake/2019b/modules/all
+    module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore-8.3.0
+elif [[ $node == *"dodrio"* ]]; then
+    # Load modules for Tier-1 UGENT on Hortense
+    module --force purge
+    module load cluster/dodrio/cpu_rome
+    module load foss 
+    module load flex/2.6.4-GCCcore-11.3.0 
+    module load Bison 
+    module load CMake 
+    module load Autotools 
+    module load texinfo 
+    module load Python/2.7.18-GCCcore-11.3.0-bare 
+    module load libtirpc/1.3.2-GCCcore-11.3.0 
+    module load imkl/2022.1.0
+else
+    echo "Platform not known ... stopping"
+    exit 1
 fi
-module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore-8.3.0
 
 # Set required environmental variables for GEOSldas build
-export BASEDIR=$baselibs_root/ESMA-Baselibs-${baselibs_version}/src/Linux
+if [[ $baselibs_version == "v6.2.8" ]]; then
+    export BASEDIR=$baselibs_root/ESMA-Baselibs-${baselibs_version}/src/Linux
+else
+    export BASEDIR=$baselibs_root/ESMA-Baselibs-${baselibs_version}/Linux
+fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASEDIR/lib
 
 # Build and install
