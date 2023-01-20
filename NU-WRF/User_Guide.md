@@ -63,7 +63,11 @@ This utility can be used to preprocess atmospheric fields from both MERRA and ME
 
 # compiling
 
+For a README about the compilation on Hortense, ask for access to the private repositories
 
+github.com/kUL-RSDA/nu-wrf-ekman_11.2
+
+github.com/kUL-RSDA/nu-wrf-baselibs_11.2
 
 # Running NU-WRF
 
