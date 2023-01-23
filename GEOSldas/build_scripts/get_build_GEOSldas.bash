@@ -2,9 +2,9 @@
 
 ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently, 17.11.0 working also for tier-2
 ldas_root=/dodrio/scratch/projects/2022_200/project_output/rsda/vsc31786/src_code
-ldas_dirname=GEOSldas_${ldas_version} # GEOSldas_${ldas_version}_TN
-GEOSldas_repo=KUL-RSDA/GEOSldas.git  # mbechtold/GEOSldas.git
-GEOSldas_branch=v${ldas_version}_KUL  # v${ldas_version}_TN_KUL
+ldas_dirname=GEOSldas_${ldas_version}_TN_seb # GEOSldas_${ldas_version}_TN
+GEOSldas_repo=sebastian-a-swm/GEOSldas.git  # mbechtold/GEOSldas.git
+GEOSldas_branch=v${ldas_version}_TN_KUL  # v${ldas_version}_TN_KUL
 
 if [[ $CONDA_DEFAULT_ENV == "" ]]; then
     echo "no python conda environment loaded ...."
