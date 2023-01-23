@@ -165,7 +165,7 @@ Use the script [get_build_GEOSldas.bash](https://github.com/KUL-RSDA/documentati
 * csh
 * cd ./\<your_GEOSldas_root\>/install/bin/
 * source g5_modules
-* ldas_setup setup -v \<output_path\> \<exeinp_file\> \<batinp_file\>
+* ./ldas_setup setup -v \<output_path\> \<exeinp_file\> \<batinp_file\>
 
 ## Specifying the output collection
 
