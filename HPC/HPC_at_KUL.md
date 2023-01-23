@@ -1,3 +1,4 @@
+
 ---
 author:
 - |
@@ -400,16 +401,16 @@ straightforward (in earlier versions, allinea was used). This is how it works:
 
     1.  always: edit the path to your executable, the arguments, other
         details
-        (Figure [\[fig\_intro\]](#fig_intro){reference-type="ref"
+        (Figure [\[fig\_intro\]](#fig_intro){reference-type="ref"
         reference="fig_intro"}).
 
     2.  mostly: specify MPI (not OpenMP), either Intel MPI for LIS, or
         open MPI for LDASsa, see
-        Figure [\[fig\_mpi\]](#fig_mpi){reference-type="ref"
+        Figure [\[fig\_mpi\]](#fig_mpi){reference-type="ref"
         reference="fig_mpi"}.
 
     3.  optional: when also submitting to the (debugging) queue, see
-        Figure [\[fig\_queue\]](#fig_queue){reference-type="ref"
+        Figure [\[fig\_queue\]](#fig_queue){reference-type="ref"
         reference="fig_queue"}:
 
         -   Configure: 'Submission template file': choose pbs.qtf (we
@@ -426,7 +427,7 @@ straightforward (in earlier versions, allinea was used). This is how it works:
         -   Parameters: change default 'Queue: debug' to 'Queue: q1h'.
 
     4.  set breakpoints and start debugging, see
-        Figure [\[fig\_breakpoint\]](#fig_breakpoint){reference-type="ref"
+        Figure [\[fig\_breakpoint\]](#fig_breakpoint){reference-type="ref"
         reference="fig_breakpoint"}
 
 -   **option 2**, works if you know exactly how to set up the command
@@ -817,6 +818,34 @@ tricks:
     r23i13n23 would ever break).
 
         $ qsub … -l advres=dedicated_nodes_16204.14548 -W group_list= lees_swm_ls_ext …
+
+-  **Jupyter notebooks**. If you use a Linux machine, it is possible to access Jupyter running on the HPC on your personal 	computer via an SSH tunnel. This allows you to code in Python without using a virtual desktop through NoMachine. 
+	1. On a compute node, load your Python environment and install Jupyter if needed.
+		
+			$ # HPC
+			$ conda activate <ENVIRONMENT>
+			$ conda install -c conda-forge jupyterlab
+
+	2. Start an interactive Jupyter python session (example here for group node):
+
+			$ # HPC
+			$ cd /data/leuven/3xx/vsc3xxxx/
+			$ jupyter-lab --ip r23i13n23 --port 3xxxx	
+		
+		Redirect to `$VSC_DATA` first as done here if that is where your notebooks are stored (you will not be able to access them if you launch Jupyter from `$VSC_HOME`).
+		
+		Good practice is to use your VSC-number rather than the default port, to prevent multiple people using the same port at the same time.
+
+	3. On your personal computer, create the SSH tunnel:
+			
+			$ # LOCALLY
+			$ ssh -L 3xxxx:r23i13n23:3xxxx -N vsc3xxxx@login.hpc.kuleuven.be
+
+		Leave this terminal window open.
+
+	4. Open a web browser on your local computer and launch `http://127.0.0.1:3xxxx/lab/tree/`. You should see a Jupyter environment that uses Python on the HPC.
+
+	Note: very similar on Tier-1. Just change `r23i13n23` to the name of the compute node being used and create the SSH tunnel via `vsc3xxxx@login1-tier1.hpc.kuleuven.be`.
 
 Trouble shooting {#sec:troubleshooting}
 ===============
