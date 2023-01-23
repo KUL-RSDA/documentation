@@ -1,16 +1,10 @@
 #!/bin/bash
 
-version=6.2.8 # working for tier-1 and tier-2
-#version=6.2.13 # working only fier tier-1 currently (texinfo needed for 2021 tier-2 toolchain)
+#version=6.2.8 # working for tier-1 and tier-2
+version=6.2.13 # working only fier tier-1 currently (texinfo needed for 2021 tier-2 toolchain)
 
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
-
-if [[ $CONDA_DEFAULT_ENV == "" ]]; then
-    echo "no python conda environment loaded ...."
-    echo "loading py3 of Michel ..."
-    source activate /data/leuven/317/vsc31786/miniconda/envs/py3
-fi
 
 # Load modules and set paths for Tier-1 or Tier-2
 node=`uname -n`
@@ -38,7 +32,13 @@ elif [[ $node == *"dodrio"* ]]; then
     echo "Loading modules for Hortense Tier-1..."
     module --force purge
     module load cluster/dodrio/cpu_rome
-    module load foss flex/2.6.4-GCCcore-11.3.0 Bison CMake Autotools texinfo libtirpc/1.3.2-GCCcore-11.3.0
+    module load foss/2021b 
+    module load flex/2.6.4-GCCcore-11.2.0 
+    module load Bison/3.7.6-GCCcore-11.2.0 
+    module load CMake/3.22.1-GCCcore-11.2.0 
+    module load Autotools/20210726-GCCcore-11.2.0 
+    module load texinfo/6.8-GCCcore-11.2.0 
+    module load libtirpc/1.3.2-GCCcore-11.2.0
 else
     echo "Unknown platform ... stopping"
     exit 1

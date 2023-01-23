@@ -84,14 +84,14 @@ elif [[ $node == *"dodrio"* ]]; then
     # Load modules for Tier-1 UGENT on Hortense
     module --force purge
     module load cluster/dodrio/cpu_rome
-    module load foss 
-    module load flex/2.6.4-GCCcore-11.3.0 
-    module load Bison 
-    module load CMake 
-    module load Autotools 
-    module load texinfo 
-    module load Python/2.7.18-GCCcore-11.3.0-bare 
-    module load libtirpc/1.3.2-GCCcore-11.3.0 
+    module load foss/2021b
+    module load flex/2.6.4-GCCcore-11.2.0
+    module load Bison/3.7.6-GCCcore-11.2.0
+    module load CMake/3.22.1-GCCcore-11.2.0
+    module load Autotools/20210726-GCCcore-11.2.0
+    module load texinfo/6.8-GCCcore-11.2.0
+    module load libtirpc/1.3.2-GCCcore-11.2.0
+    module load Python/2.7.18-GCCcore-11.2.0
     module load imkl/2022.1.0
 else
     echo "Platform not known ... stopping"
