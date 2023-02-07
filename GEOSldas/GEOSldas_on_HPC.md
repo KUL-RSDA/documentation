@@ -194,9 +194,12 @@ For the generation of ensembles and for data assimilation, special namelist file
 
 Model parameter sets, also referred to as boundary conditions (BCS) need to be provided when running GEOSldas. Paths to these BCS are specified in the configuration files, and several versions are available. An explanation of BCS versions can be found [here](https://github.com/GEOS-ESM/GEOSldas/blob/main/doc/README.MetForcing_and_BCS.md).
 
-Two sets of BCS sets can be found on the HPC at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/CLSM/*:
+Two sets of BCS sets can be found on the HPC at */staging/leuven/stg_00024/l_data/model_param/geos5/bcs/*:
 
 * **Icarus-NLv4**: These are the BCS recommended when running the **regular CLSM**.
+* **NLv5**: These are the BCS recommended when running the **northern PEATCLSM**.
+* **NLv5_TN**: These are the BCS recommended when running the **natural tropical PEATCLSM**.
+* **NLv5_TD**: These are the BCS recommended when running the **drained tropical PEATCLSM**.
 
 * **Heracles_NL_bcs_new**: These are recommended when running **Catchment-CN**. Although they are quite old, thery are still the only science-validated BCS for Catchment-CN, and creating restarts for Catchment-CN with a newer BCS set would require extremely long spin-up times (contact Rolf Reichle for questions on that).
 
@@ -204,9 +207,13 @@ Each of these BCS sets contains two separate subfolders: one for the M09 grid an
 
 **IMPORTANT when running Catchment-CN**: Catchment-CN requires two additional BCS files (*CO2_MonthlyMean_DiurnalCycle.nc4* and *FPAR_CDF_Params-M09.nc4*). These files can be found at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/CLSM_params/*. The paths to these files are **currently hardcoded** in the [lenkf.j.template](https://github.com/KUL-RSDA/GEOSldas/blob/v17.9.4_KUL/src/Applications/LDAS_App/lenkf.j.template) and need to be adjusted accordingly before compiling GEOSldas (see above).
 
-### A note on spinning up GEOSldas
+### A note on coldstarts with GEOSldas
 
-Completely cold-starting GEOSldas is not recommended, and also impossible because some cold-start scripts do not run on the HPC. To spin up the model, it is recommended to always start from already existing restart files, which substantially requires the required spinup-time (usually 20-30 years are sufficient when starting from existing restarts).
+Completely cold-starting GEOSldas (RESTART:0 in exeinput file) is not recommended, however, it can be done using the restart file at */staging/leuven/stg_00024/l_data/model_param/geos5/input_coldstart_RESTART0/* and combining it with the preferred BCs. This will generate a new a coldstart restart file that requires long spinups. It is recommended to remap a GEOSldas restart file (RESTART:2 in exeinput file) by using a restart file from older BCs (e.g.: the spniup with Icarus-NLv4 BCS at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/*) and remap to the required BCs. This will require regular spinup-times (usually 20-30 years are sufficient when starting from existing restarts). 
+
+Changes to process_rst.csh (and possibly mk_GEOSldasRestarts.F90) file(s) might be necessary to get these restart options to work on the KU Leuven structure and your specific account.
+
+### A note on spinning up GEOSldas
 
 Both deterministic and ensemble spinup runs of the CLSM using the Icarus-NLv4 BCS can be found at */staging/leuven/stg_00024/OUTPUT/alexg/GEOSldas/*. Restart files for the Catchment-CN using the Heracles_NL_bcs_new BCS can also be found there.
 
