@@ -194,7 +194,7 @@ For the generation of ensembles and for data assimilation, special namelist file
 
 Model parameter sets, also referred to as boundary conditions (BCS) need to be provided when running GEOSldas. Paths to these BCS are specified in the configuration files, and several versions are available. An explanation of BCS versions can be found [here](https://github.com/GEOS-ESM/GEOSldas/blob/main/doc/README.MetForcing_and_BCS.md).
 
-Two sets of BCS sets can be found on the HPC at */staging/leuven/stg_00024/l_data/model_param/geos5/bcs/*:
+Sets of BCS can be found on the HPC at */staging/leuven/stg_00024/l_data/model_param/geos5/bcs/*:
 
 * **Icarus-NLv4**: These are the BCS recommended when running the **regular CLSM**.
 * **NLv5**: These are the BCS recommended when running the **northern PEATCLSM**.
