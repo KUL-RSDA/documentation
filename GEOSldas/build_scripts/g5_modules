@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
 #set basedir_version = v6.2.8 # working for tier-1 and tier-2 
-set basedir_version = v6.2.13 # currently working for tier-1 only
+set basedir_version = v7.7.0 # currently working for tier-1 only
 
 set node = `uname -n`
 module purge
