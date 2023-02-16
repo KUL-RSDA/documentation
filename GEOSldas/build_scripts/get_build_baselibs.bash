@@ -2,6 +2,7 @@
 
 #version=6.2.8 # working for tier-1 and tier-2
 version=6.2.13 # working only fier tier-1 currently (texinfo needed for 2021 tier-2 toolchain)
+version=7.7.0 # working only fier tier-1 currently (texinfo needed for 2021 tier-2 toolchain)
 
 # IMPORTANT: staging is not cross-mounted, so the baselibs are installed at a
 # different location on Tier-1!
@@ -53,7 +54,7 @@ rm -f ESMA-Baselibs-v${version}.COMPLETE.tar.xz
 cd $root/ESMA-Baselibs-v${version}
 
 # temporary fix since 6.2.13 baselibs were not complete: getting full FLAP from 6.2.8
-if [[ $version == "6.2.13" ]]; then
+if [[ $version == "6.2.13" ]] | [[ $version == "7.7.0" ]] ; then
     rm -r $root/ESMA-Baselibs-v${version}/FLAP
     mkdir $root/temp
     cd $root/temp
@@ -67,7 +68,7 @@ fi
 
 if [[ $version == "6.2.8" ]]; then
     cd $root/ESMA-Baselibs-v${version}/src
-elif [[ $version == "6.2.13" ]]; then
+elif [[ $version == "6.2.13" ]] | [[ $version == "7.7.0" ]] ; then
     cd $root/ESMA-Baselibs-v${version}
 fi
 mkdir Linux
@@ -82,7 +83,7 @@ fi
 export FC=gfortran
 if [[ $version == "6.2.8" ]]; then
     make install ESMF_COMM=openmpi prefix=$root/ESMA-Baselibs-v${version}/src/Linux
-elif [[ $version == "6.2.13" ]]; then
+elif [[ $version == "6.2.13" ]] | [[ $version == "7.7.0" ]]; then
     make install ESMF_COMM=openmpi prefix=$root/ESMA-Baselibs-v${version}/Linux
 fi
 
