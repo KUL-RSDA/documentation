@@ -2,6 +2,7 @@
 
 ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently, 17.11.0 working also for tier-2
 ldas_root=/dodrio/scratch/projects/2022_200/project_output/rsda/vsc31786/src_code
+ldas_root=/staging/leuven/stg_00024/OUTPUT/michelb/src_code
 ldas_dirname=GEOSldas_${ldas_version}_KUL # GEOSldas_${ldas_version}_TN
 GEOSldas_repo=kul-rsda/GEOSldas.git #sebastian-a-swm/GEOSldas.git  # mbechtold/GEOSldas.git
 GEOSldas_branch=v${ldas_version}_KUL  # v${ldas_version}_TN_KUL
@@ -41,7 +42,11 @@ if [ ! -d "$ldas_dirname" ]; then
     cd $ldas_dirname
     mepo init
     mepo clone
-    cp $baselibs_root/g5_modules_v7.7.0 ./@env/
+    if [[ $ldas_version == "17.11.1" ]]; then
+        cp $baselibs_root/g5_modules ./@env/
+    elif [[ $ldas_version == "17.12.0" ]]; then
+        cp $baselibs_root/g5_modules_v7.7.0 ./@env/
+    fi
 else
     echo "$ldas_dirname already exists. Skipping to build/install..."
     cd $ldas_dirname
@@ -110,10 +115,12 @@ else
 fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASEDIR/lib
 
-cd ..
-find @cmake/@ecbuild/cmake/compiler_flags/* -name "GNU_Fortran.cmake" -type f -exec sed -i 's/\"-O/\"-mavx2 -O/g' {} \;
-find @cmake/compiler/flags/* -name "GNU_Fortran.cmake" -type f -exec sed -i 's/set (common_Fortran_fpe_flags \"-ffpe-trap\=zero,overflow/set (common_Fortran_fpe_flags \"-mavx2 -ffpe-trap\=zero,overflow/g' {} \;
-cd build${ext} 
+if [[ $node == *"dodrio"* ]]; then
+    cd ..
+    find @cmake/@ecbuild/cmake/compiler_flags/* -name "GNU_Fortran.cmake" -type f -exec sed -i 's/\"-O/\"-mavx2 -O/g' {} \;
+    find @cmake/compiler/flags/* -name "GNU_Fortran.cmake" -type f -exec sed -i 's/set (common_Fortran_fpe_flags \"-ffpe-trap\=zero,overflow/set (common_Fortran_fpe_flags \"-mavx2 -ffpe-trap\=zero,overflow/g' {} \;
+    cd build${ext} 
+fi
 # Build and install
 cmake .. -DBASEDIR=$BASEDIR -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_INSTALL_PREFIX=../install${ext} -DCMAKE_BUILD_TYPE=${buildtype}
 make -j6 install
