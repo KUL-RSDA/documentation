@@ -12,7 +12,7 @@ if (( $node =~ tier2* ) || ( $node =~ r* )) then
     module unuse /apps/leuven/cascadelake/2018a/modules/all
     module unuse /apps/leuven/cascadelake/2019b/modules/all
     module use /apps/leuven/skylake/2019b/modules/all
-    module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore8.3.0
+    module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore-8.3.0
 else if ( $node =~ *dodrio* ) then 
     echo "Loading modules for Hortense Tier-1..."
     set basedir_path = /dodrio/scratch/projects/2022_200/project_input/rsda/ldas/GEOSldas_libraries
