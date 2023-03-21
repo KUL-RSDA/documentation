@@ -8,13 +8,14 @@ author:
 ---
 
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
-  version 1   15 June 2017   Gabriëlle De Lannoy: initial documentation
-  version 2   04 July 2017   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
-  version 3   08 May 2018    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
-  version 4   07 Feb 2019    Michel Bechtold: using Genius
-  version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC
-  version 6.  05 Sep 2019.   Alexander Gruber: updated debugging module from Allinea to Arm
-  version 7.  22 Sep 2020.   Michel Bechtold: added specific information/summary for MSc students
+  version 1   15 June 2017.   Gabriëlle De Lannoy: initial documentation
+  version 2   04 July 2017.   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
+  version 3   08 May 2018.    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
+  version 4   07 Feb 2019.    Michel Bechtold: using Genius
+  version 5   11 Jul 2019.    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC
+  version 6.  05 Sep 2019.    Alexander Gruber: updated debugging module from Allinea to Arm
+  version 7.  22 Sep 2020.    Michel Bechtold: added specific information/summary for MSc students
+  version 7.  21 Mar 2023.    Jonas Mortelmans: added example of slurm header
   webpages
   ----------- -------------- ---------------------------------------------------------------------------------------------------------
 
@@ -238,6 +239,23 @@ bigmem nodes of 768 GB.
 
     The latter two lines are only applicable in case you need the 768
     GB. Jobs use the same accounts as ThinKing for the credits.
+
+-   To submit a job with a slurm header (necessary from April 2023 onwards):
+
+	#SBATCH --time="01:00:00"
+	#SBATCH --nodes="1"
+	#SBATCH --ntasks-per-node="12"
+	#SBATCH --account="lp_ees_swm_001"
+	#SBATCH --mail-type="END,FAIL,BEGIN,TIME_LIMIT"
+	#SBATCH --mail-user="your.email@kuleuven.be"
+	#SBATCH -o /PATH/TO/LOG/DESTINATION/log.txt
+	#SBATCH -e/PATH/TO/ERROR/DESTINATION/err.txt
+	
+	cd $SLURM_SUBMIT_DIR
+	ulimit -s unlimited
+
+    The --nodes defines the number of nodes you'd like and --ntasks-per-node defines the number of processors for your job.
+    All other lines you would add to a previous PBS script, are still the same (the real execution of your code).
     
 -   When you are authorized to use the group node r23i13n23 it is necessary to exclude it when submitting jobs adding
  
