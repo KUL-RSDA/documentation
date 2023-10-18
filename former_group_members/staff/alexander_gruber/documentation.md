@@ -113,7 +113,7 @@ The `pyldas` package used for LDASsa and GEOSldas post-processing has been trans
 
 ### Other
 
-All other source code developments for KU Leuven / FWO made by Alexander Gruber are available on his personal GitHub account [here](https://github.com/alexgruber), specifically within the `myprojects` repository [here](https://github.com/alexgruber/myprojects).
+All other source code developments for KU Leuven / FWO made by Alexander Gruber are available on his personal GitHub account [here](https://github.com/alexgruber), specifically within the `myprojects` repository [here](https://github.com/alexgruber/archive_KUL).
 
 The source code status as of the last day of employment has been tagged as `snapshot_20220328`.
 
