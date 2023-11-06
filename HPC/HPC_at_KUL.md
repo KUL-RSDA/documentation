@@ -187,7 +187,7 @@ How to Access (Data on) the HPC
 
 To get a terminal from your local desktop:
 
--   Windows: puTTY, NoMachine (more convenient), Xming $\rightarrow$
+-   Windows: puTTY, NoMachine and OnDemand (more convenient), Xming $\rightarrow$
     XLaunch (least issues with Matlab figures)
 
 -   Mac/Linux: 'Terminal' `ssh`
@@ -303,6 +303,16 @@ To check how many cores are occupied:
 showres -n -g | grep r23i13n23
 --> 36 minus the sum of the cores after 'running' gives you the currently available cores 
 
+OnDemand HPC access 
+-----------------
+
+HPC also offers a web-based client application to access HPC http://ondemand.hpc.kuleuven.be/
+
+-   You can open a shell prompt on the login node (no use of credits): "Login Server Shell Access"
+
+-   Open an interactive shell on a compute node: "Interactive Shell". If you want to use the RSDA dedicated group node for this interactive session, specify Cluster: 'genius', Account: 'lp_ees_swm_ls_001', and Partition: 'dedicated_eesswm_batch'. Make sure you limit the number of cores to what you need and not more than 6 to allow others in the research group to access/use the group node. 
+
+  
 Credits 
 ----------------------------
 On HPC-wide shared nodes, we only pay for the cores we use.
