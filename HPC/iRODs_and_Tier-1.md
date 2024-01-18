@@ -61,11 +61,12 @@ Then choose collection
 "VSC iRODS vsc-climate.irods.hpc.kuleuven.be"
 
 And put the path
+
 /vsc_climate/home/rsda/
 
 On the other side you can connect to tier1 and tier2 scratch collections for data transfer. Rest should be self-explaining. 
   
-Connecting to iRODS
+Connecting to iRODS via icommands (needs documentation update)
 -----------------
 One way to work on iRODs are the 'i' commands that mostly have an equivalent bash command, see [iRODS documentation](https://github.com/hpcleuven/iRODS-User-Training/)
 
