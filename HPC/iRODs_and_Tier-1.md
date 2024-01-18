@@ -48,6 +48,22 @@ The VSC data component iRODS serves us
 
 * to transfer datasets from Tier-2 staging and scratch to Tier-1 scratch, and
 * to store large datasets that are not permanently used on either Tier-1 and Tier-2. Datasets that are permanently used on either Tier-2 or Tier-1 should be on staging (Tier-2) or scratch (Tier-1). See below for the information on the Tier-1 scratch and how it differs from Tier-2. 
+
+Connecting to iRODS via globus
+-----------------
+One way to connect to iRODS is via the globus web interface.
+
+https://app.globus.org/
+
+You have to login with your KU Leuven credentials.
+Then choose collection
+
+"VSC iRODS vsc-climate.irods.hpc.kuleuven.be"
+
+And put the path
+/vsc_climate/home/rsda/
+
+On the other side you can connect to tier1 and tier2 scratch collections for data transfer. Rest should be self-explaining. 
   
 Connecting to iRODS
 -----------------
