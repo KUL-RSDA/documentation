@@ -98,7 +98,7 @@ prior to (i) configuring the compilation and (ii) compiling the code:
     $ ./configure
     $ vim ./make/configure.lis   
       --> (a) add "LDFLAGS += -lmkl" at the end
-      --> (b) add "LDFLAGS += -lmkl -lsz" at the end
+      --> (b) add "LDFLAGS += -lmkl -lsz -ltirpc" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
       --> (c) add "LDFLAGS += -lmkl -lsz -ltirpc -qopenmp" at the end
@@ -111,7 +111,7 @@ or
     $ ./configure
     $ vim ./make/configure.ldt 
       --> (a) add "LDFLAGS += -lmkl" at the end
-      --> (b) add "LDFLAGS += -lmkl -lsz" at the end
+      --> (b) add "LDFLAGS += -lmkl -lsz -ltirpc" at the end
       --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
                     4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
     $ ./compile
