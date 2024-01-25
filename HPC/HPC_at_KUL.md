@@ -149,13 +149,15 @@ processing and I/O.
 `│`\ `├──`\ `met_forcing`\
 `│`\ `├──`\ `obs_scaling`\
 `│`\ `└──`\ `RTM_params`\
-`├──`\ **`LDASsa_libraries_20170421`**\
+`├──`\ **`GEOSldas_libraries`**\
 `├──`\ **`LDASsa_libraries_20190607`**\
 `├──`\ **`l_data`**\
 `│`\ `├──`\ `model_param`\
 `│`\ `├──`\ `obs_insitu`\
 `│`\ `└──`\ `obs_satellite`\
-`└──`\ **`output`**\
+`├──`\ **`tools`**\
+`│`\ `├──`\ `AquaCrop2F`\
+`└──`\ **`OUTPUT`**\
 `├──`\ `core`\ `simulations`\ `used`\ `by`\ `the`\ `group`
 
 The file collections on `/staging` are large and will only be updated
