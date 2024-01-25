@@ -44,11 +44,11 @@ KU Leuven Tier-2 cluster:
 Directory and File Structure {#sec:structure}
 ============================
 
-  Individual             Group
-  ---------------------- -------------------------
-  `/user` (3 GB)         `/staging` (several TB)
-  `/data` (75 GB)        `/archive` (several TB)
-  `/scratch` (100 GB?)   
+  Individual             |Group
+  ---------------------- |-------------------------
+  `/user` (3 GB)         |`/staging` (several TB)
+  `/data` (75 GB)        |`/archive` (several TB)
+  `/scratch` (100 GB?)   |
 
 (w/ backup): Snapshot backups are stored under /data/leuven/.snapshot/*
 
@@ -86,6 +86,9 @@ environment using the following files
     $ .aliases (e.g. setting your xterm and quick line commands)
     $ .bashrc
     $ .bash_profile
+
+These files can be copied from `/data/leuven/314/vsc31402/documentation/configure_shell/`. 
+
 
 /data (w/ backup)
 -----------------
