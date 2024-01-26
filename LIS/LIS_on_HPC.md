@@ -286,6 +286,7 @@ nodes, but fixed this when moving to Genius with mpiifort and mpiicc
 (not mpicc).
 
 **List of environment variables expected for compilation on Hortense:**
+Make sure to replace the first line with the correct directory:
 
     export LIS_SRC=/your_src_directory/lis
     export LIS_ARCH=linux_ifc
