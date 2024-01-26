@@ -250,7 +250,7 @@ Over the years, we will be working on constantly varying hardware, i.e. nodes ar
         #SBATCH -o /PATH/TO/LOG/DESTINATION/log.txt
         #SBATCH -e /PATH/TO/ERROR/DESTINATION/err.txt
         
-	      cd $SLURM_SUBMIT_DIR
+        cd $SLURM_SUBMIT_DIR
     
 -   Python and Matlab scripts work similarly on various nodes. On wICE, Matlab needs
 
