@@ -242,14 +242,15 @@ bigmem nodes of 768 GB.
 
 -   To submit a job with a slurm header (necessary from April 2023 onwards):
 
-	#SBATCH --time="01:00:00"
-	#SBATCH --nodes="1"
-	#SBATCH --ntasks-per-node="12"
-	#SBATCH --account="lp_ees_swm_001"
-	#SBATCH --mail-type="END,FAIL,BEGIN,TIME_LIMIT"
-	#SBATCH --mail-user="your.email@kuleuven.be"
-	#SBATCH -o /PATH/TO/LOG/DESTINATION/log.txt
-	#SBATCH -e/PATH/TO/ERROR/DESTINATION/err.txt
+        #SBATCH --time="01:00:00"
+        #SBATCH --nodes="1"
+        #SBATCH --ntasks-per-node="12"
+        #SBATCH --exclude=r23i13n23
+        #SBATCH --account="lp_ees_swm_001"
+        #SBATCH --mail-type="END,FAIL,BEGIN,TIME_LIMIT"
+        #SBATCH --mail-user="your.email@kuleuven.be"
+        #SBATCH -o /PATH/TO/LOG/DESTINATION/log.txt
+        #SBATCH -e/PATH/TO/ERROR/DESTINATION/err.txt
 	
 	cd $SLURM_SUBMIT_DIR
 	ulimit -s unlimited
