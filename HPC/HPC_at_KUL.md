@@ -1,24 +1,15 @@
 
----
-author:
-- |
-    Gabriëlle De Lannoy, Michel Bechtold, Anne Felsberg,\
-    Alexander Gruber, Michiel Maertens: version 5\
-    (`gabrielle.delannoy@kuleuven.be`)
----
+  | version    | date        | authors|
+  |----------- |------------ |-----------------------------------------------------------------------------|
+  | version 1  | 15 June 2017|   Gabriëlle De Lannoy: initial documentation |
+  | version 2  | 04 July 2017|   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting |
+  | version 3  | 08 May 2018 |   Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node |
+  | version 4  | 07 Feb 2019 |   Michel Bechtold: using Genius |
+  | version 5  | 11 Jul 2019 |   Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC |
+  | version 6  | 05 Sep 2019 |   Alexander Gruber: updated debugging module from Allinea to Arm |
+  | version 7  | 22 Sep 2020 |   Michel Bechtold: added specific information/summary for MSc students webpages |
+  | version 8  | 25 Jan 2024 |   Gabriëlle De Lannoy: fixed Github entries and PBS to SLURM |
 
-  ----------- -------------- ---------------------------------------------------------------------------------------------------------
-  version 1   15 June 2017   Gabriëlle De Lannoy: initial documentation
-  version 2   04 July 2017   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting
-  version 3   08 May 2018    Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node
-  version 4   07 Feb 2019    Michel Bechtold: using Genius
-  version 5   11 Jul 2019    Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC
-  version 6.  05 Sep 2019.   Alexander Gruber: updated debugging module from Allinea to Arm
-  version 7.  22 Sep 2020.   Michel Bechtold: added specific information/summary for MSc students
-  webpages
-  ----------- -------------- ---------------------------------------------------------------------------------------------------------
-
-\
 
 Get Started on the HPC
 ======================
@@ -41,7 +32,7 @@ KU Leuven Tier-2 cluster:
 -   long/multi-core simulations - project credits (staff only):
     `lp_ees_swm_ls_001`
 
-Directory and File Structure {#sec:structure}
+Directory and File Structure
 ============================
 
   Individual             |Group
@@ -193,7 +184,7 @@ How to Access (Data on) the HPC
 To get a terminal from your local desktop:
 
 -   Windows: puTTY, NoMachine and OnDemand (more convenient), Xming $\rightarrow$
-    XLaunch (least issues with Matlab figures)
+    XLaunch
 
 -   Mac/Linux: 'Terminal' `ssh`
 
@@ -221,56 +212,71 @@ For more intense computations, launch a job onto a compute node
 
 TBD: there are also visualization nodes
 
-ThinKing, Genius
+ThinKing, Genius, wICE,...
 ----------------
 
-For small to normal operations, it typically suffices to use ThinKing
-with its Haswell and Ivybridge nodes (128 GB). For applications that
-require more RAM, consider Genius which has standard nodes of 192 GB and
-bigmem nodes of 768 GB.
+Over the years, we will be working on constantly varying hardware, i.e. nodes are getting bigger and faster. Currently, we use Genius which has standard nodes of 192 GB and bigmem nodes of 768 GB.
 
--   login to a Genius node:
+-   login to a Genius node (careful, don't run big jobs here):
 
         $ ssh vsc3xxxx@login1-tier2.hpc.kuleuven.be
         or
         $ ssh vsc3xxxx@login2-tier2.hpc.kuleuven.be
 
--   submit jobs as usual with a PBS header and these changes
+-   get interactive time (SLURM command) on Genius or wICE, e.g. for 12 hours on a single core:
 
-        #PBS -l nodes=1:ppn=36:skylake
-        #PBS -l pmem=10gb
-        #PBS -l partition=bigmem
+        $ srun --x11 -A lp_ees_swm_ls_001 -M genius  --nodes=1 --ntasks-per-node=1 -t 12:00:00 --pty bash -l
+    	$ srun --account=lp_ees_swm_ls_001 --ntasks=1 --time=12:00:00 --partition=interactive --clusters=wice --pty bash -l\
 
-    The latter two lines are only applicable in case you need the 768
-    GB. Jobs use the same accounts as ThinKing for the credits.
+-   submit jobs as usual with a SLURM header and indicate your node specifications in that header, if you like. Examples are given below. The top three lines left speficy that you need the 768 GB on Genius, whereas the top two lines right do not specify any node (but you can specify your wishes in SLURM too).  When you are authorized to use the group node r23i13n23 it is necessary to exclude it when submitting jobs. Jobs use the same accounts for the credits on various nodes.
+
+| PBS (old) | SLURM |
+|---- | ----- |
+| #PBS -l nodes=1:ppn=36:skylake | #SBATCH --ntasks=1 --cpus-per-task=36|
+| #PBS -l pmem=10gb		| #SBATCH --clusters=all|
+| #PBS -l partition=bigmem	|  |
+| #PBS -W x=excludenodes=r23i13n23 | #SBATCH --exclude=nodename|
+
     
--   When you are authorized to use the group node r23i13n23 it is necessary to exclude it when submitting jobs adding
- 
-        #PBS -W x=excludenodes=r23i13n23
+-   Python and Matlab scripts work similarly on various nodes. On wICE, Matlab needs
 
--   Python and Matlab scripts work just as on ThinKing. Matlab needs
-
-        $ module load matlab/R2018a
+        $ module load cluster/genius/centos7
+    	$ module load matlab/R2020a
 
 -   Info May 2021: For stability of interactive Matlab usage, launch matlab on NX with
 
         $ matlab -softwareopengl -desktop 
 
--   LDASsa still needs a setup of all libraries.
 
 Submitting and Managing Jobs
 ----------------------------
 
 Credit system
 
-    $ module load accounting
-    $ mam-balance
+    NEW (SLURM):
+    $ sam-balance	
+    $ sam-statement --account=lp_my_project 
+    $ sam-list-usagerecords --account=lp_my_project --start=2023-01-01 --end=2023-01-31
+
+    OLD (PBS):	
+    $ module load accounting 
+    $ mam-balance 	
     $ gquote -q q24h -l nodes=1:ppn=20:ivybridge
     $ gquote -l nodes=1:ppn=20:ivybridge -l walltime=01:00:00
-    $ mam-statement (-a lp_ees_swm_ls_001 --summarize)
+    $ mam-statement (-a lp_ees_swm_ls_001 --summarize)  
 
 Submitting and managing jobs
 
+    NEW (SLURM):
+    $ sbatch [script_file]
+    $ squeue
+    $ squeue --job [job_id]
+    $ squeue -u [user_name]
+    $ scancel [job_id]
+    $ squeue -o "%.9i %.9P %.8j %.8u %.2t %.10M %.6D %S"		
+    $ sinfo -N
+    
+    OLD (PBS):	
     $ qsub -q q1h script_w_PBS_commands.sh
     $ qsub -I -l walltime=2:00:00 -l nodes=1:ppn=20
     $ qstat (-q)
@@ -283,28 +289,18 @@ Shared group node (for PhD and Postdocs)
 -----------------
 
 To be able to run longer jobs without having to queue, we were assigned
-a node r12i2n16. This node is ideal for longer processing jobs,
+a dedicated node r23i13n23 on Genius. This node is ideal for longer processing jobs,
 development and testing of computationally more intensive procedures. To
 get onto our own node, and depending on whether or not you have
-introductory credits left, you could issue any command like
+introductory credits left, you could issue a command like
 
-    $ qsub -I -lpartition=EES -lnodes=r12i2n16 -A default_project -lwalltime=168:00:00
-    $ qsub -I -lpartition=EES -lnodes=1:ppn=x -A lp_ees_swm_ls_001 -lwalltime=168:00:00
+    $ srun --x11 -A lp_ees_swm_ls_001 -M genius -p dedicated_eesswm_batch --ntasks-per-node=x -t 12:00:00 --pty bash -l
 
-with x$<$24. If you do not add the walltime, you will get 1 hour (q1h);
-on Thinking, without adding the project-name, you will use the
-default-project (introductory credits), on Genius, you need to add '-A';
-without specifying the ppn, you might be egoistic and allow yourself to
-take all cores; on Thinking, without the '-X', you cannot run any ddt or
-matlab gui, on Genius '-X' does not work.
+with x<36. If you do not add the walltime, you will get 1 hour; you need to add '-A';
+without specifying the ntasks, you might be egoistic and allow yourself to
+take all cores.
 
-The node is configured as 'SHARED': different users can use the same
-node at the same time. The default partition is 'thinking'; we have to
-submit explicitly to partition 'EES'.
-
-**NOTE: the shared node migrated to Genius!! On Genuis the node is now r23i13n23 ** 
-
-To check how many cores are occupied:
+To check how many cores are occupied (does not work anymore?):
 showres -n -g | grep r23i13n23
 --> 36 minus the sum of the cores after 'running' gives you the currently available cores 
 
@@ -316,7 +312,7 @@ HPC also offers a web-based client application to access HPC http://ondemand.hpc
 -   Open a shell prompt on the login node (no use of credits): "Login Server Shell Access"
 
 -   Open an interactive shell on a compute node: "Interactive Shell". 
-If you want to use the RSDA dedicated group node for this interactive session, specify Cluster: 'genius', Account: 'lp_ees_swm_ls_001', and Partition: 'dedicated_eesswm_batch'. Make sure you limit the number of cores to what you need and not more than 6 to allow others in the research group to access/use the group node. 
+If you want to use the RSDA dedicated group node for this interactive session, specify Cluster: 'genius', Account: 'lp_ees_swm_ls_001', and Partition: 'dedicated_eesswm_batch' (should this not be dedicated_eesswm_interactive?). Make sure you limit the number of cores to what you need and not more than 6 to allow others in the research group to access/use the group node. 
 
   
 Credits 
@@ -324,9 +320,10 @@ Credits
 On HPC-wide shared nodes, we only pay for the cores we use.
 Let's assume we have a job that is not well parallelized, i.e. runs inefficiently on many cores.
 It always requires ~ 10 hours regardless of being run on 2 or 36 cores. Then 
-qsub -I -X -lnodes=1:ppn=2 -A lp_ees_swm_ls_002 -l walltime=12:00:00
+`srun --x11 -A lp_ees_swm_ls_001 -M genius  --nodes=1 --ntasks-per-node=2 -t 12:00:00 --pty bash -l`
 is 1/18 of the costs of
-qsub -I -X -lnodes=1:ppn=36 -A lp_ees_swm_ls_002 -l walltime=12:00:00
+`srun --x11 -A lp_ees_swm_ls_001 -M genius  --nodes=1 --ntasks-per-node=36 -t 12:00:00 --pty bash -l`
+
 
 Though noted that in the following cases:
 1) you request pmem above the default (5gb)
@@ -342,14 +339,16 @@ Specific information for MSc studens:
 -----------------
 1) [BASIC] if you foresee running anything longer than ~20 minutes or with more memory, you will have to go onto an interactive node to do your HPC work, i.e. you will not be able to run a big job on the login node.
 Ask the interactive node (-I) from your command line:\
-$ qsub -X -I -A default_project -l walltime=24:00:00 -l nodes=1:ppn=2:skylake\
+$ srun --account=lp_myproject --ntasks=1 --time=01:00:00 --partition=interactive --clusters=wice --pty bash -l\
+or\
+$ srun --x11 -A default_project --nodes=1 --ntasks-per-node=2 -t 12:00:00 --pty bash -l\
 $ --> start Matlab, Python, whatever
-2) [ADVANCED] if you think you need to launch a job (could be a Matlab/Python script, or a model run,...) for a longer and on more cpus, and you don't need to interact with the Matlab/Python interface, then you can launch the job into a queue and it will start running when there is space available.
+3) [ADVANCED] if you think you need to launch a job (could be a Matlab/Python script, or a model run,...) for a longer and on more cpus, and you don't need to interact with the Matlab/Python interface, then you can launch the job into a queue and it will start running when there is space available.
 Ask a bash-script with PBS commands (my_script.sh) from your supervisor, and launch it from your command line:\
-$ qsub -q q1h my_script.sh\
+$ sbatch my_script.sh\
 $ --> do something else\
-(to see available queues: $ qstat -q)
-3) [NEEDED] you need compute credits for 1-2 above, and all Msc students get free introduction credits.
+(to see available queues: $ squeue)
+4) [NEEDED] you need compute credits for 1-2 above, and all Msc students get free introduction credits.
 Ask them via https://admin.kuleuven.be/icts/onderzoek/hpc/request-introduction-credits
 mention that you do Msc thesis research in our research group, briefly say why you need compute time.
 
