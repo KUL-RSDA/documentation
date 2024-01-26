@@ -240,6 +240,29 @@ Changes:
 2. **if [ ! -e $RUNDIR/MET_FORCING ] ; then**
 
 Both changes are in the line where it directs to the MERRA2 data (MET_FORCING data).
+	
+#### wrf.reg
+This runs the actual WRF-LIS coupled run.
+Add to the file:
+```
+if [ ! -e $NUWRFDIR/WRF/run/BROADBAND_CLOUD_GODDARD.bin ] ; then
+    echo "$THIS ERROR: $NUWRFDIR/WRF/run/BROADBAND_CLOUD_GODDARD.bin does not exist!"
+    exit 1
+fi
+ln -fs $NUWRFDIR/WRF/run/BROADBAND_CLOUD_GODDARD.bin || exit 1
+
+if [ ! -e $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio.SSP245 ] ; then
+    echo "$THIS ERROR: $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio.SSP245 does not exist!"
+    exit 1
+fi
+ln -fs $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio.SSP245 CAMtr_volume_mixing_ratio.SSP245 || exit 1
+
+if [ ! -e $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio ] ; then
+    echo "$THIS ERROR: $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio does not exist!"
+    exit 1
+fi
+ln -fs $NUWRFDIR/WRF/run/CAMtr_volume_mixing_ratio CAMtr_volume_mixing_ratio || exit 1
+```
 
 ### The actual workflow
 

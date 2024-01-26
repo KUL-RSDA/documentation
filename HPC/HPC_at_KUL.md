@@ -8,7 +8,8 @@
   | version 5  | 11 Jul 2019 |   Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC |
   | version 6  | 05 Sep 2019 |   Alexander Gruber: updated debugging module from Allinea to Arm |
   | version 7  | 22 Sep 2020 |   Michel Bechtold: added specific information/summary for MSc students webpages |
-  | version 8  | 25 Jan 2024 |   Gabriëlle De Lannoy: fixed Github entries and PBS to SLURM |
+  | version 8  | 21 Mar 2023 |   Jonas Mortelmans: added example of slurm header |
+  | version 9  | 25 Jan 2024 |   Gabriëlle De Lannoy: fixed Github entries and more of PBS to SLURM |
 
 
 Get Started on the HPC
@@ -237,6 +238,19 @@ Over the years, we will be working on constantly varying hardware, i.e. nodes ar
 | #PBS -l partition=bigmem	|  |
 | #PBS -W x=excludenodes=r23i13n23 | #SBATCH --exclude=nodename|
 
+-   An example of a full header (including the cd to enter the submit directory) looks like this
+
+        #SBATCH --time="01:00:00"
+        #SBATCH --nodes="1"
+        #SBATCH --ntasks-per-node="12"
+        #SBATCH --exclude=r23i13n23
+        #SBATCH --account="lp_ees_swm_001"
+        #SBATCH --mail-type="END,FAIL,BEGIN,TIME_LIMIT"
+        #SBATCH --mail-user="your.email@kuleuven.be"
+        #SBATCH -o /PATH/TO/LOG/DESTINATION/log.txt
+        #SBATCH -e /PATH/TO/ERROR/DESTINATION/err.txt
+        
+	      cd $SLURM_SUBMIT_DIR
     
 -   Python and Matlab scripts work similarly on various nodes. On wICE, Matlab needs
 
