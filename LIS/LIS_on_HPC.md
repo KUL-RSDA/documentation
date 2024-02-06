@@ -475,6 +475,36 @@ on the prompt (stay in bash, not csh!):
 
 -   ` mpirun -np 20 -machinefile ./20500283.tier2-p-moab-1.icts.hpc.kuleuven.be /path_to_LIS/LIS lis.config`
 
+ArmForge ddt debugger
+---------------------------
+<img src="https://github.com/KUL-RSDA/documentation/assets/93274177/8c2b0fdd-22f2-4867-9ce5-adb141ac6df4" width="350" align="right">
+
+**Tier 2 Genius**
+
+To open the ddt debugger:
+
+    $ source KUL_LIS_modules
+    $ module load ArmForge
+    $ ddt
+  
+Click on Run and follow the example screenshot: 
+1. path to executable
+2. lis.config file to be run
+3. working directroy
+4. select MPI
+5. under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh -genv LD_PRELOAD=/apps/leuven/rocky8/skylake/2018a/software/impi/2018.1.163-iccifort-2018.1.163-GCC-6.4.0-2.28/lib64/strtok_proxy.so`
+
+**Tier 1 Hortense**
+
+To open the ddt debugger:
+
+    $ source KUL_LIS_modules
+    $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
+    $ module load ArmForge/22.1.2
+    $ ./ddt
+  
+Do not select MPI but OpenMP instead
+
 ./ldt.config
 ------------
 
