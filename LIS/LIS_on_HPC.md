@@ -477,7 +477,8 @@ on the prompt (stay in bash, not csh!):
 
 ArmForge ddt debugger
 ---------------------------
-<img src="https://github.com/KUL-RSDA/documentation/assets/93274177/8c2b0fdd-22f2-4867-9ce5-adb141ac6df4" width="350" align="right">
+<img src="https://github.com/KUL-RSDA/documentation/assets/93274177/1a3e941d-f763-42ba-ac4c-e3d032a9d7f7" width="350" align="right">
+
 
 **Tier 2 Genius**
 
