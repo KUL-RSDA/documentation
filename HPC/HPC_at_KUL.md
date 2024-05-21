@@ -308,7 +308,7 @@ development and testing of computationally more intensive procedures. To
 get onto our own node, and depending on whether or not you have
 introductory credits left, you could issue a command like
 
-    $ srun --x11 -A lp_ees_swm_ls_001 -M genius -p dedicated_eesswm_batch --ntasks-per-node=x -t 12:00:00 --pty bash -l
+    $ srun --x11 -A lp_ees_swm_ls_001 -M genius --reservation=dedicated_eesswm_batch --ntasks-per-node=x -t 12:00:00 --pty bash -l
 
 with x<36. If you do not add the walltime, you will get 1 hour; you need to add '-A';
 without specifying the ntasks, you might be egoistic and allow yourself to
