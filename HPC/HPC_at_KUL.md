@@ -396,7 +396,7 @@ straightforward (in earlier versions, allinea was used). This is how it works:
 
         $ csh
         $ source g5_modules
-        $ module load ArmForge/18.1.2
+        $ module load ArmForge/22.1.2
         $ [option 1] ddt &
         $ [option 1] > Run and manually fill in entries, possibly launch in queue or not
         $ [option 2] ddt mpirun -np 6 [....]/Linux/bin/LDASsa_mpi.x -work_path ../output -run_path .  -exp_id GLOB_EASEv2_M09_N_2n20p\\
@@ -408,7 +408,7 @@ straightforward (in earlier versions, allinea was used). This is how it works:
     or staying in bash, for LIS:
 
         $ source KUL_LDT_modules
-        $ module load ArmForge/18.1.2
+        $ module load ArmForge/22.1.2
         $ [option 1] ddt &
         $ [option 1]  > Run and manually fill in entries, possibly launch in queue or not
         $ [option 2] ddt mpirun -np 4 [...]/LIS_public_release_7.2r_KUL_debugging/LIS\\
