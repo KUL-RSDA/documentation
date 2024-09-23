@@ -411,6 +411,8 @@ straightforward (in earlier versions, allinea was used). This is how it works:
         $ module load ArmForge/22.1.2
         $ [option 1] ddt &
         $ [option 1]  > Run and manually fill in entries, possibly launch in queue or not
+        $ Since 2023: mpiexec.hydra arguments need to be (scroll to right to see full line):
+        $ -genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh -genv LD_PRELOAD=/apps/leuven/rocky8/skylake/2018a/software/impi/2018.1.163-iccifort-2018.1.163-GCC-6.4.0-2.28/lib64/strtok_proxy.so
         $ [option 2] ddt mpirun -np 4 [...]/LIS_public_release_7.2r_KUL_debugging/LIS\\
         /data/leuven/314/vsc31402/src_code/LIS/testrun/GLDAS/lis.config &
 
