@@ -916,3 +916,18 @@ Submitting and managing jobs
     $ qdel [jobid]
     $ showstart [jobid]
 
+Understanding LIS structure with Doxygen
+==========================
+
+[Doxygen](https://www.doxygen.nl/) is an automatic code documentation tool with graphs of dependencies of modules and routines.
+
+    $ git clone https://github.com/KUL-RSDA/LISF
+    $ cd LISF
+    $ cp -r /data/leuven/317/vsc31786/00_tools/Doxygen_lis .
+
+Edit the paths in the Doxygen file to your personal directory of LISF.
+On a compute node run (tier-2 only):
+
+    $ module load Doxygen/1.9.1-GCCcore-10.3.0
+    $ module load Graphviz/2.47.2-GCCcore-10.3.0
+    $ doxygen Doxygen_lis/Doxyfile
