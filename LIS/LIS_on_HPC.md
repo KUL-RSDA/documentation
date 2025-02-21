@@ -506,6 +506,17 @@ To open the ddt debugger:
   
 Do not select MPI but OpenMP instead
 
+**Tier 2 WICE**
+
+To open the ddt debugger (first load ArmForge and DO NOT include module purge in KUL_LIS_modules):
+
+    $ module load ArmForge/22.1.2
+    $ source KUL_LIS_modules
+    $ ./ddt
+
+under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
+
+
 ./ldt.config
 ------------
 
