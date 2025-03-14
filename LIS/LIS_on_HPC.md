@@ -515,6 +515,7 @@ To open the ddt debugger (first load ArmForge and DO NOT include module purge in
     $ ./ddt
 
 under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
+Do select MPI AND OpenMP.
 
 
 ./ldt.config
