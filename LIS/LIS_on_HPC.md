@@ -518,6 +518,27 @@ under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI
 Do select MPI AND OpenMP.
 
 
+**Debugging of job with multiple nodes Tier 2 GENIUS**
+
+* submit batch job that gets stuck. When it got stuck:
+* ssh to one of its compute nodes (not working on nx, unless you do first ssh -A yourvscaccount@firewall.vscentrum.be)
+* source KUL_LIS_modules
+* load compatible GDB module (same intel toolchain, no worries if python version conflicts and different version is reloaded)
+
+Write out all backtrace output of each process into files:
+
+    $ for pid in $(pgrep -f LIS); do
+    $ echo "Getting backtrace for PID $pid..."
+    $ gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt" > backtrace_$pid.txt
+    $ done
+  
+**May also work with DDT but not for every case**
+
+* srun --x11 ... for a job with two nodes
+* create file hosts.txt with two lines and the names of the two nodes
+* start GUI of ddt as usual and provide in ddt the file with the known hosts in the mpi details  
+
+
 ./ldt.config
 ------------
 
