@@ -538,7 +538,15 @@ Write out all backtrace output of each process into files:
 * create file hosts.txt with two lines and the names of the two nodes
 * start GUI of ddt as usual and provide in ddt the file with the known hosts in the mpi details  
 
+**May also work with DDT but not for every case**
 
+* srun --x11 ... for a job with two nodes
+* create file hosts.txt with two lines and the names of the two nodes
+* start GUI of ddt as usual and provide in ddt the file with the known hosts in the mpi details
+
+**Other available debugging options if ddt fails**
+* MUST tool: https://www.i12.rwth-aachen.de/go/id/nrbe (see also https://gjbex.github.io/Defensive_programming_and_debugging/Taxonomy/data_races_deadlocks/)
+  
 ./ldt.config
 ------------
 
