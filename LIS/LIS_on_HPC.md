@@ -479,6 +479,23 @@ ArmForge ddt debugger
 ---------------------------
 <img src="https://github.com/KUL-RSDA/documentation/assets/93274177/1a3e941d-f763-42ba-ac4c-e3d032a9d7f7" width="350" align="right">
 
+**Tier 2 wICE**
+
+This is based on the new compilation toolchain (developed by Sam)
+To open the ddt debugger:
+
+    $ module load ArmForge
+    $ source load_modules
+    $ ddt
+*Note that it is important to first load ArmForge and then the moduels to avoid conflicts in the C compiler*
+
+  
+Click on Run and follow the example screenshot: 
+1. path to executable
+2. lis.config file to be run
+3. working directroy
+4. select MPI
+5. under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0`
 
 **Tier 2 Genius**
 
@@ -491,7 +508,7 @@ To open the ddt debugger:
 Click on Run and follow the example screenshot: 
 1. path to executable
 2. lis.config file to be run
-3. working directroy
+3. working directory
 4. select MPI
 5. under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh -genv LD_PRELOAD=/apps/leuven/rocky8/skylake/2018a/software/impi/2018.1.163-iccifort-2018.1.163-GCC-6.4.0-2.28/lib64/strtok_proxy.so`
 
