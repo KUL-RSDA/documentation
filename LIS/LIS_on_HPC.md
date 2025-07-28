@@ -517,7 +517,7 @@ Click on Run and follow the example screenshot:
 
 To open the ddt debugger (this only works on cpu_milan_rhel9):
 
-    $ source KUL_LIS_modules
+    $ source KUL_LIS_modules (or source load_modules for new LIS compilation with easybuild)
     $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
     $ module load ArmForge/22.1.2
     $ ./ddt
