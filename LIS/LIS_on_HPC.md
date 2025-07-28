@@ -514,7 +514,7 @@ Click on Run and follow the example screenshot:
 
 **Tier 1 Hortense**
 
-To open the ddt debugger:
+To open the ddt debugger (this only works on cpu_milan_rhel9):
 
     $ source KUL_LIS_modules
     $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
