@@ -1,78 +1,54 @@
 
-Compile and run NASA's LIS, LDT, and LVT on the HPC at KU Leuven
+Compile and run NASA's Land Information System Framework (LISF) on the HPC at KU Leuven
 ==
 
     Authors:
-        Gabriëlle De Lannoy, Michiel Maertens, Alexander Gruber
+        Gabriëlle De Lannoy with RSDA team
         contact: gabrielle.delannoy@kuleuven.be 
 
-  ----------- ----------------------------------------------------------------------------------------------------
-  version 1   Gabriëlle De Lannoy, initial documentation \
-  version 2   Gabriëlle De Lannoy, updated libraries LIS7.2, downloaded LIS via github \
-  version 3   Gabriëlle De Lannoy, Michiel Maertens, move to Genius, instructions on how to run LIS, LDT and LVT \
-  version 4   Alexander Gruber, updated libraries for Tier-1 compilation  
-  version 5   Sara Modanesi, updated documentation for the WCM and Noah-MP.v.3.6 irrigation
-  version XXX ALL, there are constant updates transparent via the commits. No header updates on versions anymore...
-  ----------- ----------------------------------------------------------------------------------------------------
-
-\
-\
-Acknowledgement: This work was supported by the HPC Team of the KU
+Acknowledgement: This work was supported by the VSC HPC Team of the KU
 Leuven.
 
 Background information
 ======================
 
-This document describes how to install and run NASA's LIS, LDT and LVT
+This document describes how to install and run NASA's LISF
 on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html) and [Tier-2](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) cluster.
 
--   get a VSC-account and manage it: <https://account.vscentrum.be/>
+This document assumes the user has basic knowledge of the HPC, see 'Getting started on the HPC' documentation.
 
--   obtain LIS7.2 and LDT7.2 from NASA at
-    <https://github.com/NASA-LIS/LISF>
-
--   source code is also available on the HPC to anyone in the group lees_swm_ls:
-    /data/leuven/314/vsc31402/src code/LIS/
-
--   source code is also available on the KUL-RSDA github:
+-   LISF source code is available on the KUL-RSDA github:
     <https://github.com/KUL-RSDA/LISF>
-    (master branch is kept up-to-date with NASA version, a master-KUL branch 
-    is also kept up-to-date with the NASA version but additionally contains 
-    all recent developments of the group)
 
--   original source code, Makefiles, \... were developed for the NASA's
-    NCCS Discover cluster
+-   The master branch is kept up-to-date with the NASA version.
 
--   scripts adapted for the HPC at KU Leuven are under code indicated
-    with `_KUL`, or `_KUL_Genius`
+-   Several feature/branches on this repository include:
+-   a) model developments that are supposed to get sent to NASA after publication
+-   b) bug fixes that are supposed to get sent to NASA
+-   c) KUL-RSDA specific options that are not planned to be sent to NASA
 
--   LIS7.2 requires you to prepare input using LDT; LIS-testcases need
-    input that is prepared using LDT
 
-There are three components:
+The LISF framework has three components:
 
 -   The Land Information System (LIS) is the main system, including
-    different land surface models (LSM) and data assimilation tools. You
+    different land surface models (LSM) and data assimilation (DA) tools. You
     will use LIS to run LSMs and assimilate satellite data into your
     models.
 
 -   The Land Data Toolkit (LDT) is the program you have to run before
-    running LIS. LIS requires input data such as elevation, soilmaps,
-    landcovermaps, vegetation data,\... LDT allows you to homogenize
+    running LIS. LIS requires input data such as elevation, soil maps,
+    landcover maps, vegetation data,\... LDT allows you to homogenize
     your input data (which are originally in different data formats)
-    into one netcdf-file containing different input-layers, all with the
-    same spatial extent and spatial resolution. This netcdf-file can
-    easily be imported in LIS.
+    into one netcdf-file containing different input layers, all with the
+    same spatial extent and spatial resolution. This netcdf-file is loaded in LIS for the simulations.
 
--   The Land Verification Toolbox (LVT) is a program which can be used
+-   (not used in RSDA group, the group uses instead the own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
     to analyze your output data. For example, you have soil moisture
     output from three LSMs in LIS and you want to evaluate that output
     with SMOS and SMAP data. LVT facilitate such an analysis and enables
-    the calculation of different evaluation metrices. The regridding in
-    the LVT-program is a particularly useful tool. It brings all your
-    models and satellite-retrievals to the same grid and resolution.
+    the calculation of different evaluation metrices. 
 
-To get use to the different programs it is advised to run the different
+To get used to the different programs it is advised to run the different
 testcases which are available on the LIS-website
 (<https://lis.gsfc.nasa.gov/tests>) and in the public test cases
 directories, within the LIS source code, inside the testcases/public
@@ -990,3 +966,5 @@ On a compute node run (tier-2 only):
     $ module load Doxygen/1.9.1-GCCcore-10.3.0
     $ module load Graphviz/2.47.2-GCCcore-10.3.0
     $ doxygen Doxygen_lis/Doxyfile
+
+
