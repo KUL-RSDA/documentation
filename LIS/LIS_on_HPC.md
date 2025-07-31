@@ -17,15 +17,16 @@ on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation
 
 This document assumes the user has basic knowledge of the HPC, see 'Getting started on the HPC' documentation.
 
--   LISF source code is available on the KUL-RSDA github:
+-   LISF source code is available on the KUL-RSDA github as a fork of the NASA LISF repository
     <https://github.com/KUL-RSDA/LISF>
 
 -   The master branch is kept up-to-date with the NASA version.
 
--   Several feature/branches on this repository include:
--   a) model developments that are supposed to get sent to NASA after publication
--   b) bug fixes that are supposed to get sent to NASA
--   c) KUL-RSDA specific options that are not planned to be sent to NASA
+-   In the RSDA fork of LISF, there are several feature branches:
+-   a) compilation branch that includes all changes needed to get LISF compiled on the VSC HPC (Tier-1 Hortense and Tier-2 Genius and wICE) 
+-   b) model developments that are supposed to be sent to NASA after publication with a testcase
+-   c) bug fixes that are supposed to be sent to NASA with a testcase
+-   d) KUL-RSDA specific options that are not planned to be sent to NASA
 
 
 The LISF framework has three components:
@@ -42,7 +43,7 @@ The LISF framework has three components:
     into one netcdf-file containing different input layers, all with the
     same spatial extent and spatial resolution. This netcdf-file is loaded in LIS for the simulations.
 
--   (not used in RSDA group, the group uses instead the own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
+-   The Land Verification Toolbox (LVT) (not used in RSDA group, instead using own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
     to analyze your output data. For example, you have soil moisture
     output from three LSMs in LIS and you want to evaluate that output
     with SMOS and SMAP data. LVT facilitate such an analysis and enables
@@ -63,12 +64,8 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1
 LIS and LDT compilation {#sec:compilation}
 =======================
 
-To compile LIS or LDT source code, open a terminal. By default on the
-Tier-1 and Tier-2 cluster, terminals use bash, and we will thus use bash-commands
-to load modules and set environment variables. While they could be set
-in your .profile, we do not need these settings every day and therefore
-we prefer to save the steps in a separate script that should be sourced
-prior to (i) configuring the compilation and (ii) compiling the code:
+The original LISF code from NASA cannot be directly compiled at the HPC of the VSC. However, there is a branch on our  (Tier-1 or Tier-2 Leuven), there is a github branch that includes all necessary changes
+https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README
 
     $ cd /data/leuven/314/vsc31402/src_code/LIS/github_20181214_KUL(_Genius)/lis
     $ source KUL_LIS_modules
