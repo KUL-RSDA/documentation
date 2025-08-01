@@ -82,14 +82,13 @@ If there are fundamental changes to the code like new dependencies and new files
 
     $ cd make && make realclean && make clean && cd ../..
 
-In case you are still figuring out libraries or other basics to get the
-compilation going, start from the scratch using the easybuild command that includes the configure process, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
+Afterwards, start the compilation from scratch using the easybuild command, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
 
 
-Water Cloud Model (WCM) - configure and compile in LIS
+Water Cloud Model (WCM) (to be updated and integrated into easybuild)
 ---------
 The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
-* Step1. CRTM profile utility needs to be manually installed navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
+* Step1. CRTM profile utility needs to be manually installed by navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
 ```
     gmake && make install 
 ```    
@@ -122,51 +121,6 @@ The default value is zero, which means we do not want to use the WCM; otherwise,
     $ ./compile
 ```
 
-Compiling LIS with the foss toolchain
----------
-
-**List of modules on Genius (foss toolchain):**
-
-    module purge
-    module load foss/2018a
-    module load HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf
-    module load HDF-EOS2/20.1.00-foss-2018a-HDF4-w-fortran
-    module load ESMF/7.1.0r-foss-2018a
-    module load GDAL/2.4.1-foss-2018a-Python-3.6.4
-    module load netCDF-Fortran/4.4.4-foss-2018a
-    module load ecCodes/2.13.1-foss-2018a-with-Jasper-1.900.1
-
-**List of environment variables expected for compilation on Genius (foss toolchain):**
-
-    export LIS_SRC=/data/leuven/317/vsc31786/src_code/LIS/ac70_20220311_foss/lis
-    export LIS_ARCH=linux_gfortran
-    export LIS_SPMD=parallel
-    export LIS_FC=mpif90
-    export LIS_CC=mpicc
-    export LIS_JASPER=$EBROOTJASPER
-    export LIS_ECCODES=$EBROOTECCODES
-    export LIS_NETCDF=/apps/leuven/skylake/2018a/software/netCDF-Fortran/4.4.4-foss-2018a
-    export LIS_HDF4=$EBROOTHDF
-    export LIS_HDFEOS=$EBROOTHDFMINEOS2
-    export LIS_HDF5=$EBROOTHDF5
-    export LIS_MODESMF=$EBROOTESMF/mod
-    export LIS_LIBESMF=$EBROOTESMF/lib
-    export LIS_GDAL=$EBROOTGDAL
-    export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
-    export LD_LIBRARY_PATH=${LIS_CRTM_PROF}/lib:${LIS_HDFEOS}/lib:${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:${LIS_ECCODES}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
-
-**Adaptations and compilation:**
-
-    --> create KUL_LIS_modules_foss with the list above
-    then run (use all default options, the foss compilation works with ecCodes)
-    --> ./configure
-    in configure.lis change:
-    INC_JPEG2000      = /apps/leuven/skylake/2018a/software/JasPer/1.900.1-GCCcore-6.4.0/include/jasper/
-    INC_HDF4        = /apps/leuven/skylake/2018a/software/HDF/4.2.14-GCCcore-6.4.0-w-fortran-no-netcdf/include/hdf
-    add -lsz to the LDFLAGS 
-    then you can compile with
-    --> ./compile
-
 
 LIS and LDT runs {#sec:run}
 ================
@@ -174,18 +128,15 @@ LIS and LDT runs {#sec:run}
 General
 -------
 
-To run a job, we need [HPC
-credits](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/jobs/credit_system_basics.html#credit-system-basics):
-click on link for more info. Before submitting a job, the libraries and
-environment variables need to be sourced:
+Before submitting a job, the libraries and
+environment variables need to be sourced (load_modules and the modules directory are part of the compilation branch):
 
-    $ source KUL_LDT_modules
-    $ source KUL_LIS_modules
+    $ source load_modules
 
 Secondly, prepare your `lis.config`-file for your application. Third,
 also add forcing variables list file, the netcdf-file created with LDT,
-model-specific input files, model output attribute file and a
-restart-file. Or else, define the path to each specific file in the
+model-specific input files, model output attribute file, and optionally a
+restart-file unless you start the simulation with a coldstart (spin up period). Define the path to each specific file in the
 configuration file.
 
 Run a job on an interactive node (for testing)
@@ -193,39 +144,36 @@ Run a job on an interactive node (for testing)
 
 Get the interactive nodes and run your case:
 
-    $ qsub -I -l nodes=1:ppn=N,walltime=1:00:00 -A default_project
-    $ ulimit -s unlimited
+    $ source load_modules
+    $ ulimit -s unlimited  # to give your job all stack memory it needs
     $ ./LIS lis.config (single core)
-    $ mpirun -np N ./LIS lis.config
+    $ mpirun -np N ./LIS lis.config (N cores)
 
-with N the number of processors for parallel computing. The `ulimit`
-command ensures enough memory for the simulation.
+with N the number of processors for parallel computing.
 
 Run a job in the queue
 ----------------------
 
-Create script (\$ sh script.sh) with PBS-commands (example below) and
-launch it:
+Create a slurm script (\$ vim LIS.slurm) and submit it:
 
+Example for a LIS run
     ----------------------------------------------------------
     #!/bin/bash
 
-    #PBS -N My_M_queued
-    #PBS -l walltime=00:02:00
-    #PBS -l nodes=1:ppn=4:ivybridge
-    #PBS -A default_project
-    #PBS -m abe
+    #SBATCH -t 23:59:59
+    #SBATCH --nodes=1
+    #SBATCH --ntasks-per-node=4
+    #SBATCH --cluster=wice
+    #SBATCH --account lp_ees_swm_ls_002
+    #SBATCH --mail-type BEGIN,END,FAIL
     #PBS -M firstname.lastname@kuleuven.be
-    #PBS -o script_log.txt
-    #PBS -e script_out.txt
+    #PBS -o logs/LIS_log.txt
+    #PBS -e logs/LIS_err.txt
 
-    cd $PBS_O_WORKDIR
-
+    cd $SLURM_SUBMIT_DIR
+    source load_modules
     ulimit -s unlimited
-    source /vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
-         github_20181214_KUL/lis/KUL_LIS_modules
-    mpirun -np 4 /vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
-         github_20181214_KUL/lis/LIS lis.config
+    mpirun -np 4 ./LIS lis.config
     ----------------------------------------------------------
 
 Run a job in debugging mode
