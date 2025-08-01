@@ -965,3 +965,47 @@ On a compute node run (tier-2 only):
     $ doxygen Doxygen_lis/Doxyfile
 
 
+
+
+RSDA code changes that still need to be transferred from archive/master-kul to separate branches:
+
+Note that the ongoing S1 PR includes some bug fixes that are now in separate fix/branches (stripe fix, writout fix, see more: of the RSDA: https://github.com/NASA-LIS/LISF/pull/1415)
+Once merged, those fix branches are not needed anymore.
+
+Snow:
+ENH: ML snow module --> Devon? https://github.com/KUL-RSDA/LISF/pull/54
+ENH: noahmp4 snow da: https://github.com/KUL-RSDA/LISF/pull/40
+ENH: S1 SD reader: wet snow mask added: https://github.com/KUL-RSDA/LISF/pull/28
+ENH: Remove interpolation in snow depth reader: https://github.com/KUL-RSDA/LISF/pull/33
+
+Vegetation DA:
+ENH: CGLS FCOVER DA --> Niccolo, Louise (old https://github.com/KUL-RSDA/LISF/pull/30 and https://github.com/KUL-RSDA/LISF/pull/29)
+ENH: CGLS LAI reader: https://github.com/KUL-RSDA/LISF/pull/7
+
+Bug fixes:
+BUG: Fix multiplicative error: https://github.com/KUL-RSDA/LISF/pull/49 and https://github.com/KUL-RSDA/LISF/pull/53
+
+Irrigation:
+BUG: Replacing uninitialized variable in Noah-MP401 irrigation module: https://github.com/KUL-RSDA/LISF/pull/48
+ENH: Irrigation with multiple land cover maps: https://github.com/KUL-RSDA/LISF/pull/47
+ENH: Irrigation modeling changes (irrigation triggering in case of bias correction and paddy): https://github.com/KUL-RSDA/LISF/pull/42
+ENH: Growing season irrig double option noah m pv36: https://github.com/KUL-RSDA/LISF/pull/9
+
+SMOS SM DA:
+ENH: Update SMOS L2 SM DA routine: https://github.com/KUL-RSDA/LISF/pull/46
+
+CCI SM DA:
+ENH: Enabled Noah-MP.4.0.1 + ESA CCI SM plugin: https://github.com/KUL-RSDA/LISF/pull/4
+ENH: ESA CCI SM assimilation over barren ground: https://github.com/KUL-RSDA/LISF/pull/27
+
+S1 DA in noahmp401 (The ongoing PR to NASA was still noahmp36):
+ENH: S1 DA for noahmp401: https://github.com/KUL-RSDA/LISF/pull/41
+
+S1 DA (after PR for noahmp36 is merged):
+ENH: S1 data masking over slopy terrain and forest (to be merged after merged PR at NASA): https://github.com/KUL-RSDA/LISF/pull/34
+BUG: adapted setting of the S1 obs domain: https://github.com/KUL-RSDA/LISF/pull/31/files
+
+NU-WRF related:
+ENH: Enable bottom temperature as output variable for NoahMP 4.0.1 (still needed for newest nu-wrf?): https://github.com/KUL-RSDA/LISF/pull/37
+
+VOD?
