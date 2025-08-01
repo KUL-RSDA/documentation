@@ -43,7 +43,7 @@ The LISF framework has three components:
     into one netcdf-file containing different input layers, all with the
     same spatial extent and spatial resolution. This netcdf-file is loaded in LIS for the simulations.
 
--   The Land Verification Toolbox (LVT) (not used in RSDA group, instead using own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
+-   The Land Verification Toolbox (LVT) (not used in RSDA group, instead use of own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
     to analyze your output data. For example, you have soil moisture
     output from three LSMs in LIS and you want to evaluate that output
     with SMOS and SMAP data. LVT facilitate such an analysis and enables
@@ -64,227 +64,27 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1
 LIS and LDT compilation {#sec:compilation}
 =======================
 
-The original LISF code from NASA cannot be directly compiled at the HPC of the VSC. However, there is a branch on our  (Tier-1 or Tier-2 Leuven), there is a github branch that includes all necessary changes
-https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README
+The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README)
+For compilation, ask either an interactive node or use the option of submitting the compilation as job. 
 
-    $ cd /data/leuven/314/vsc31402/src_code/LIS/github_20181214_KUL(_Genius)/lis
-    $ source KUL_LIS_modules
-    $ ./configure
-    $ vim ./make/configure.lis   
-      --> (a) add "LDFLAGS += -lmkl" at the end
-      --> (b) add "LDFLAGS += -lmkl -lsz -ltirpc" at the end
-      --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
-                    4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
-      --> (c) add "LDFLAGS += -lmkl -lsz -ltirpc -qopenmp" at the end
-    $ ./compile
-
-or
-
-    $ cd /data/leuven/314/vsc31402/src_code/LIS/github_20181214_KUL(_Genius)/ldt
-    $ source KUL_LDT_modules
-    $ ./configure
-    $ vim ./make/configure.ldt 
-      --> (a) add "LDFLAGS += -lmkl" at the end
-      --> (b) add "LDFLAGS += -lmkl -lsz -ltirpc" at the end
-      --> (b) edit "INC_HDF4 = /apps/leuven/skylake/2018a/software/HDF/
-                    4.2.8-intel-2018a-w-fortran-no-netCDF/include/hdf/"
-    $ ./compile
-
-KUL\_LIS/LDT\_modules refers to different modules on Breniac (Tier-1) as well as on Thinking and
-Genius (Tier-2).
-
-Edit according to (a), when running on Thinking, edit according to (b)
-when running on Genius or Breniac, and edit according to (c) when running 
-on Hortense (no update for LDT yet). You may want/need to add some 
-optional software here (e.g. CMEM, CRTM). 
-
-**IMPORTANT notes** when running ./configure:
-* LDT needs to be compiled **without the GeoTIFF** option. 
-* For both LIS and LDT, the **GRIBAPI has to be selected** instead of the default ECCODES (this has become necessary only in the latest NASA-LIS/LISF github versions) 
-* For all other options, the defaults can be used.
-
-In ./user.cfg you could toggle on/off some plugins. By default, most are
-turned on. If you change ./user.cfg, then you have to re-run ./configure
-and then ./compile. (On Thinking, I turned off CABLE, because of a LIS
-compilation error.)
+Note: During model development, compilation will often crash. To save time, use the same interactive node in which the modules are already loaded and recompile with
+E.g. for 8 cores: $ ./compile -j 8
 
 After compilation, the relevant executables are LIS and LDT, which can
 be run as discussed in section [3](#sec:run){reference-type="ref"
 reference="sec:run"}.
 
-Note: To speed up the compilation, it is possible to parallelize the process.
-E.g. for 9 cores: $ ./compile -j 9
 
 Cleaning before new compilation
 -------------------------------
 
-Before you (re)compile the code, it is a good policy to clean all the
-folders by deleting the executables, object and library files generated
-by the compilation. This can be done by using the following commands
-(first two are enough):
+If there are fundamental changes to the code like new dependencies and new files, it is recommended to clean compiled files. This can be done by using the following commands:
 
-    $ cd make && make realclean && cd MAKDEP && make realclean && cd ../..
+    $ cd make && make realclean && make clean && cd ../..
 
 In case you are still figuring out libraries or other basics to get the
-compilation going, make sure to manually remove the ./make/configure.lis
-file too.
+compilation going, start from the scratch using the easybuild command that includes the configure process, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
 
-Libraries
----------
-
-The libraries used on the HPC are summarized below and set in
-KUL\_LIS/LDT\_modules. The libraries were selected using the details in
-the LIS and LDT User Guides and info available on-line
-(<https://github.com/NASA-LIS/LISF/docs> modeling guru
-<https://modelingguru.nasa.gov/community/atmospheric/lis/blog/2015/03/09/compiling-lis-7-on-sles11-sp3>).
-
-Similarly, the environment variables are set using the info given in the
-on-line sources above. The compilation relies on the exact variable
-names (LIS\_XXX, LDT\_XXX) listed below.
-
-Libraries and environment variables will be managed centrally for all of
-lees\_swm\_ls(\_ext). So far, this was done by Gabrielle, Ehsan and
-Alexander at HPC.
-
-On the HPC, you seach for modules via \$ module avail \[part of module
-name\]. To get more information about a specific module (e.g. the root
-path to the software), use this command: \$ module display
-\[modulename\].
-
-To verify your environment variables: \$ printenv.
-
-Don't forget to look in the right toolchain for your libraries: on
-Thinking, that is 2015a. Also, the compilation did NOT work with
-Python/3.\*.
-
-The following modules need to be put into both KUL_LDT_modules and KUL_LIS_modules:
-
-**List of modules on Thinking:**
-
-    source switch_to_2015a
-    module purge
-    module load grib_api/1.21.0-intel-2015a
-    module load JasPer/1.900.1-intel-2015a
-    module load ESMF/7.0.0-intel-2015a
-    module load libxml2/2.9.2-intel-2015a
-    module load Szip/2.1-intel-2015a
-    module load zlib/1.2.8-intel-2015a
-    module load HDF/4.2.8-intel-2015a-w-fortran-no-netCDF
-    module load HDF-EOS2/19.1.00-intel-2015a-HDF4-w-fortran
-    module load Python/2.7.10-intel-2015a
-    module load GDAL/2.0.0-intel-2015a
-    #module load FortranGIS/2.4-intel-2015a ##does not work##
-
-**List of modules on Genius:**
-
-    module purge
-    module load grib_api/1.24.0-intel-2018a
-    module load JasPer/2.0.14-GCCcore-6.4.0
-    module load ESMF/7.1.0r-intel-2018a
-    module load libxml2/2.9.7-GCCcore-6.4.0
-    module load Szip/2.1.1-GCCcore-6.4.0
-    module load zlib/1.2.11-GCCcore-6.4.0
-    module load HDF/4.2.8-intel-2018a-w-fortran-no-netCDF
-    module load HDF-EOS2/20.1.00-intel-2018a-HDF4-w-fortran
-    module load Python/2.7.14-GCCcore-6.4.0-bare
-    module load GDAL/2.2.3-intel-2018a-Python-2.7.14
-    
-**List of modules on Breniac (Tier-1):**
-
-    module purge
-    module load GRIB_API/1.28.0-intel-2018a
-    module load ESMF/7.1.0r-intel-2018a
-    module load libxml2/2.9.7-GCCcore-6.4.0
-    module load Szip/2.1.1-GCCcore-6.4.0
-    module load zlib/1.2.11-GCCcore-6.4.0
-    module load HDF/4.2.14-intel-2018a-w-fortran-no-netcdf
-    module load HDF-EOS2/20.1.00-intel-2018a-HDF4-w-fortran
-    module load Python/3.6.4-intel-2018a
-    module load GDAL/2.4.1-intel-2018a-Python-3.6.4
-
-**List of modules on Hortense (Tier-1):**
-
-    module purge
-    export LIBDIR=/dodrio/scratch/projects/2022_200/project_input/rsda/src_code/nu-wrf_ekman_v11.0/baselibs/intel-intelmpi
-    module use $LIBDIR
-    module load intel/2021a
-    module load GCC/10.3.0
-    module load libjpeg-turbo/2.0.6-GCCcore-10.3.0
-    module load zlib/1.2.11-GCCcore-10.3.0
-    module load libtirpc/1.3.2-GCCcore-10.3.0
-    module load JasPer/1.900.1-GCCcore-10.3.0
-    module load Szip/2.1.1-GCCcore-10.3.0
-    module load cURL/7.76.0-GCCcore-10.3.0
-
-Note that not all modules are available on dodrio yet. Therefore, we temporarily 
-make use of the modules in the baselibs of the NU-WRF compilation.
-
-**List of environment variables expected for compilation on Thinking:**
-
-    export LIS_SRC=/vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
-                   github_20181214_KUL/lis
-    export LIS_ARCH=linux_ifc
-    export LIS_SPMD=parallel
-    export LIS_FC=ifort
-    export LIS_CC=icc
-    export LIS_JASPER=$EBROOTJASPER
-    export LIS_GRIBAPI=$EBROOTGRIB_API
-    export LIS_NETCDF=$EBROOTNETCDF
-    export LIS_HDF4=$EBROOTHDF
-    export LIS_HDFEOS=$EBROOTHDFMINEOS2
-    export LIS_HDF5=$EBROOTHDF5
-    export LIS_MODESMF=$EBROOTESMF/mod
-    export LIS_LIBESMF=$EBROOTESMF/lib
-    export LIS_MINPACK=
-    export LIS_CRTM=
-    export LIS_CRTM_PROF=
-    export LIS_CMEM=
-    export LDT_GDAL=$EBROOTGDAL
-    #export LDT_FORTRANGIS=$EBROOTFORTRANGIS  ##does not work##
-
-    export LD_LIBRARY_PATH=${LIS_MINPACK}/lib/intel64:${LIS_HDFEOS}/lib:
-    ${LIS_HDF4}/lib:${LIS_HDF5}/lib:${LIS_LIBESMF}:${LIS_NETCDF}/lib:
-    ${LIS_GRIBAPI}/lib:{LIS_JASPER}/lib:$LD_LIBRARY_PATH
-
-**List of environment variables expected for compilation on Genius and Breniac:**
-
-    export LIS_SRC=/vsc-hard-mounts/leuven-data/314/vsc31402/src_code/LIS/
-                   github_20181214_KUL_Genius/lis
-    [... identical to the above]
-    export LIS_FC=mpiifort
-    export LIS_CC=mpiicc
-    [... identical to the above]
-
-We somewhat suboptimally compiled LIS with ifort and icc on Thinking
-nodes, but fixed this when moving to Genius with mpiifort and mpiicc
-(not mpicc).
-
-**List of environment variables expected for compilation on Hortense:**
-Make sure to replace the first line with the correct directory:
-
-    export LIS_SRC=/your_src_directory/lis
-    export LIS_ARCH=linux_ifc
-    export LIS_SPMD=parallel
-    export LIS_FC=mpiifort
-    export LIS_CC=mpiicc
-    export LIS_JASPER=$EBROOTJASPER
-    export LIS_GRIBAPI=$LIBDIR/grib_api/
-    export LIS_NETCDF=$LIBDIR/netcdf4/
-    export LIS_HDF4=$LIBDIR/hdf4/
-    export LIS_HDFEOS=$LIBDIR/hdfeos/
-    export LIS_HDF5=$LIBDIR/hdf5/
-    export LIS_MODESMF=$LIBDIR/esmf/mod/modO/Linux.intel.64.intelmpi.default/
-    export LIS_LIBESMF=$LIBDIR/esmf/lib/libO/Linux.intel.64.intelmpi.default/
-    export LIS_MINPACK=
-    export LIS_CRTM=
-    export LIS_CRTM_PROF=
-    export LIS_CMEM=
-    
-    export LD_LIBRARY_PATH=$LIBDIR/jasper/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=$LIBDIR/netcdf4/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=$LIBDIR/hdf5/lib:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64
-    export PATH=$LIBDIR/netcdf4/bin:$PATH
 
 Water Cloud Model (WCM) - configure and compile in LIS
 ---------
