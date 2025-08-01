@@ -121,12 +121,17 @@ The default value is zero, which means we do not want to use the WCM; otherwise,
     $ ./compile
 ```
 
-
+/
 LIS and LDT runs {#sec:run}
 ================
 
 General
 -------
+
+When preparing a LIS simulation experiment, do not copy executables, modules, input folders, etc. into the experiment directory but work with links to save storage.
+e.g.:
+
+-   `$ ln -s path_to_LIS/LIS my_WORKDIR/LIS`
 
 Before submitting a job, the libraries and
 environment variables need to be sourced (load_modules and the modules directory are part of the compilation branch):
@@ -134,10 +139,10 @@ environment variables need to be sourced (load_modules and the modules directory
     $ source load_modules
 
 Secondly, prepare your `lis.config`-file for your application. Third,
-also add forcing variables list file, the netcdf-file created with LDT,
+also add or link forcing variables list file, the netcdf-file created with LDT,
 model-specific input files, model output attribute file, and optionally a
 restart-file unless you start the simulation with a coldstart (spin up period). Define the path to each specific file in the
-configuration file.
+configuration file. 
 
 Run a job on an interactive node (for testing)
 ----------------------------------------------
@@ -166,9 +171,9 @@ Example for a LIS run
     #SBATCH --cluster=wice
     #SBATCH --account lp_ees_swm_ls_002
     #SBATCH --mail-type BEGIN,END,FAIL
-    #PBS -M firstname.lastname@kuleuven.be
-    #PBS -o logs/LIS_log.txt
-    #PBS -e logs/LIS_err.txt
+    #SBATCH --mail-user firstname.lastname@kuleuven.be
+    #SBATCH -o logs/LIS_log.txt
+    #SBATCH -e logs/LIS_err.txt
 
     cd $SLURM_SUBMIT_DIR
     source load_modules
@@ -176,26 +181,6 @@ Example for a LIS run
     mpirun -np 4 ./LIS lis.config
     ----------------------------------------------------------
 
-Run a job in debugging mode
----------------------------
-
-First, Then, either manually enter the information in ddt or as follows
-on the prompt (stay in bash, not csh!):
-
--   `qsub -I -lnodes=2:ppn=20 -lwalltime=00:20:00`
-
--   when you have the interactive node:\
-    `>> echo $PBS_NODEFILE`\
-    `>> /var/spool/torque/aux//20499919.tier2-p-moab-1.icts.hpc.kuleuven.be`
-
--   `cp $PBS_NODEFILE /scratch/...[experiment]/run/.`
-
--   when you have the interactive node: `>> ssh -X i0r5n4`: open new
-    xterm to circumvent the memory limit (for now)
-
--   -   `source KUL_LIS_modules`
-
--   ` mpirun -np 20 -machinefile ./20500283.tier2-p-moab-1.icts.hpc.kuleuven.be /path_to_LIS/LIS lis.config`
 
 ArmForge ddt debugger
 ---------------------------
@@ -209,22 +194,26 @@ To open the ddt debugger:
     $ module load ArmForge
     $ source load_modules
     $ ddt
-*Note that it is important to first load ArmForge and then the moduels to avoid conflicts in the C compiler*
+*Note that it is important to first load ArmForge and then the modules to avoid conflicts in the C compiler*
 
   
 Click on Run and follow the example screenshot: 
 1. path to executable
 2. lis.config file to be run
-3. working directroy
+3. working directory
 4. select MPI
 5. under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0`
+
+alternatively:
+5. under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
+6. Do select MPI AND OpenMP.
 
 **Tier 2 Genius**
 
 To open the ddt debugger:
 
-    $ source KUL_LIS_modules
     $ module load ArmForge
+    $ source load_modules
     $ ddt
   
 Click on Run and follow the example screenshot: 
@@ -238,31 +227,19 @@ Click on Run and follow the example screenshot:
 
 To open the ddt debugger (this only works on cpu_milan_rhel9):
 
-    $ source KUL_LIS_modules (or source load_modules for new LIS compilation with easybuild)
-    $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
     $ module load ArmForge/22.1.2
-    $ ./ddt
+    $ source load_modules
+    $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
+    $ ddt
   
 Do not select MPI but OpenMP instead
-
-**Tier 2 WICE**
-
-To open the ddt debugger (first load ArmForge and DO NOT include module purge in KUL_LIS_modules):
-
-    $ module load ArmForge/22.1.2
-    $ source KUL_LIS_modules
-    $ ./ddt
-
-under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
-Do select MPI AND OpenMP.
-
 
 **Debugging of job with multiple nodes Tier 2 GENIUS**
 
 * submit batch job that gets stuck. When it got stuck:
-* ssh to one of its compute nodes (not working on nx, unless you do first ssh -A yourvscaccount@firewall.vscentrum.be)
-* source KUL_LIS_modules
-* load compatible GDB module (same intel toolchain, no worries if python version conflicts and different version is reloaded)
+* ssh to one of its compute nodes
+* source load_modules
+* load a compatible GDB module (same intel toolchain, no worries if python version conflicts and different version is reloaded)
 
 Write out all backtrace output of each process into files:
 
@@ -277,12 +254,6 @@ Write out all backtrace output of each process into files:
 * create file hosts.txt with two lines and the names of the two nodes
 * start GUI of ddt as usual and provide in ddt the file with the known hosts in the mpi details  
 
-**May also work with DDT but not for every case**
-
-* srun --x11 ... for a job with two nodes
-* create file hosts.txt with two lines and the names of the two nodes
-* start GUI of ddt as usual and provide in ddt the file with the known hosts in the mpi details
-
 **Other available debugging options if ddt fails**
 * MUST tool: https://www.i12.rwth-aachen.de/go/id/nrbe (see also https://gjbex.github.io/Defensive_programming_and_debugging/Taxonomy/data_races_deadlocks/)
   
@@ -291,7 +262,7 @@ Write out all backtrace output of each process into files:
 
 In the configuration file, you have to define which model you will run,
 over which domain and on which resolution, for example, in this case,
-the models were run over a region in South-America with a resolution of
+the models were run over a region in South America with a resolution of
 0.125$^\mathrm{o}$.
 
     #LIS domain: (see LDT Users' Guide for other projection information)
@@ -550,18 +521,8 @@ parameter filename' is not correct.\
 Solution: First create the directory where you will write your output
 to.
 
-LIS and LDT: log of source code changes at KU Leuven
+LDT code development
 ====================================================
-
-Check with Michiel Maertens or Hans Lievens for:
-
--   reading new soil texture maps
-
--   assigning new soil hydraulic parameters
-
--   reading and assigning new vegetation parameters
-
--   assimilating Sentinel-1 snow depth retrievals
 
 If you want to read in a new type of data in LDT, the following steps
 have to be taken:
@@ -584,119 +545,8 @@ have to be taken:
 
 7.  Add variable name in `LDT_readConfig`
 
-LIS and LDT: in a nutshell
-==========================
 
-[LIS users'
-guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2634-102-4-6543/LIS_usersguide.pdf),
-[LDT users'
-guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2635-102-3-6535/LDT_usersguide.pdf),
-[LVT users'
-guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1-6534/LVT_usersguide.pdf).\
-To compile on the KU Leuven HPC:
-
-Download the source code (github) or copy available source code to your
-local directory, and find an KUL(\_Genius)-updated LIS version to get
-information on settings:
-
--   `$ cp KUL_LDT_modules` from a KUL(\_Genius)-updated version into
-    your own folder
-
--   [`$ source KUL_LDT_modules`]{style="background-color: yellow"} (set
-    libraries and environment variables)
-
--   [`$ ./configure`]{style="background-color: yellow"}
-
--   `$ vim ./make/configure.lis`, and edit as in
-    Section [2](#sec:compilation){reference-type="ref"
-    reference="sec:compilation"}
-
--   [`$ ./compile`]{style="background-color: yellow"}
-
--   the executable should show up in the current directory: LIS
-
--   repeat for LDT
-
-To move from Thinking to Genius or Breniac,
-
-1.  copy new KUL\_LDT\_modules, KUL\_LIS\_modules
-
-2.  edit `./make/configure.lis` differently, as detailed in
-    Section [2](#sec:compilation){reference-type="ref"
-    reference="sec:compilation"}
-
-To run:
-
-Link the executable to your working directory my\_WORKDIR, then run.
-E.g. the path\_to\_LIS is
-`/data/leuven/314/vsc31402/src_code/LIS/github_20181214_KUL(_Genius)/lis/`.
-
--   create a directory `my_WORKDIR` from which you will run simulations,
-    most likely on `$VSC_SCRATCH` (note that is not the source-code
-    directory folder).\
-    For example: \$ mkdir /scratch/leuven/320/vsc32041/NOAH.3.6
-
--   `$ cd my_WORKDIR`
-
--   `$ vim ldt.config`, and edit for your application (start from a
-    testcase)
-
--   `$ ln -s path_to_LDT/LDT my_WORKDIR/LDT`
-
--   `$ ln -s path_to_LDT/KUL_LDT_modules my_WORKDIR/KUL_LDT_modules`
-
--   [`$ source KUL_LDT_modules`]{style="background-color: yellow"}
-
--   [`$ ulimit -s unlimited `]{style="background-color: yellow"}
-
--   [`$ ./LDT ldt.config`]{style="background-color: yellow"}
-
--   `$ cd my_WORKDIR`
-
--   `$ vim lis.config`, and edit for your application (start from a
-    testcase)
-
--   possibly add or link forcing variables list file, the netcdf-file
-    created with LDT, model-specific input files, model output attribute
-    file and a restart file.
-
--   `$ ln -s path_to_LIS/LIS my_WORKDIR/LIS`
-
--   `$ ln -s path_to_LIS/KUL_LIS_modules my_WORKDIRL/KUL_LIS_modules`
-
--   [`$ source KUL_LIS_modules`]{style="background-color: yellow"}
-
--   [`$ ulimit -s unlimited `]{style="background-color: yellow"}
-
--   [`$ mpirun -np N ./LIS lis.config`]{style="background-color: yellow"}
-
--   or better launch script with PBS-commands in the queue (e.g.
-    `$ sh script.sh`)
-
-Logging into Thinking or Genius:
-
-    $ ssh vscxxxxx@login.hpc.kuleuven.be (Thinking)
-    $ ssh vscxxxxx@login1-tier2.hpc.kuleuven.be (Genius)
-    $ ssh vscxxxxx@login1-tier1.hpc.kuleuven.be (Breniac)
-
-Credit system
-
-    $ module load accounting
-    $ mam-balance
-    $ gquote -q q24h -l nodes=1:ppn=20:ivybridge
-    $ mam-statement (-a lp_ees_swm_ls_001 --summarize)
-
-Submitting and managing jobs
-
-    $ qsub -q q1h script_w_PBS_commands.sh
-    $ qsub -I -l walltime=2:00:00 -l nodes=1:ppn=20 -A default_project
-    $ qstat (-q)
-    $ showq
-    $ checkjob [jobid]
-    $ qdel [jobid]
-    $ showstart [jobid]
-
-Understanding LIS structure with Doxygen
+Visualization of LIS structure with Doxygen
 ==========================
 
 [Doxygen](https://www.doxygen.nl/) is an automatic code documentation tool with graphs of dependencies of modules and routines.
@@ -711,7 +561,6 @@ On a compute node run (tier-2 only):
     $ module load Doxygen/1.9.1-GCCcore-10.3.0
     $ module load Graphviz/2.47.2-GCCcore-10.3.0
     $ doxygen Doxygen_lis/Doxyfile
-
 
 
 
