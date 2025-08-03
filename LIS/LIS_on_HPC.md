@@ -86,12 +86,112 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 
 
-Workflow for building your own code
--------------------------------
-<img src="https://github.com/KUL-RSDA/documentation/assets/93274177/1a3e941d-f763-42ba-ac4c-e3d032a9d7f7" width="350" align="right">
+# 🛠️ Building Your Own LISF Code
 
+<img src="https://github.com/user-attachments/assets/8c05cc28-045d-438f-a1ff-13814f74cfb3" width="300" align="right" />
 
-If there
+This guide walks you through the process of creating your own version of the [LISF repository](https://github.com/KUL-RSDA/LISF).
+
+---
+
+## 1. Fork and Clone the Repository
+
+1. **Fork** the original repo to your GitHub account.
+2. **Clone** your fork:
+
+   ```bash
+   git clone https://github.com/<your_username>/LISF
+   cd LISF
+   ```
+
+3. **Add the upstream (original) repository**:
+
+   ```bash
+   git remote add upstream https://github.com/KUL-RSDA/LISF.git
+   ```
+
+4. *(Optional)* If using SSH:
+
+   ```bash
+   git remote set-url upstream git@github.com:KUL-RSDA/LISF.git
+   ```
+
+---
+
+## 2. Sync with Upstream
+
+Make sure your local repo is up to date with the latest changes from the original repository.
+
+```bash
+git fetch upstream
+git checkout master
+git merge upstream/master
+```
+
+---
+
+## 3. Create a Working Branch
+
+To start working on your version of LISF:
+
+```bash
+git checkout -b working/<name_of_lis_version>
+```
+
+---
+
+## 4. Merge Required Branches
+
+Pull in selected branches from upstream as needed:
+
+```bash
+git merge upstream/compilation
+git merge upstream/kul_options
+```
+
+### Optional (Depending on Use Case)
+
+```bash
+git merge upstream/kul_options_SMAP_vegetation_flag
+git merge upstream/kul_options_sm_da_options
+git merge upstream/feature_NASA/S1_DA
+```
+
+---
+
+## 5. Merge Fixes (Optional)
+
+If necessary, merge specific fix branches:
+
+```bash
+git merge upstream/fix/stripe_issues_map_utils
+git merge upstream/fix/writeout_bug_multiDAinst
+```
+
+---
+
+## ✅ All Set!
+
+Your working LISF version is now ready for customization, development, or compilation.
+
+---
+
+## 💡 Tip
+
+To keep your fork clean and synced, regularly do:
+
+```bash
+git fetch upstream
+git merge upstream/master
+```
+
+---
+
+## 📎 Resources
+
+- [LISF GitHub Repository](https://github.com/KUL-RSDA/LISF)
+- [GitHub Docs: Working with Forks](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
+
 
 
 Water Cloud Model (WCM) (to be updated and integrated into easybuild)
