@@ -85,6 +85,15 @@ If there are fundamental changes to the code like new dependencies and new files
 Afterwards, start the compilation from scratch using the easybuild command, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
 
 
+
+Workflow for building your own code
+-------------------------------
+<img src="https://github.com/KUL-RSDA/documentation/assets/93274177/1a3e941d-f763-42ba-ac4c-e3d032a9d7f7" width="350" align="right">
+
+
+If there
+
+
 Water Cloud Model (WCM) (to be updated and integrated into easybuild)
 ---------
 The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
