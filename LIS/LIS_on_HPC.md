@@ -9,8 +9,7 @@ Compile and run NASA's Land Information System Framework (LISF) on the HPC at KU
 Acknowledgement: This work was supported by the VSC HPC Team of the KU
 Leuven.
 
-Background information
-======================
+# Background information
 
 This document describes how to install and run NASA's LISF
 on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html) and [Tier-2](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) cluster.
@@ -64,8 +63,7 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1
 
 <a name="sec:compilation"></a>
 
-## LIS and LDT compilation
-=======================
+# LIS and LDT compilation
 
 The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command (easybuild) that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). If you want to skip the setup of your github at this moment (see #sec:LISF_merging_branches){reference-type="ref"
 reference="sec:run"}, you can simply download this compilation branch and you have a version that you can compile immediately on the HPC. For compilation, ask either an interactive node beforehand or use the option of submitting the compilation as job. 
@@ -77,8 +75,7 @@ After compilation, the relevant executables are LIS and LDT, which can
 be run as discussed in section [Section on running LIS and LDT](#lis-and-ldt-runs).
 
 
-Cleaning before new compilation
--------------------------------
+## Cleaning before new compilation
 
 If there are fundamental changes to the code like new dependencies and new files, it is recommended to clean compiled files. This can be done by using the following commands:
 
@@ -89,7 +86,7 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 <a name="sec:LISF_merging_branches"></a>
 
-# 🛠️ Building Your Own LISF Code
+## Building Your Own LISF Code
 
 <img src="https://github.com/user-attachments/assets/8c05cc28-045d-438f-a1ff-13814f74cfb3" width="300" align="right" />
 
@@ -97,7 +94,7 @@ This guide walks you through the process of creating your own version of the [LI
 
 ---
 
-## 1. Fork and Clone the Repository
+### 1. Fork and Clone the Repository
 
 1. **Fork** the original repo to your GitHub account.
 2. **Clone** your fork:
@@ -113,7 +110,7 @@ This guide walks you through the process of creating your own version of the [LI
    git remote add upstream https://github.com/KUL-RSDA/LISF.git
    ```
 
-4. *(Optional)* If using SSH:
+4. *(Optional)* If using SSH (set up ssh keys once and it's much more covenient):
 
    ```bash
    git remote set-url upstream git@github.com:KUL-RSDA/LISF.git
@@ -121,7 +118,7 @@ This guide walks you through the process of creating your own version of the [LI
 
 ---
 
-## 2. Sync with Upstream
+### 2. Sync with Upstream
 
 Make sure your local repo is up to date with the latest changes from the original repository.
 
@@ -133,7 +130,7 @@ git merge upstream/master
 
 ---
 
-## 3. Create a Working Branch
+### 3. Create a Working Branch
 
 To start working on your version of LISF:
 
@@ -143,13 +140,15 @@ git checkout -b working/<name_of_lis_version>
 
 ---
 
-## 4. Merge Required Branches
+### 4. Merge Required and Bugfix Branches
 
 Pull in selected branches from upstream as needed:
 
 ```bash
 git merge upstream/compilation
 git merge upstream/kul_options
+git merge upstream/fix/stripe_issues_map_utils
+git merge upstream/fix/writeout_bug_multiDAinst
 ```
 
 ### Optional (Depending on Use Case)
@@ -162,20 +161,11 @@ git merge upstream/feature_NASA/S1_DA
 
 ---
 
-## 5. Merge Fixes (Optional)
-
-If necessary, merge specific fix branches:
-
-```bash
-git merge upstream/fix/stripe_issues_map_utils
-git merge upstream/fix/writeout_bug_multiDAinst
-```
-
----
-
 ## ✅ All Set!
 
-Your working LISF version is now ready for customization, development, or compilation.
+Your working LISF version is now ready for compilation!
+Copy it from your local github working directory into a source code directory that you use for compilation. 
+**Never compile within in your git directory!**
 
 ---
 
@@ -185,7 +175,9 @@ To keep your fork clean and synced, regularly do:
 
 ```bash
 git fetch upstream
+git checkout master
 git merge upstream/master
+git checkout ... (any branch you want to update with the upstream/master changes)
 ```
 
 ---
