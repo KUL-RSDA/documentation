@@ -4,7 +4,7 @@ Compile and run NASA's Land Information System Framework (LISF) on the HPC at KU
 
     Authors:
         Gabriëlle De Lannoy with RSDA team
-        contact: gabrielle.delannoy@kuleuven.be 
+        contact: gabrielle.delannoy@kuleuven.be, michel.bechtold@kuleuven.be 
 
 Acknowledgement: This work was supported by the VSC HPC Team of the KU
 Leuven.
@@ -36,14 +36,14 @@ The LISF framework has three components:
     will use LIS to run LSMs and assimilate satellite data into your
     models.
 
--   The Land Data Toolkit (LDT) is the program you have to run before
+-   Preprocessing: The Land Data Toolkit (LDT) is the program you have to run before
     running LIS. LIS requires input data such as elevation, soil maps,
     landcover maps, vegetation data,\... LDT allows you to homogenize
     your input data (which are originally in different data formats)
     into one netcdf-file containing different input layers, all with the
-    same spatial extent and spatial resolution. This netcdf-file is loaded in LIS for the simulations.
+    same spatial extent and spatial resolution. This netcdf-file is loaded in LIS for the simulations. Some specific preprocessing steps used in the RSDA group are done with the own python-based 'pylis' package: https://github.com/KUL-RSDA/pylis/)
 
--   The Land Verification Toolbox (LVT) (not used in RSDA group, instead use of own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
+-   Postprocessing: The Land Verification Toolbox (LVT) (not used in RSDA group, instead use of own python-based 'pylis': https://github.com/KUL-RSDA/pylis/) The Land Verification Toolbox (LVT) is a program which can be used
     to analyze your output data. For example, you have soil moisture
     output from three LSMs in LIS and you want to evaluate that output
     with SMOS and SMAP data. LVT facilitate such an analysis and enables
@@ -61,12 +61,10 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2635-102-3
 [LVT users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1-6534/LVT_usersguide.pdf).
 
-<a name="sec:compilation"></a>
 
 # LIS and LDT compilation
 
-The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command (easybuild) that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). If you want to skip the setup of your github at this moment (see #sec:LISF_merging_branches){reference-type="ref"
-reference="sec:run"}, you can simply download this compilation branch and you have a version that you can compile immediately on the HPC. For compilation, ask either an interactive node beforehand or use the option of submitting the compilation as job. 
+The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command (easybuild) that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). If you want to skip the setup of your github at this moment that allows you to merge different branches [Building Your Own LISF Code](#building-your-own-lisf-code), you can simply download this compilation branch and you have a version that you can compile immediately on the HPC. For compilation, ask either an interactive node beforehand or use the option of submitting the compilation as job. 
 
 Note: If you start developing code or experimenting with merging branches, compilation will often crash. To save a lot of time, use the same interactive node on which the modules are already loaded and recompile with instead of recompiling from scratch using easybuild. 
 E.g. for 8 cores: $ ./compile -j 8
@@ -83,8 +81,6 @@ If there are fundamental changes to the code like new dependencies and new files
 
 Afterwards, start the compilation from scratch using the easybuild command, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
 
-
-<a name="sec:LISF_merging_branches"></a>
 
 ## Building Your Own LISF Code
 
@@ -113,6 +109,7 @@ This guide walks you through the process of creating your own version of the [LI
 4. *(Optional)* If using SSH (set up ssh keys once and it's much more covenient):
 
    ```bash
+   git remote set-url origin git@github.com:<your_username>/LISF.git
    git remote set-url upstream git@github.com:KUL-RSDA/LISF.git
    ```
 
@@ -120,7 +117,7 @@ This guide walks you through the process of creating your own version of the [LI
 
 ### 2. Sync with Upstream
 
-Make sure your local repo is up to date with the latest changes from the original repository.
+Make sure your local repo is up to date with the latest changes from the upstream repository.
 
 ```bash
 git fetch upstream
@@ -159,6 +156,14 @@ git merge upstream/kul_options_sm_da_options
 git merge upstream/feature_NASA/S1_DA
 ```
 
+Note: You can even add further upstream repositories from other users from which you can merge selected branches, e.g. NoahMP 5 PR from Cenlin He:
+
+```bash
+git remote add upstream-cenlinhe https://github.com/cenlinhe/LISF.git
+git fetch upstream-cenlinhe
+git merge upstream-cenlinhe/LISF_NoahMPv5
+```
+
 ---
 
 ## ✅ All Set!
@@ -187,43 +192,6 @@ git checkout ... (any branch you want to update with the upstream/master changes
 - [LISF GitHub Repository](https://github.com/KUL-RSDA/LISF)
 - [GitHub Docs: Working with Forks](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
 
-
-
-Water Cloud Model (WCM) (to be updated and integrated into easybuild)
----------
-The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
-* Step1. CRTM profile utility needs to be manually installed by navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
-```
-    gmake && make install 
-```    
-This step allows to define the use of the Radiative Transfer Models (RTMs) in LIS and, consequently, to configure and compile a RTM.
-* Step 2. Add the compiled CRTM libraries location in the KUL_LIS_MODULES. Open the KUL_LIS_MODULES and set the environmental variable (an empty definition already exists in the file and needs to be filled with the correct location):
-```
-    export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
-```
-where *$(directory)* is your directory with the compiled CRTM profile
-* Step3. some plugins need to be toggle off (additionally to CABLE) in the *user.cfg* file in the *lis/make* directory: 
-```
-    CRTM off
-    CMEM off 
-    CRTM2 off
-    CRTM2EM off
-```
-As we have activated all the RTMs, during the compilation LIS will fail for missing libraries related to those plugins if we don’t switch off them.
-* Step 4. Source the modified KUL_LIS_MODULES and start the configuration:
-```
-    $ source KUL_LIS_modules
-    $ ./configure
-```
-A new flag was added for the WCM
-```
-    Use LIS-WCM? (1-yes, 0-no, default=0): 
-```
-The default value is zero, which means we do not want to use the WCM; otherwise, we will use the flag *“1”*
-* Step 5. The compilation does not need specific edits:
-```
-    $ ./compile
-```
 
 
 ## LIS and LDT runs
@@ -491,7 +459,7 @@ anything.
 The number of processors on which you will run your model. 4 along x and
 y results in a total of 16 processors. Pay attention to specify exactly
 the same number of cores here and as argument to your mpirun -np N
-(Section [3](#sec:run){reference-type="ref" reference="sec:run"}).\
+[Section on running LIS and LDT](#lis-and-ldt-runs).\
 If you do not do any data-assimilation, you can skip the
 data-assimilation, bias estimation and perturbation options.
 
@@ -548,7 +516,7 @@ breaks, which should not be present in your configuration files).
 
 WCM running in LIS Noah-MP.v.3.6
 ------------
-* Specifications are needed to run the WCM coupled with Noah-MP.v.3.6 within the lis.config file:
+* Specifications are needed to run the the Water Cloud Model [WCM](water-cloud-model) coupled with Noah-MP.v.3.6 within the lis.config file:
 ```
     #------------------------RADIATIVE TRANSFER MODELS-------------------------
     Radiative transfer model: "WCM"
@@ -612,7 +580,7 @@ A bit further below
 ```
 The first *“0”* in this list is set to instantaneous, *“1”* for average and *“3”* for accumulated output. I would recommend to use *“1”* or *“3”*.
 
-Error messages encountered {#sec:errmess}
+Error messages encountered
 --------------------------
 
 ### Could not create file
@@ -739,4 +707,47 @@ These changes still need to be transferred from `archive/master-kul` to separate
 
 #### 📡 VOD?
 
-- *(Unspecified enhancement – needs clarification)*
+- *(Zdenko – needs information on which branch to use)*
+
+
+
+
+## Water Cloud Model 
+
+(to be updated and integrated into easybuild)
+
+---------
+The Water Cloud Model (WCM) was coupled with the Noah-MP.v.3.6. The following changes are needed for the configuration and compilation of the WCM in LIS:
+* Step1. CRTM profile utility needs to be manually installed by navigating to the directory *LISF/lis/lib/lis-crtm-profile-utility* and executing the command:
+```
+    gmake && make install 
+```    
+This step allows to define the use of the Radiative Transfer Models (RTMs) in LIS and, consequently, to configure and compile a RTM.
+* Step 2. Add the compiled CRTM libraries location in the KUL_LIS_MODULES. Open the KUL_LIS_MODULES and set the environmental variable (an empty definition already exists in the file and needs to be filled with the correct location):
+```
+    export LIS_CRTM_PROF=$LIS_SRC/lib/lis-crtm-profile-utility
+```
+where *$(directory)* is your directory with the compiled CRTM profile
+* Step3. some plugins need to be toggle off (additionally to CABLE) in the *user.cfg* file in the *lis/make* directory: 
+```
+    CRTM off
+    CMEM off 
+    CRTM2 off
+    CRTM2EM off
+```
+As we have activated all the RTMs, during the compilation LIS will fail for missing libraries related to those plugins if we don’t switch off them.
+* Step 4. Source the modified KUL_LIS_MODULES and start the configuration:
+```
+    $ source KUL_LIS_modules
+    $ ./configure
+```
+A new flag was added for the WCM
+```
+    Use LIS-WCM? (1-yes, 0-no, default=0): 
+```
+The default value is zero, which means we do not want to use the WCM; otherwise, we will use the flag *“1”*
+* Step 5. The compilation does not need specific edits:
+```
+    $ ./compile
+```
+
