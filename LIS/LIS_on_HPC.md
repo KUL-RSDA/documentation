@@ -74,7 +74,7 @@ Note: If you start developing code or experimenting with merging branches, compi
 E.g. for 8 cores: $ ./compile -j 8
 
 After compilation, the relevant executables are LIS and LDT, which can
-be run as discussed in section [Section on running LIS and LDT](#sec-run).
+be run as discussed in section [Section on running LIS and LDT](#lis-and-ldt-runs).
 
 
 Cleaning before new compilation
@@ -234,9 +234,8 @@ The default value is zero, which means we do not want to use the WCM; otherwise,
 ```
 
 
-<a name="sec-run"></a>
-LIS and LDT runs
-================
+## LIS and LDT runs
+
 
 General
 -------
