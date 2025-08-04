@@ -22,11 +22,12 @@ This document assumes the user has basic knowledge of the HPC, see 'Getting star
 
 -   The master branch is kept up-to-date with the NASA version.
 
--   In the RSDA fork of LISF, there are several feature branches:
--   a) compilation branch that includes all changes needed to get LISF compiled on the VSC HPC (Tier-1 Hortense and Tier-2 Genius and wICE) 
--   b) model developments that are supposed to be sent to NASA after publication with a testcase
--   c) bug fixes that are supposed to be sent to NASA with a testcase
--   d) KUL-RSDA specific options that are not planned to be sent to NASA
+- In the RSDA fork of LISF, there are several new branches:
+
+    - **a. Compilation branch**: Includes all changes needed to get LISF compiled on the VSC HPC (Tier-1 Hortense and Tier-2 Genius and wICE).
+    - **b. Model developments**: Developed and prepared to be sent to NASA after publication with a testcase.
+    - **c. Bug fixes**: Intended to be sent to NASA with a testcase (partly done as part of the Sentinel-1 PR).
+    - **d. KUL-RSDA specific options**: For internal use only.
 
 
 The LISF framework has three components:
@@ -61,18 +62,19 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2635-102-3
 [LVT users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1-6534/LVT_usersguide.pdf).
 
-LIS and LDT compilation {#sec:compilation}
+<a name="sec:compilation"></a>
+
+## LIS and LDT compilation
 =======================
 
-The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README)
-For compilation, ask either an interactive node or use the option of submitting the compilation as job. 
+The original LISF code from NASA cannot be directly compiled on the HPC of the VSC. However, the [compilation](https://github.com/KUL-RSDA/LISF/blob/compilation) branch of our LISF repository includes all changes to compile LISF on Tier-1 Hortense and Tier-2 genius and wICE. The compilation is only one command (easybuild) that needs to be executed in the source code directory. See related [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). If you want to skip the setup of your github at this moment (see #sec:LISF_merging_branches){reference-type="ref"
+reference="sec:run"}, you can simply download this compilation branch and you have a version that you can compile immediately on the HPC. For compilation, ask either an interactive node beforehand or use the option of submitting the compilation as job. 
 
-Note: During model development, compilation will often crash. To save time, use the same interactive node in which the modules are already loaded and recompile with
+Note: If you start developing code or experimenting with merging branches, compilation will often crash. To save a lot of time, use the same interactive node on which the modules are already loaded and recompile with instead of recompiling from scratch using easybuild. 
 E.g. for 8 cores: $ ./compile -j 8
 
 After compilation, the relevant executables are LIS and LDT, which can
-be run as discussed in section [3](#sec:run){reference-type="ref"
-reference="sec:run"}.
+be run as discussed in section [Section on running LIS and LDT](#sec-run).
 
 
 Cleaning before new compilation
@@ -85,6 +87,7 @@ If there are fundamental changes to the code like new dependencies and new files
 Afterwards, start the compilation from scratch using the easybuild command, see [README](https://github.com/KUL-RSDA/LISF/blob/compilation/RSDA_README). 
 
 
+<a name="sec:LISF_merging_branches"></a>
 
 # 🛠️ Building Your Own LISF Code
 
@@ -230,8 +233,9 @@ The default value is zero, which means we do not want to use the WCM; otherwise,
     $ ./compile
 ```
 
-/
-LIS and LDT runs {#sec:run}
+
+<a name="sec-run"></a>
+LIS and LDT runs
 ================
 
 General
@@ -672,46 +676,76 @@ On a compute node run (tier-2 only):
     $ doxygen Doxygen_lis/Doxyfile
 
 
+### RSDA Code Changes Pending Transfer
 
-RSDA code changes that still need to be transferred from archive/master-kul to separate branches:
+These changes still need to be transferred from `archive/master-kul` to separate branches.
 
-Note that the ongoing S1 PR includes some bug fixes that are now in separate fix/branches (stripe fix, writout fix, see more: of the RSDA: https://github.com/NASA-LIS/LISF/pull/1415)
-Once merged, those fix branches are not needed anymore.
+> **Note:** The ongoing [S1 PR to NASA](https://github.com/NASA-LIS/LISF/pull/1415) includes some bug fixes that are already in separate `fix/` branches (e.g., stripe fix, write-out fix). Once merged to the NASA-LIS/LISF, those fix branches are no longer needed.
 
-Snow:
-ENH: ML snow module --> Devon? https://github.com/KUL-RSDA/LISF/pull/54
-ENH: noahmp4 snow da: https://github.com/KUL-RSDA/LISF/pull/40
-ENH: S1 SD reader: wet snow mask added: https://github.com/KUL-RSDA/LISF/pull/28
-ENH: Remove interpolation in snow depth reader: https://github.com/KUL-RSDA/LISF/pull/33
+---
 
-Vegetation DA:
-ENH: CGLS FCOVER DA --> Niccolo, Louise (old https://github.com/KUL-RSDA/LISF/pull/30 and https://github.com/KUL-RSDA/LISF/pull/29)
-ENH: CGLS LAI reader: https://github.com/KUL-RSDA/LISF/pull/7
+#### ❄️ Snow
 
-Bug fixes:
-BUG: Fix multiplicative error: https://github.com/KUL-RSDA/LISF/pull/49 and https://github.com/KUL-RSDA/LISF/pull/53
+- **ENH:** [ML snow module → Devon?](https://github.com/KUL-RSDA/LISF/pull/54)  
+- **ENH:** [NoahMP4 Snow DA](https://github.com/KUL-RSDA/LISF/pull/40)  
+- **ENH:** [S1 SD reader – wet snow mask added](https://github.com/KUL-RSDA/LISF/pull/28)  
+- **ENH:** [Remove interpolation in snow depth reader](https://github.com/KUL-RSDA/LISF/pull/33)
 
-Irrigation:
-BUG: Replacing uninitialized variable in Noah-MP401 irrigation module: https://github.com/KUL-RSDA/LISF/pull/48
-ENH: Irrigation with multiple land cover maps: https://github.com/KUL-RSDA/LISF/pull/47
-ENH: Irrigation modeling changes (irrigation triggering in case of bias correction and paddy): https://github.com/KUL-RSDA/LISF/pull/42
-ENH: Growing season irrig double option noah m pv36: https://github.com/KUL-RSDA/LISF/pull/9
+---
 
-SMOS SM DA:
-ENH: Update SMOS L2 SM DA routine: https://github.com/KUL-RSDA/LISF/pull/46
+#### 🌿 Vegetation DA
 
-CCI SM DA:
-ENH: Enabled Noah-MP.4.0.1 + ESA CCI SM plugin: https://github.com/KUL-RSDA/LISF/pull/4
-ENH: ESA CCI SM assimilation over barren ground: https://github.com/KUL-RSDA/LISF/pull/27
+- **ENH:** CGLS FCOVER DA → *Niccolò, Louise*  
+  - [Old PRs: #30](https://github.com/KUL-RSDA/LISF/pull/30), [#29](https://github.com/KUL-RSDA/LISF/pull/29)  
+- **ENH:** [CGLS LAI reader](https://github.com/KUL-RSDA/LISF/pull/7)
 
-S1 DA in noahmp401 (The ongoing PR to NASA was still noahmp36):
-ENH: S1 DA for noahmp401: https://github.com/KUL-RSDA/LISF/pull/41
+---
 
-S1 DA (after PR for noahmp36 is merged):
-ENH: S1 data masking over slopy terrain and forest (to be merged after merged PR at NASA): https://github.com/KUL-RSDA/LISF/pull/34
-BUG: adapted setting of the S1 obs domain: https://github.com/KUL-RSDA/LISF/pull/31/files
+#### 🐛 Bug Fixes
 
-NU-WRF related:
-ENH: Enable bottom temperature as output variable for NoahMP 4.0.1 (still needed for newest nu-wrf?): https://github.com/KUL-RSDA/LISF/pull/37
+- **BUG:** [Fix multiplicative error](https://github.com/KUL-RSDA/LISF/pull/49), [Related fix](https://github.com/KUL-RSDA/LISF/pull/53)
 
-VOD?
+---
+
+#### 🚿 Irrigation
+
+- **BUG:** [Uninitialized variable in Noah-MP401 irrigation module](https://github.com/KUL-RSDA/LISF/pull/48)  
+- **ENH:** [Irrigation with multiple land cover maps](https://github.com/KUL-RSDA/LISF/pull/47)  
+- **ENH:** [Triggering with bias correction and paddy fields](https://github.com/KUL-RSDA/LISF/pull/42)  
+- **ENH:** [Growing season irrigation – double option for Noah-MP v36](https://github.com/KUL-RSDA/LISF/pull/9)
+
+---
+
+#### 📡 SMOS SM DA
+
+- **ENH:** [Update SMOS L2 SM DA routine](https://github.com/KUL-RSDA/LISF/pull/46)
+
+---
+
+#### 🌍 CCI SM DA
+
+- **ENH:** [Enable Noah-MP 4.0.1 + ESA CCI SM plugin](https://github.com/KUL-RSDA/LISF/pull/4)  
+- **ENH:** [Assimilation over barren ground](https://github.com/KUL-RSDA/LISF/pull/27)
+
+---
+
+#### 🛰️ Sentinel-1 (S1) DA
+
+- **In NoahMP 401** *(The ongoing PR to NASA still uses NoahMP36)*  
+  - **ENH:** [S1 DA for NoahMP 401](https://github.com/KUL-RSDA/LISF/pull/41)
+
+- **After PR for NoahMP36 is merged**  
+  - **ENH:** [S1 data masking over sloped terrain and forest](https://github.com/KUL-RSDA/LISF/pull/34)  
+  - **BUG:** [Adapted setting of S1 obs domain](https://github.com/KUL-RSDA/LISF/pull/31/files)
+
+---
+
+#### 🌀 NU-WRF Related
+
+- **ENH:** [Enable bottom temperature output for NoahMP 4.0.1 (needed for NU-WRF?)](https://github.com/KUL-RSDA/LISF/pull/37)
+
+---
+
+#### 📡 VOD?
+
+- *(Unspecified enhancement – needs clarification)*
