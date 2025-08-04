@@ -145,8 +145,18 @@ Pull in selected branches from upstream as needed:
 git merge upstream/compilation
 git merge upstream/kul_options
 git merge upstream/fix/stripe_issues_map_utils
-git merge upstream/fix/writeout_bug_multiDAinst
+git merge upstream/fix/writeout_bug_multiDAinst (see note below!)
 ```
+
+For the last merge you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
+
+Keep those two lines (one line from each two-line block) shown below in which k was replaced and LIS_rc%ensemstype(k) was added, remove HEAD and the lines with <<, >>, and ===)
+
+```bash
+          call LIS_writevar_spread(ftn,n,LIS_rc%lsm_index,ensspread_id(v), &
+               stvar(v,:),v,LIS_rc%ensemstype(k))
+```
+
 
 ### Optional (Depending on Use Case)
 
