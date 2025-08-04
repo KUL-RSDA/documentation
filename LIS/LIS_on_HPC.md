@@ -84,7 +84,7 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 ## Building Your Own LISF Code
 
-<img src="https://github.com/user-attachments/assets/8c05cc28-045d-438f-a1ff-13814f74cfb3" width="300" align="right" />
+<img width="500" align="right" src="https://github.com/user-attachments/assets/5ed96e47-8681-42c3-8ed0-e50b463082b8" />
 
 This guide walks you through the process of creating your own version of LISF based on exising code. **For github, use tier-2. Tier-1 is often very slow for git commands!**
 
