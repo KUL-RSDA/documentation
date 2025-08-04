@@ -86,7 +86,7 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 <img src="https://github.com/user-attachments/assets/8c05cc28-045d-438f-a1ff-13814f74cfb3" width="300" align="right" />
 
-This guide walks you through the process of creating your own version of LISF based on exising code.
+This guide walks you through the process of creating your own version of LISF based on exising code. **For github, use tier-2. Tier-1 is often very slow for git commands!**
 
 ---
 
