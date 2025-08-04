@@ -86,7 +86,7 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 <img src="https://github.com/user-attachments/assets/8c05cc28-045d-438f-a1ff-13814f74cfb3" width="300" align="right" />
 
-This guide walks you through the process of creating your own version of the [LISF repository](https://github.com/KUL-RSDA/LISF).
+This guide walks you through the process of creating your own version of LISF based on exising code.
 
 ---
 
@@ -200,20 +200,22 @@ git checkout ... (any branch you want to update with the upstream/master changes
 General
 -------
 
-When preparing a LIS simulation experiment, do not copy executables, modules, input folders, etc. into the experiment directory but work with links to save storage.
+**When preparing a LIS simulation experiment, do not copy executables, modules, input folders, etc. into the experiment directory but work with links or full paths to the original folders to save storage!**
+
 e.g.:
 
--   `$ ln -s path_to_LIS/LIS my_WORKDIR/LIS`
+    $ mkdir my_WORKDIR
+    $ ln -s path_to_LIS/LIS my_WORKDIR/LIS
 
 Before submitting a job, the libraries and
-environment variables need to be sourced (load_modules and the modules directory are part of the compilation branch):
+environment variables need to be sourced (load_modules and the modules directory are part of the compilation branch that you also need to link to your my_WORKDIR):
 
     $ source load_modules
 
-Secondly, prepare your `lis.config`-file for your application. Third,
-also add or link forcing variables list file, the netcdf-file created with LDT,
-model-specific input files, model output attribute file, and optionally a
-restart-file unless you start the simulation with a coldstart (spin up period). Define the path to each specific file in the
+Secondly, prepare your `ldt.config`-file and `lis.config`-file for your application. Third,
+also add or link forcing variables list file (*TBL), the netcdf-file created with LDT,
+model-specific input files, model output attribute file (*TBL), and optionally a
+restart-file unless you start the simulation with a coldstart (spin-up period). Define the path to each specific file in the
 configuration file. 
 
 Run a job on an interactive node (for testing)
@@ -252,6 +254,25 @@ Example for a LIS run
     ulimit -s unlimited
     mpirun -np 4 ./LIS lis.config
     ----------------------------------------------------------
+
+Public testcase from NASA:
+----------------------
+https://nasa-lis.github.io/LISF/public_testcase_walkthrough/public_testcase_walkthrough.html
+For the test case, only follow Step 1 and Step2, skip the clone/configure/compile steps explained in [LIS and LDT compilation](#lis-and-ldt-compilation):
+
+Download test case as described in the walkthrough.
+
+STEP 1 (running ldt):
+Prepare an LDT.slurm and submit. See also [Section on running LIS and LDT](#lis-and-ldt-runs).
+
+STEP 2 (running lis)
+change forcing data from NLDAS to MERRA2 (available on our staging) in lis.config (NOTE: also add three lines specifying option and path of MERRA2, see lis documentation)
+Prepare an LIS.slurm and submit
+
+
+Own testcase with open loop and data assimilation:
+----------------------
+/staging/leuven/stg_00024/OUTPUT/michelb/LIS/
 
 
 ArmForge ddt debugger
@@ -516,7 +537,7 @@ breaks, which should not be present in your configuration files).
 
 WCM running in LIS Noah-MP.v.3.6
 ------------
-* Specifications are needed to run the the Water Cloud Model [WCM](water-cloud-model) coupled with Noah-MP.v.3.6 within the lis.config file:
+* Specifications are needed to run the the [Water Cloud Model](#water-cloud-model) (WCM) coupled with Noah-MP.v.3.6 within the lis.config file:
 ```
     #------------------------RADIATIVE TRANSFER MODELS-------------------------
     Radiative transfer model: "WCM"
