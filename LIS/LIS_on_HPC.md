@@ -51,7 +51,7 @@ The LISF framework has three components:
 
 To get used to the different programs it is advised to run the different
 testcases which are available on the LIS-website
-(<https://lis.gsfc.nasa.gov/tests>) and in the public test cases
+(<https://lis.gsfc.nasa.gov/lis-testcases>) and in the public test cases
 directories, within the LIS source code, inside the testcases/public
 directory path. There are good users' guides available for all three
 components: [LIS users'
