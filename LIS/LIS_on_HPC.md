@@ -699,7 +699,7 @@ These changes still need to be transferred from `archive/master-kul` to separate
 
 #### 🚿 Irrigation
 
-- **BUG:** [Uninitialized variable in Noah-MP401 irrigation module](https://github.com/KUL-RSDA/LISF/pull/48)  
+- **BUG:** [Uninitialized variable in Noah-MP401 irrigation module, partly included in the meantime in upstream NASA LIS but needs to applied as well to the kul spepcific modeling of irrigation by member and perturbation bias correction](https://github.com/KUL-RSDA/LISF/pull/48) 
 - **ENH:** [Irrigation with multiple land cover maps](https://github.com/KUL-RSDA/LISF/pull/47)  
 - **ENH:** [Triggering with bias correction and paddy fields](https://github.com/KUL-RSDA/LISF/pull/42)  
 - **ENH:** [Growing season irrigation – double option for Noah-MP v36](https://github.com/KUL-RSDA/LISF/pull/9)
@@ -740,6 +740,9 @@ These changes still need to be transferred from `archive/master-kul` to separate
 
 - *(Zdenko – needs information on which branch to use)*
 
+#### Write Spread of unperturbed variables 
+
+- **ENH**: [Example for irrigation](https://github.com/KUL-RSDA/LISF/commit/78f8bc991c966886457fce8832b7b42d5eb772e3)
 
 
 
