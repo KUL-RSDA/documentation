@@ -624,6 +624,16 @@ parameter filename' is not correct.\
 Solution: First create the directory where you will write your output
 to.
 
+### ifort.15 file not found
+
+      forrtl: No such file or directtory
+      forrtl: sever(29): file not found, unit 15, file ./fort.15
+
+This can be related to directories specified in the lis.config that do not have an end slash (/), e.g.
+
+      Crop library directory:                 ./INPUT/Irrigation/Crop.Library.Files/
+
+
 LDT code development
 ====================================================
 
