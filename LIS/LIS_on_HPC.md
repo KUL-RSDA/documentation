@@ -726,6 +726,7 @@ These changes still need to be transferred from `archive/master-kul` to separate
 
 - **ENH:** [Enable Noah-MP 4.0.1 + ESA CCI SM plugin](https://github.com/KUL-RSDA/LISF/pull/4)  
 - **ENH:** [Assimilation over barren ground](https://github.com/KUL-RSDA/LISF/pull/27)
+TODO: Is this all included in kul_options_sm_da_options ?
 
 ---
 
@@ -748,7 +749,7 @@ These changes still need to be transferred from `archive/master-kul` to separate
 
 #### 📡 VOD?
 
-- *(Zdenko – needs information on which branch to use)*
+- **ENH:** now included in feature/consolidation_joint_da
 
 #### Write Spread of unperturbed variables 
 
