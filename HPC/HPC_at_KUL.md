@@ -1,17 +1,3 @@
-
-  | version    | date        | authors|
-  |----------- |------------ |-----------------------------------------------------------------------------|
-  | version 1  | 15 June 2017|   Gabriëlle De Lannoy: initial documentation |
-  | version 2  | 04 July 2017|   Michel Bechtold: PBS job chains, Jan Quets: Py figure mounting |
-  | version 3  | 08 May 2018 |   Anne Felsberg: added pointers to cdo, Gabriëlle De Lannoy: use of shared node |
-  | version 4  | 07 Feb 2019 |   Michel Bechtold: using Genius |
-  | version 5  | 11 Jul 2019 |   Gabriëlle De Lannoy: updates to reflect the default login to the new Genius system and new VSC |
-  | version 6  | 05 Sep 2019 |   Alexander Gruber: updated debugging module from Allinea to Arm |
-  | version 7  | 22 Sep 2020 |   Michel Bechtold: added specific information/summary for MSc students webpages |
-  | version 8  | 21 Mar 2023 |   Jonas Mortelmans: added example of slurm header |
-  | version 9  | 25 Jan 2024 |   Gabriëlle De Lannoy: fixed Github entries and more of PBS to SLURM |
-
-
 Get Started on the HPC
 ======================
 
