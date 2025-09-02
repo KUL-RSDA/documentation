@@ -885,5 +885,72 @@ find . -type f -print | wc -l
 find . -type f -print
 2. Try again to establish a NX connection with NoMachine.
 
+Reading in tarred files in Python with xarray
+--------------------------------------------
+You can read in a file from within a tarred folder in python. To this end, you can use Python's module `tarfile`. The 2 functions below provide a basic usage of the moduel to read in a netCDF-file. the first functions is used to search for a tarred file with a specific date, whereas the second function uses the outcome of the first function to open the file from within the tarred folder.
+```python
+#---load modules---
+import xarray as xr
+import pandas as pd
+import glob,re,tarfile
+
+def getTarredFilesDate(
+	folder:str=None,
+	date:str|pd.Timestamp=None
+	) -> tuple:
+	#-hard coded-
+	unzip="r"
+
+	#-error handling-
+	if not folder.endswith(".tar"):
+		raise KeyError("The folder you provided is not tarred!")
+	if not isinstance(date,pd.Timestamp):
+		date=pd.to_datetime(date)
+
+    #-list up the files-
+	with tarfile.open(folder, unzip) as tr:
+		tarred_files=tr.getmembers()
+
+	files_to_read=next(((folder,f) for f in tarred_files
+				if date.strftime('%Y%m%d') in f.name),None)
+	
+	return files_to_read
+
+def openTarredFiles(
+	file_info:tuple[str,str]=None
+	) -> xr.Dataset:
+	''' 
+	Function to open a tarred file.
+	Note that .load() is necessary to read the file into memory
+	'''
+	#-hard coded-
+	unzip="r"
+	
+	#-error handling-
+	if file_info is None:
+		raise KeyError("No valid info given to read in the file or no files found!")	
+	if not isinstance(file_info,tuple):
+		raise KeyError("the input must be a tuyple")
+
+	#-open-
+	folder,file=file_info
+	with tarfile.open(folder,unzip) as tr:
+		with tr.extractfile(file) as f:
+			ds=xr.open_dataset(f).load()
+	
+	return ds
+
+#---example usage---
+folder='/staging/leuven/stg_00024/OUTPUT/lucasb/SNOWSHOP/MODIS/y034x200.tar'
+date="2018-01-20"
+
+file_info=getTarredFilesDate(
+	folder=folder,
+	date=date
+	)
+
+ds=openTarredFiles(file_info=file_info)
+print(ds)
+```
 
 
