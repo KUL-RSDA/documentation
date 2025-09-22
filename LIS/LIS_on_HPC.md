@@ -139,16 +139,25 @@ git checkout -b working/<name_of_lis_version>
 
 ### 4. Merge Required and Bugfix Branches
 
-Pull in selected branches from upstream as needed:
+Pull in selected branches from upstream as needed.
+Recommended: simply merge the develop branch
+
+```bash
+git merge upstream/develop
+```
+
+which includes the following branches (no need to execute those lines if you have merged develop)
 
 ```bash
 git merge upstream/compilation
 git merge upstream/kul_options
 git merge upstream/fix/stripe_issues_map_utils
 git merge upstream/fix/writeout_bug_multiDAinst (see note below!)
+git merge upstream/kul_options_SMAP_vegetation_flag
+git merge upstream/kul_options_sm_da_options
 ```
 
-For the last merge you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
+For the writeout_bug_multiDAinst you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
 
 Keep those two lines (one line from each two-line block) shown below in which k was replaced and LIS_rc%ensemstype(k) was added, remove HEAD and the lines with <<, >>, and ===)
 
@@ -160,10 +169,10 @@ Keep those two lines (one line from each two-line block) shown below in which k 
 
 ### Optional (Depending on Use Case)
 
+Now add any additional feature you may need (discuss with supervisor)
+
 ```bash
-git merge upstream/kul_options_SMAP_vegetation_flag
-git merge upstream/kul_options_sm_da_options
-git merge upstream/feature_NASA/S1_DA
+git merge upstream/feature/XXX
 ```
 
 Note: You can even add further upstream repositories from other users from which you can merge selected branches, e.g. NoahMP 5 PR from Cenlin He:
