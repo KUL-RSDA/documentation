@@ -49,17 +49,47 @@ The LISF framework has three components:
     with SMOS and SMAP data. LVT facilitate such an analysis and enables
     the calculation of different evaluation metrices. 
 
-To get used to the different programs it is advised to run the different
-testcases which are available on the LIS-website
-(<https://lis.gsfc.nasa.gov/lis-testcases>) and in the public test cases
-directories, within the LIS source code, inside the testcases/public
-directory path. There are good users' guides available for all three
+To get used to the different programs it is advised to run the well documented walkthrough which is available on the LIS-website
+(<https://lis.gsfc.nasa.gov/lis-testcases>). See the specific LISF walkthrough section below. 
+
+Consider also the other public test cases provided by the LIS source code (depending on interest and needs), inside the testcases/public
+directory. In general, there are good users' guides available for all three
 components: [LIS users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2634-102-4-6543/LIS_usersguide.pdf),
 [LDT users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2635-102-3-6535/LDT_usersguide.pdf),
 [LVT users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1-6534/LVT_usersguide.pdf).
+
+# LIS walkthrough
+
+For compilation, please follow the instructions in the RSDA documentation (this webpage, see below). 
+So start the walkthrough with Step 1 after you compiled ldt and lis within LISF. Link the LISF of your compiled code into the testcase folder and give it the expected name LISF, e.g. ln -s /staging/leuven/stg_00024/OUTPUT/michelb/src_code/LISF/develop LISF
+Download the testcase files from the NASA lis page with curl (see documentation of walkthrough).
+
+To get Step 1 working, you need to replace one input dataset since HDF4 is not working anymore on our cluster. The other input dataset is HDF5 and the example will still work the same. 
+
+So replace the following lines in the testcase ldt file (comment the old ones and add the new ones):
+#Max snow albedo data source: Barlage_Native
+#Max snow albedo map:        ./INPUT/LS_PARAMETERS/noah_2dparms/maximum_snow_albedo.hdf
+Max snow albedo data source:    NCEP_Native
+Max snow albedo map:      /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/nasa_nccs_portal/noah_2dparms/maxsnoalb.as
+
+Then to run the ldt code (use a compute node with 8 cores), do:
+source LISF/load_modules
+mpirun -np 1 ./LISF/ldt/LDT ldt.config.noah36_params
+
+The run takes about a minute. Follow the instructions of the walkthrough to analyze the ldt output file and log file.
+To visualize nc files, you can open a jupyter notebook and start working with the pylis tool.
+
+Step 2
+We can now continue with Step 2. To run lis
+mpirun -np 1 ./LISF/lis/LIS -f lis.config_noah36_ol
+Met forcing sources:            "MERRA2" # "NLDAS2"
+# MERRA-2 base forcing:
+MERRA2 forcing directory:       /staging/leuven/stg_00024/input/met_forcing/MERRA2_land_forcing
+MERRA2 use lowest model level forcing:     1
+MERRA2 use corrected total precipitation:  1
 
 
 # LIS and LDT compilation
