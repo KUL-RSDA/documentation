@@ -12,7 +12,7 @@ Leuven.
 # Background information
 
 This document describes how to install and run NASA's LISF
-on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html) and [Tier-2](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) cluster. Before getting started, have a look at those introduction slides: [LIS intro](https://github.com/KUL-RSDA/documentation/blob/master/LIS/intro_LIS.pptx)
+on the KU Leuven [Tier-1](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier1_hardware/breniac_hardware.html) and [Tier-2](https://vlaams-supercomputing-centrum-vscdocumentation.readthedocs-hosted.com/en/latest/leuven/tier2_hardware.html) cluster. Before getting started, have a look at those introduction slides: [LIS intro](https://github.com/KUL-RSDA/documentation/raw/refs/heads/master/LIS/intro_LIS.pptx)
 
 This document assumes the user has basic knowledge of the HPC, see 'Getting started on the HPC' documentation.
 
