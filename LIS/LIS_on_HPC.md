@@ -50,10 +50,14 @@ The LISF framework has three components:
     the calculation of different evaluation metrices. 
 
 To get used to the different programs it is advised to run the well documented walkthrough which is available on the LIS-website
-(<https://lis.gsfc.nasa.gov/lis-testcases>). See the specific LISF walkthrough section below. 
+(<https://lis.gsfc.nasa.gov/lis-testcases>). See the specific LISF walkthrough section below that explains few adjustments needed for running the walkthrough at the VSC HPC. 
 
 Consider also the other public test cases provided by the LIS source code (depending on interest and needs), inside the testcases/public
-directory. In general, there are good users' guides available for all three
+directory. 
+
+For AquaCrop, there is a specific testcase provided on zenodo: https://zenodo.org/records/14887278
+
+In general, there are good users' guides available for all three
 components: [LIS users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2634-102-4-6543/LIS_usersguide.pdf),
 [LDT users'
@@ -122,6 +126,10 @@ MERRA2 use lowest model level forcing:     1
 MERRA2 use corrected total precipitation:  1
 ```
 
+## Step 3 to 6
+
+Continue with the next steps as described in the walkthrough. For Step 7, get further used to pylis. 
+
 
 # LIS and LDT compilation
 
@@ -145,7 +153,7 @@ Afterwards, start the compilation from scratch using the easybuild command, see 
 
 ## Building Your Own LISF Code
 
-<img width="500" align="right" src="https://github.com/user-attachments/assets/79b53a56-e1d5-4a94-a0ae-a53b85577a05" />
+<img width="500" align="right" src="https://github.com/user-attachments/assets/883ee7ce-733e-4855-8c2b-13b6786b6ba4" />
 
 This guide walks you through the process of creating your own version of LISF based on exising code. **For github, use tier-2. Tier-1 is often very slow for git commands!**
 
