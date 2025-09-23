@@ -61,35 +61,66 @@ guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2635-102-3
 [LVT users'
 guide](https://modelingguru.nasa.gov/servlet/JiveServlet/downloadBody/2636-102-1-6534/LVT_usersguide.pdf).
 
-# LIS walkthrough
+# LIS Walkthrough
 
-For compilation, please follow the instructions in the RSDA documentation (this webpage, see below). 
-So start the walkthrough with Step 1 after you compiled ldt and lis within LISF. Link the LISF of your compiled code into the testcase folder and give it the expected name LISF, e.g. ln -s /staging/leuven/stg_00024/OUTPUT/michelb/src_code/LISF/develop LISF
-Download the testcase files from the NASA lis page with curl (see documentation of walkthrough).
+For **compilation**, please follow the instructions in the RSDA documentation (see below).  
+Start the walkthrough with **Step 1** after you compiled `ldt` and `lis` within **LISF**.  
 
-To get Step 1 working, you need to replace one input dataset since HDF4 is not working anymore on our cluster. The other input dataset is HDF5 and the example will still work the same. 
+Link the LISF of your compiled code into the testcase folder and give it the expected name `LISF`, e.g.:
 
-So replace the following lines in the testcase ldt file (comment the old ones and add the new ones):
-#Max snow albedo data source: Barlage_Native
-#Max snow albedo map:        ./INPUT/LS_PARAMETERS/noah_2dparms/maximum_snow_albedo.hdf
+```bash
+ln -s /staging/leuven/stg_00024/OUTPUT/michelb/src_code/LISF/develop LISF
+```
+
+Download the testcase files from the NASA LIS page with `curl` (see documentation of walkthrough).
+
+---
+
+## Step 1
+
+To get Step 1 working, you need to replace one input dataset since **HDF4 is not working anymore** on our cluster.  
+The other input dataset is **HDF5** and the example will still work the same.  
+
+In the testcase `ldt` file, replace the following lines (comment the old ones and add the new ones):
+
+```ini
+# Max snow albedo data source: Barlage_Native
+# Max snow albedo map:        ./INPUT/LS_PARAMETERS/noah_2dparms/maximum_snow_albedo.hdf
 Max snow albedo data source:    NCEP_Native
-Max snow albedo map:      /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/nasa_nccs_portal/noah_2dparms/maxsnoalb.as
+Max snow albedo map:            /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/nasa_nccs_portal/noah_2dparms/maxsnoalb.as
+```
 
-Then to run the ldt code (use a compute node with 8 cores), do:
+Then run the `ldt` code (use a compute node with 8 cores):
+
+```bash
 source LISF/load_modules
 mpirun -np 1 ./LISF/ldt/LDT ldt.config.noah36_params
+```
 
-The run takes about a minute. Follow the instructions of the walkthrough to analyze the ldt output file and log file.
-To visualize nc files, you can open a jupyter notebook and start working with the pylis tool.
+The run takes about a minute.  
+Follow the instructions of the walkthrough to analyze the `ldt` output file and log file.
 
-Step 2
-We can now continue with Step 2. To run lis
+To visualize NetCDF (`.nc`) files, you can open a **Jupyter Notebook** and start working with the **pylis** tool.
+
+---
+
+## Step 2
+
+We can now continue with Step 2. To run `lis`:
+
+```bash
 mpirun -np 1 ./LISF/lis/LIS -f lis.config_noah36_ol
-Met forcing sources:            "MERRA2" # "NLDAS2"
+```
+
+However, since we do not have the NLDAS2 dataset on staging, simply run the example with MERRA2 and add those lines to the lis.config file: 
+
+```ini
+Met forcing sources:                 "MERRA2" # "NLDAS2"
 # MERRA-2 base forcing:
-MERRA2 forcing directory:       /staging/leuven/stg_00024/input/met_forcing/MERRA2_land_forcing
+MERRA2 forcing directory:            /staging/leuven/stg_00024/input/met_forcing/MERRA2_land_forcing
 MERRA2 use lowest model level forcing:     1
 MERRA2 use corrected total precipitation:  1
+```
 
 
 # LIS and LDT compilation
