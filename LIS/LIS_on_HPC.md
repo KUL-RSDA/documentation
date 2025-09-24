@@ -113,6 +113,7 @@ To visualize NetCDF (`.nc`) files, you can open a **Jupyter Notebook** and start
 We can now continue with Step 2. To run `lis`:
 
 ```bash
+source LISF/load_modules
 mpirun -np 1 ./LISF/lis/LIS -f lis.config_noah36_ol
 ```
 
