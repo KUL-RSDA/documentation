@@ -91,7 +91,7 @@ In the testcase `ldt` file, replace the following lines (comment the old ones an
 # Max snow albedo data source: Barlage_Native
 # Max snow albedo map:        ./INPUT/LS_PARAMETERS/noah_2dparms/maximum_snow_albedo.hdf
 Max snow albedo data source:    NCEP_Native
-Max snow albedo map:            /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/nasa_nccs_portal/noah_2dparms/maxsnoalb.as
+Max snow albedo map:            /staging/leuven/stg_00024/l_data/model_param/LIS_parameters/nasa_nccs_portal/noah_2dparms/maxsnoalb.asc
 ```
 
 Then run the `ldt` code (use a compute node with 8 cores):
