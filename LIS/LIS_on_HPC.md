@@ -127,10 +127,30 @@ MERRA2 use lowest model level forcing:     1
 MERRA2 use corrected total precipitation:  1
 ```
 
-## Step 3 to 6
+## Step 3 to 5
 
-Continue with the next steps as described in the walkthrough. For Step 7, get further used to pylis. 
+Continue with the next steps as described in the walkthrough. 
 
+## Step 6
+
+There some changes needed to made to the lis.config file of the DA runs. First the forcing data changes that were made for Step 2 have to be repeated for Step 6 as well.
+
+Furthermore, add to the SMAP section in the lis.config, this line before running the data assimilation:
+
+```ini
+SMAP(NASA) soil moisture dense vegetation flag option: ".true."
+```
+Also add this to the data assimilation section:
+
+```ini
+Data assimilation ensemble spread type:            "std"
+```
+
+Both are RSDA specific options that are part of the develop branch.
+
+## Step 7
+
+For Step 7, get used to using pylis instead of using LVT. 
 
 # LIS and LDT compilation
 
