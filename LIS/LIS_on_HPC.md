@@ -427,11 +427,11 @@ Click on Run and follow the example screenshot:
 
 **Tier 1 Hortense**
 
-To open the ddt debugger (this only works on cpu_milan_rhel9):
+To open the ddt debugger (works both on cpu_rome and cpu_milan):
 
+    $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
     $ module load ArmForge/22.1.2
     $ source load_modules
-    $ module use /readonly/$VSC_SCRATCH_PROJECTS_BASE/2022_200/easybuild/modules/all
     $ ddt
   
 Do not select MPI but OpenMP instead
