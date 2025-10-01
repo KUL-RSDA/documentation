@@ -403,12 +403,9 @@ Click on Run and follow the example screenshot:
 1. path to executable
 2. lis.config file to be run
 3. working directory
-4. select MPI
-5. under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0`
-
-alternatively:
+4. Do select MPI AND OpenMP.
 5. under mpiexec.hydra arguments add: `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
-6. Do select MPI AND OpenMP.
+
 
 **Tier 2 Genius**
 
