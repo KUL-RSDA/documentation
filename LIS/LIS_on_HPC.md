@@ -247,7 +247,7 @@ git merge upstream/kul_options_SMAP_vegetation_flag
 git merge upstream/kul_options_sm_da_options
 ```
 
-For the writeout_bug_multiDAinst you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
+The following is only needed if you do the indiviual merges (not when you start directly with develop): For the writeout_bug_multiDAinst you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
 
 Keep those two lines (one line from each two-line block) shown below in which k was replaced and LIS_rc%ensemstype(k) was added, remove HEAD and the lines with <<, >>, and ===)
 
@@ -257,7 +257,7 @@ Keep those two lines (one line from each two-line block) shown below in which k 
 ```
 
 
-### Optional (Depending on Use Case)
+### Optional merges (Depending on Use Case)
 
 Now add any additional feature you may need (discuss with supervisor)
 
