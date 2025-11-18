@@ -245,6 +245,7 @@ git merge upstream/fix/stripe_issues_map_utils
 git merge upstream/fix/writeout_bug_multiDAinst (see note below!)
 git merge upstream/kul_options_SMAP_vegetation_flag
 git merge upstream/kul_options_sm_da_options
+git merge upstream/fix/ac72_fixes
 ```
 
 The following is only needed if you do the indiviual merges (not when you start directly with develop): For the writeout_bug_multiDAinst you have to solve a conflict. Search for HEAD in lis/dataassim/algorithm/enkf/enkf_Mod.F90.
