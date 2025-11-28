@@ -2,10 +2,13 @@
 
 ldas_version=17.11.1 # requires baselibs 8.2.13 only working on tier-1 currently, 17.11.0 working also for tier-2
 ldas_root=/dodrio/scratch/projects/2022_200/project_output/rsda/vsc31786/src_code
-ldas_root=/staging/leuven/stg_00024/OUTPUT/michelb/src_code
+# ldas_root=/staging/leuven/stg_00024/OUTPUT/michelb/src_code
+# ldas_dirname=GEOSldas_${ldas_version}_CON_KUL # GEOSldas_${ldas_version}_TN
 ldas_dirname=GEOSldas_${ldas_version}_KUL # GEOSldas_${ldas_version}_TN
-GEOSldas_repo=kul-rsda/GEOSldas.git #sebastian-a-swm/GEOSldas.git  # mbechtold/GEOSldas.git
-GEOSldas_branch=v${ldas_version}_KUL  # v${ldas_version}_TN_KUL
+GEOSldas_repo=mbechtold/GEOSldas.git  # mbechtold/GEOSldas.git
+#GEOSldas_repo=mbechtold/GEOSldas.git  #kul-rsda/GEOSldas.git #sebastian-a-swm/GEOSldas.git  # mbechtold/GEOSldas.git
+#GEOSldas_branch=v${ldas_version}_CON_KUL  # v${ldas_version}_TN_KUL
+GEOSldas_branch=v${ldas_version}_KUL_seb  # v${ldas_version}_TN_KUL
 
 if [[ $CONDA_DEFAULT_ENV == "" ]]; then
     echo "no python conda environment loaded ...."
@@ -89,19 +92,60 @@ if [[ $node == *"tier2"* ]] || [[ $node == "r"* ]] ; then
     module load foss flex Bison CMake Autotools texinfo gomkl Python/2.7.16-GCCcore-8.3.0
 elif [[ $node == *"dodrio"* ]]; then
     # Load modules for Tier-1 UGENT on Hortense
-    module --force purge
-    module load cluster/dodrio/cpu_rome
-    module load foss/2021b
-    module load flex/2.6.4-GCCcore-11.2.0
-    module load Bison/3.7.6-GCCcore-11.2.0
-    module load CMake/3.22.1-GCCcore-11.2.0
-    module load Autotools/20210726-GCCcore-11.2.0
-    module load texinfo/6.8-GCCcore-11.2.0
-    module load libtirpc/1.3.2-GCCcore-11.2.0
-    module load Python/2.7.18-GCCcore-11.2.0
-    module load imkl/2022.1.0
+    #module --force purge
+    #module load cluster/dodrio/cpu_milan_rhel9
+    module load foss/2023a
+    module load flex/2.6.4-GCCcore-12.3.0
+    module load Bison/3.8.2-GCCcore-12.3.0
+    module load CMake/3.26.3-GCCcore-12.3.0
+    module load Autotools/20220317-GCCcore-12.3.0
+    #module load texinfo/6.8-GCCcore-11.2.0
+    module load libtirpc/1.3.3-GCCcore-12.3.0
+    # instead of: module load texinfo/6.8-GCCcore-11.2.0
+    module load makeinfo/7.0.3-GCCcore-12.3.0
+    MAKEINFO_BIN=/readonly/dodrio/apps/RHEL9/zen3-ib/software/makeinfo/7.0.3-GCCcore-12.3.0/bin/makeinfo
+    module load Python/2.7.18-GCCcore-12.3.0
+    module load imkl/2023.1.0
+    
+    #module load foss/2023b
+    #module load flex/2.6.4-GCCcore-13.2.0
+    #module load Bison/3.8.2-GCCcore-13.2.0
+    #module load CMake/3.27.6-GCCcore-13.2.0
+    #module load Autotools/20220317-GCCcore-13.2.0
+    ##module load texinfo/6.8-GCCcore-11.2.0
+    #module load libtirpc/1.3.4-GCCcore-13.2.0
+    ## instead of: module load texinfo/6.8-GCCcore-11.2.0
+    #module load makeinfo/7.1-GCCcore-13.2.0
+    #MAKEINFO_BIN=$(command -v makeinfo || which makeinfo 2>/dev/null)
+    #MAKEINFO_BIN=/readonly/dodrio/apps/RHEL9/zen3-ib/software/makeinfo/7.1-GCCcore-13.2.0/bin/makeinfo
+    #module load Python/3.11.5-GCCcore-13.2.0
+    #module load imkl/2023.1.0
     FFLAGS=-mavx2
     FCFLAGS=-mavx2
+    # --- sanity check: is cmake actually available? ---
+    echo "Loaded modules on dodrio:"
+    module list
+
+    CMAKE_BIN=$(command -v cmake || which cmake 2>/dev/null)
+    if [ -z "$CMAKE_BIN" ]; then
+        echo "ERROR: cmake not found in PATH after loading CMake module"
+        echo "Try 'module avail CMake' interactively and adjust the module name in the script."
+        exit 1
+    fi
+    export CMAKE="$CMAKE_BIN"
+    echo "Using CMAKE=$CMAKE"
+    export CMAKE_COMMAND=$CMAKE_BIN
+    export PATH=$(dirname $CMAKE_BIN):$PATH
+
+    #MAKEINFO_BIN=$(command -v makeinfo || which makeinfo 2>/dev/null)
+    MAKEINFO_BIN=/readonly/dodrio/apps/RHEL9/zen3-ib/software/makeinfo/7.0.3-GCCcore-12.3.0/bin/makeinfo
+    if [ -z "$MAKEINFO_BIN" ]; then
+        echo "ERROR: makeinfo not found even after loading module"
+        exit 1
+    fi
+    export MAKEINFO="$MAKEINFO_BIN"
+    echo "Using MAKEINFO=$MAKEINFO"
+
 else
     echo "Platform not known ... stopping"
     exit 1
@@ -123,4 +167,5 @@ if [[ $node == *"dodrio"* ]]; then
 fi
 # Build and install
 cmake .. -DBASEDIR=$BASEDIR -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_INSTALL_PREFIX=../install${ext} -DCMAKE_BUILD_TYPE=${buildtype}
-make -j6 install
+#make -j6 install CMAKE="$CMAKE_BIN" CMAKE_COMMAND="$CMAKE_BIN" MAKEINFO="$MAKEINFO"
+make -j6 install 
