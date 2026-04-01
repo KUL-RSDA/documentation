@@ -385,19 +385,20 @@ Own testcase with open loop and data assimilation:
 /staging/leuven/stg_00024/OUTPUT/michelb/LIS/
 
 
-ArmForge ddt debugger
+DDT debugger
 ---------------------------
 <img src="https://github.com/KUL-RSDA/documentation/assets/93274177/1a3e941d-f763-42ba-ac4c-e3d032a9d7f7" width="350" align="right">
 
 **Tier 2 wICE**
+_Updated 1 April 2026_
 
 This is based on the new compilation toolchain (developed by Sam)
 To open the ddt debugger:
 
-    $ module load ArmForge
+    $ module load LinaroForge
     $ source load_modules
     $ ddt
-*Note that it is important to first load ArmForge and then the modules to avoid conflicts in the C compiler*
+*Note that it is important to first load LinaroForge and then the modules to avoid conflicts in the C compiler*
 
   
 Click on Run and follow the example screenshot: 
