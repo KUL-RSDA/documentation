@@ -433,7 +433,9 @@ To open the ddt debugger (works both on cpu_rome and cpu_milan):
     $ source load_modules
     $ ddt
   
-Do not select MPI but OpenMP instead
+Do select MPI and OpenMP. Under MPI, select number of processes as defined in lis.config, for OpenMP, keep number of threads at 1. 
+
+under mpiexec.hydra arguments add `-genv I_MPI_PIN_RESPECT_CPUSET=0 -genv I_MPI_HYDRA_BOOTSTRAP=ssh`
 
 **Debugging of job with multiple nodes Tier 2 GENIUS**
 
